@@ -1,0 +1,51 @@
+{
+  "actual_source": "USDA NRCS SNOTEL report generator (physical station)",
+  "actual_window": [
+    "2026-10-24",
+    "2026-11-24"
+  ],
+  "basis": "forecast: model grid-cell snow_depth at 00:00 local (m), consecutive most-recent runs (mixed ~0-24h lead, NOT controlled lead-N; previous-runs API retains no snow_depth, verified all-null 2026-11-24); actual: SNOTEL SNWD start-of-day snow pillow (in->m). Same variable, different location basis (grid cell vs on-mountain pillow).",
+  "forecast_source": "open-meteo historical-forecast API (recent runs)",
+  "resort": "breckenridge",
+  "rows": [
+    {
+      "bias": -0.116,
+      "lead": "recent_run",
+      "mae": 0.116,
+      "model": "gfs_seamless",
+      "n": 32,
+      "rmse": 0.122
+    },
+    {
+      "bias": -0.123,
+      "lead": "recent_run",
+      "mae": 0.123,
+      "model": "icon_seamless",
+      "n": 32,
+      "rmse": 0.129
+    },
+    {
+      "bias": -0.135,
+      "lead": "recent_run",
+      "mae": 0.135,
+      "model": "ecmwf_ifs025",
+      "n": 32,
+      "rmse": 0.141
+    },
+    {
+      "bias": -0.007,
+      "lead": "baseline",
+      "mae": 0.013,
+      "model": "persistence_1d",
+      "n": 31,
+      "rmse": 0.027
+    }
+  ],
+  "station": {
+    "name": "Hoosier Pass",
+    "note": "39.36,-106.06 at 11600ft, ~13km south; nearest by distance is Copper Mountain (415) at ~9km/10500ft but that pillow sits on a different resort's terrain",
+    "triplet": "531:CO:SNTL",
+    "tz": "America/Denver"
+  },
+  "variable": "snow_depth"
+}

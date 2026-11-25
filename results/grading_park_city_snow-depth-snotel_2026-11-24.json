@@ -1,0 +1,51 @@
+{
+  "actual_source": "USDA NRCS SNOTEL report generator (physical station)",
+  "actual_window": [
+    "2026-10-24",
+    "2026-11-24"
+  ],
+  "basis": "forecast: model grid-cell snow_depth at 00:00 local (m), consecutive most-recent runs (mixed ~0-24h lead, NOT controlled lead-N; previous-runs API retains no snow_depth, verified all-null 2026-11-24); actual: SNOTEL SNWD start-of-day snow pillow (in->m). Same variable, different location basis (grid cell vs on-mountain pillow).",
+  "forecast_source": "open-meteo historical-forecast API (recent runs)",
+  "resort": "park_city",
+  "rows": [
+    {
+      "bias": -0.148,
+      "lead": "recent_run",
+      "mae": 0.148,
+      "model": "gfs_seamless",
+      "n": 32,
+      "rmse": 0.212
+    },
+    {
+      "bias": -0.163,
+      "lead": "recent_run",
+      "mae": 0.163,
+      "model": "icon_seamless",
+      "n": 32,
+      "rmse": 0.244
+    },
+    {
+      "bias": -0.149,
+      "lead": "recent_run",
+      "mae": 0.149,
+      "model": "ecmwf_ifs025",
+      "n": 32,
+      "rmse": 0.211
+    },
+    {
+      "bias": -0.017,
+      "lead": "baseline",
+      "mae": 0.032,
+      "model": "persistence_1d",
+      "n": 31,
+      "rmse": 0.066
+    }
+  ],
+  "station": {
+    "name": "Thaynes Canyon",
+    "note": "40.62,-111.53 at 9260ft, ~4km; on resort terrain",
+    "triplet": "814:UT:SNTL",
+    "tz": "America/Denver"
+  },
+  "variable": "snow_depth"
+}

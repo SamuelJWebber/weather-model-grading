@@ -1,0 +1,50 @@
+{
+  "actual_source": "USDA NRCS SNOTEL report generator (physical station)",
+  "actual_window": [
+    "2026-10-24",
+    "2026-11-24"
+  ],
+  "basis": "forecast: model grid-cell snow_depth at 00:00 local (m), consecutive most-recent runs (mixed ~0-24h lead, NOT controlled lead-N; previous-runs API retains no snow_depth, verified all-null 2026-11-24); actual: SNOTEL SNWD start-of-day snow pillow (in->m). Same variable, different location basis (grid cell vs on-mountain pillow).",
+  "forecast_source": "open-meteo historical-forecast API (recent runs)",
+  "resort": "vail",
+  "rows": [
+    {
+      "bias": -0.015,
+      "lead": "recent_run",
+      "mae": 0.015,
+      "model": "gfs_seamless",
+      "n": 32,
+      "rmse": 0.03
+    },
+    {
+      "bias": -0.01,
+      "lead": "recent_run",
+      "mae": 0.012,
+      "model": "icon_seamless",
+      "n": 32,
+      "rmse": 0.024
+    },
+    {
+      "bias": 0.005,
+      "lead": "recent_run",
+      "mae": 0.018,
+      "model": "ecmwf_ifs025",
+      "n": 32,
+      "rmse": 0.036
+    },
+    {
+      "bias": -0.003,
+      "lead": "baseline",
+      "mae": 0.01,
+      "model": "persistence_1d",
+      "n": 31,
+      "rmse": 0.019
+    }
+  ],
+  "station": {
+    "name": "Vail Mountain",
+    "triplet": "842:CO:SNTL",
+    "tz": "America/Denver"
+  },
+  "variable": "snow_depth"
+}

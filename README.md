@@ -82,8 +82,22 @@ mountain), free keyless CSV endpoint, verified live. Coverage correction:
 SNOTEL covers the 11 western US states + Alaska ONLY - Stowe VT has NO
 SNOTEL station (NWS COOP on Mount Mansfield is the eastern alternative,
 not yet integrated); Whistler (BC) and Zermatt (CH) need their national
-networks, unverified. Only Vail's station is verified so far; other
-resorts must be checked one by one before claiming coverage.
+networks, unverified.
+
+Verified stations (each checked 2026-11-25 against the NRCS site page
+and a live SNWD pull; pillow elevation vs Open-Meteo model grid-cell
+elevation at the resort coordinate):
+
+| resort | SNOTEL station | pillow elev | grid elev | gap | dist |
+|---|---|---|---|---|---|
+| vail | 842:CO:SNTL Vail Mountain (on-mountain) | 2495m | 2495m | ~0 | ~0 |
+| breckenridge | 531:CO:SNTL Hoosier Pass | 3536m | 3066m | 470m | ~13km |
+| park_city | 814:UT:SNTL Thaynes Canyon | 2822m | 2146m | 676m | ~4km |
+| palisades | 784:CA:SNTL Palisades Tahoe | 2441m | 1916m | 525m | ~3km |
+
+Breckenridge note: the nearest SNOTEL by distance is Copper Mountain
+(415, ~9km) but that pillow sits on a different resort's terrain, so
+Hoosier Pass was chosen instead.
 
 Matched-variable discipline: SNOTEL measures snow DEPTH (SNWD,
 start-of-day inches). It is NOT a snowfall observation, and SNWD deltas
@@ -115,6 +129,26 @@ Reading: at this short mixed lead the models are at or slightly WORSE
 than persistence - expected, since snow depth is slow-moving and the
 window had few snow events; this says nothing yet about storm-day skill.
 The interesting test is controlled lead-N accumulation.
+
+Station expansion results (2026-11-25, recent_run, n=32 days, meters;
+same rolling-window caveat as Vail):
+
+| resort | gfs | icon | ecmwf | persistence |
+|---|---|---|---|---|
+| breckenridge | 0.116 | 0.123 | 0.135 | 0.013 |
+| park_city | 0.148 | 0.163 | 0.149 | 0.032 |
+| palisades | 0.124 | 0.180 | 0.082 | 0.047 |
+
+The dominant signal here is NOT forecast skill: every model bias is
+negative and roughly equal to its MAE, and the bias size tracks the
+elevation gap in the station table (Vail gap ~0, models match
+persistence; 470-676m gaps, models under-read depth by 8-18cm).
+Model grid cells sit below the pillows, so the cells hold less snow.
+At mismatched elevations, raw model-vs-pillow snow-depth scoring mostly
+measures the grid-elevation difference, not forecast error. Consequence
+for the project: SNOTEL scoring needs elevation-matched stations (or an
+explicit bias correction by elevation gap) before model rankings mean
+anything. Vail remains the only clean head-to-head so far.
 
 Daily max temp, vs archive actuals (MAE F):
 
