@@ -206,8 +206,17 @@ def fetch_singlerun_hourly(lat: float, lon: float, model: str,
                     "models": model, "run": f"{init_date}T00:00",
                     "forecast_days": forecast_days, "timezone": "UTC"})
     req = Request(f"{SINGLE_RUNS_URL}?{qs}", headers={"User-Agent": USER_AGENT})
-    with urlopen(req, timeout=60) as resp:
-        payload = _json.load(resp)
+    payload = None
+    last_err: Exception | None = None
+    for attempt in range(3):  # transient network errors shouldn't kill a long run
+        try:
+            with urlopen(req, timeout=60) as resp:
+                payload = _json.load(resp)
+            break
+        except Exception as err:  # noqa: BLE001 - retried, then raised
+            last_err = err
+    if payload is None:
+        raise last_err  # type: ignore[misc]
     hourly = payload.get("hourly", {})
     values = hourly.get("snow_depth", hourly.get(var, []))
     return {t: float(v) for t, v in zip(hourly.get("time", []), values)
@@ -215,7 +224,8 @@ def fetch_singlerun_hourly(lat: float, lon: float, model: str,
 
 
 def run_snotel_leads_live(resort: str, past_days: int, output_dir,
-                          leads_h: tuple = (8, 32)) -> list:
+                          leads_h: tuple = (8, 32),
+                          station: dict | None = None) -> list:
     """MANUAL ONLY: controlled-lead snow-depth grading vs SNOTEL.
 
     For each date D the valid instant is station midnight (08:00 UTC);
@@ -229,7 +239,7 @@ def run_snotel_leads_live(resort: str, past_days: int, output_dir,
     from pathlib import Path
     from .grade import LOCATIONS, score_series, persistence_baseline
 
-    st = RESORT_STATIONS[resort]
+    st = station or RESORT_STATIONS[resort]
     loc = LOCATIONS[resort]
     end = date.today() - timedelta(days=1)
     dates = [(end - timedelta(days=k)).isoformat()
@@ -278,7 +288,8 @@ def run_snotel_leads_live(resort: str, past_days: int, output_dir,
     rows.append(base_row)
     out_dir = Path(output_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
-    out_path = out_dir / f"grading_{resort}_snow-depth-snotel-leads_{end.isoformat()}.json"
+    tag = "" if station is None else f"-{st['name'].lower().replace(' ', '_').replace('#', '')}"
+    out_path = out_dir / f"grading_{resort}_snow-depth-snotel-leads{tag}_{end.isoformat()}.json"
     out_path.write_text(json.dumps({
         "resort": resort, "station": st, "variable": "snow_depth",
         "basis": "forecast: model grid-cell snow_depth at station midnight "

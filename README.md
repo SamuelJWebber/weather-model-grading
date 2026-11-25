@@ -218,6 +218,23 @@ SNOTEL-based model comparison, elevation-matched stations are now the
 demonstrated requirement, and the on-resort pillows above are retained
 only as the mismatch diagnostic.
 
+Controlled-lead runs at the matched stations (2026-11-25, lead 8h / 32h
+MAE m, per-date run provenance in the results JSONs; Vail included as
+the on-mountain matched case):
+
+| station | gfs 8h/32h | icon 8h/32h | ecmwf 8h/32h | persistence | storm n |
+|---|---|---|---|---|---|
+| Vail Mountain | 0.014/0.014 | 0.011/0.013 | 0.018/0.016 | 0.010 | 1 |
+| Copper Mountain (breck) | 0.016/0.014 | 0.010/0.011 | 0.009/0.009 | 0.008 | 2 |
+| Mill Creek Canyon (park city) | 0.023/0.022 | 0.039/0.039 | 0.026/0.026 | 0.015 | 3 |
+| Truckee #2 (palisades) | 0.013/0.022 | 0.052/0.054 | 0.038/0.037 | 0.030 | 4 |
+
+Reading: at matched stations the models sit within ~2x of persistence
+with no consistent cross-station ranking and no consistent 8h->32h
+degradation - still a quiet-weather window (1-4 storm days per site),
+so these are tracking measurements, not skill claims. Storm subsets are
+scored per run and become informative as accumulation arrives.
+
 Daily max temp, vs archive actuals (MAE F):
 
 | model | lead 1 | lead 3 | lead 5 |
