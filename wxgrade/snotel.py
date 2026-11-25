@@ -77,6 +77,26 @@ RESORT_STATIONS = {
 }
 
 
+# Elevation-matched diagnostic stations (verified 2026-11-25 via opensnotel
+# station records: active, daily SNWD available, UTC-8 reporting; live NRCS
+# pull happens in the grading run). Chosen to sit near the model grid-cell
+# elevation at each resort, to test the elevation-gap confound on the
+# mismatch diagnostic - NOT better resort representations.
+ELEVATION_MATCHED_STATIONS = {
+    "breckenridge": {"triplet": "415:CO:SNTL", "name": "Copper Mountain",
+                     "tz": "Etc/GMT+8",
+                     "note": "8.8km, 3200m vs grid 3066m (gap +134m; was "
+                             "+470m at Hoosier Pass)"},
+    "park_city": {"triplet": "1321:UT:SNTL", "name": "Mill Creek Canyon",
+                  "tz": "Etc/GMT+8",
+                  "note": "15.0km, 2121m vs grid 2146m (gap -25m; was "
+                          "+676m at Thaynes Canyon)"},
+    "palisades": {"triplet": "834:CA:SNTL", "name": "Truckee #2",
+                  "tz": "Etc/GMT+8",
+                  "note": "12.2km, 1981m vs grid 1916m (gap +65m; was "
+                          "+525m at Palisades Tahoe)"},
+}
+
 def parse_snwd_csv(text: str) -> dict[str, float]:
     """Parse the report-generator CSV (comment lines start with #).
 
@@ -246,20 +266,23 @@ def run_snotel_leads_live(resort: str, past_days: int, output_dir,
     return rows
 
 
-def run_snotel_live(resort: str, past_days: int, output_dir) -> list:
+def run_snotel_live(resort: str, past_days: int, output_dir,
+                    station: dict | None = None) -> list:
     """MANUAL ONLY: grade forecast snow DEPTH vs SNOTEL start-of-day depth.
 
     Matched variable both sides (snow depth, meters, start-of-day).
     Forecast side is the Historical Forecast API (recent-run mixed lead,
     see module note); actual side is the SNOTEL pillow. Grid cell vs
     on-mountain pillow is a real basis difference, recorded in output.
+    `station` overrides RESORT_STATIONS[resort] (diagnostic runs, e.g.
+    ELEVATION_MATCHED_STATIONS).
     """
     import json
     from datetime import date, timedelta
     from pathlib import Path
     from .grade import LOCATIONS, score_series, persistence_baseline
 
-    st = RESORT_STATIONS[resort]
+    st = station or RESORT_STATIONS[resort]
     loc = LOCATIONS[resort]
     end = date.today() - timedelta(days=1)
     start = end - timedelta(days=past_days + 1)
@@ -275,7 +298,8 @@ def run_snotel_live(resort: str, past_days: int, output_dir) -> list:
                  **score_series(base, actual)})
     out_dir = Path(output_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
-    out_path = out_dir / f"grading_{resort}_snow-depth-snotel_{end.isoformat()}.json"
+    tag = "" if station is None else f"-{st['name'].lower().replace(' ', '_').replace('#', '')}"
+    out_path = out_dir / f"grading_{resort}_snow-depth-snotel{tag}_{end.isoformat()}.json"
     out_path.write_text(json.dumps({
         "resort": resort, "station": st, "variable": "snow_depth",
         "basis": "forecast: model grid-cell snow_depth at station midnight "

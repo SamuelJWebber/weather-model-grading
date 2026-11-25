@@ -193,6 +193,26 @@ project: before any model ranking from SNOTEL, verify the full
 measurement contract (done above) and prefer elevation-matched
 stations.
 
+Elevation-matched test of that confound (2026-11-25, recent_run, n=35,
+meters): one active SNOTEL station per resort chosen near the model
+grid-cell elevation (verified via opensnotel records: active, daily
+SNWD available, UTC-8 reporting; live NRCS pulls in the run):
+
+| resort | matched station | gap | gfs | icon | ecmwf | persistence |
+|---|---|---|---|---|---|---|
+| breckenridge | 415:CO:SNTL Copper Mountain, 8.8km, 3200m | +134m | 0.015 | 0.009 | 0.009 | 0.007 |
+| park_city | 1321:UT:SNTL Mill Creek Canyon, 15.0km, 2121m | -25m | 0.022 | 0.036 | 0.024 | 0.014 |
+| palisades | 834:CA:SNTL Truckee #2, 12.2km, 1981m | +65m | 0.011 | 0.048 | 0.047 | 0.028 |
+
+The 8-18cm negative biases collapse to ~1-5cm (both signs) when the
+station sits near grid elevation, landing in the same range as
+persistence - exactly what the elevation-gap confound predicts. Still
+not proof of mechanism: the station, its siting, and its distance all
+changed at once, and n=1 matched station per resort. But for any future
+SNOTEL-based model comparison, elevation-matched stations are now the
+demonstrated requirement, and the on-resort pillows above are retained
+only as the mismatch diagnostic.
+
 Daily max temp, vs archive actuals (MAE F):
 
 | model | lead 1 | lead 3 | lead 5 |
