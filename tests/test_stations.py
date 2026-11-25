@@ -41,3 +41,12 @@ def test_station_tz_is_fixed_offset():
     from wxgrade.snotel import RESORT_STATIONS
     for resort, st in RESORT_STATIONS.items():
         assert st["tz"].startswith("Etc/GMT"), (resort, st["tz"])
+
+
+def test_storm_dates_threshold_and_gap():
+    from wxgrade.snotel import storm_dates
+    actual = {"2026-11-01": 0.10, "2026-11-02": 0.11,
+              "2026-11-03": 0.17, "2026-11-05": 0.30}
+    # 11-03 rose 0.06 (storm), 11-05 rose 0.13 vs prior PRESENT day (11-03)
+    assert storm_dates(actual, 0.05) == frozenset({"2026-11-03", "2026-11-05"})
+    assert storm_dates(actual, 0.20) == frozenset()

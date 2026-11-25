@@ -13,7 +13,7 @@
     "2026-10-23",
     "2026-11-24"
   ],
-  "pull_utc": "2026-11-25T08:03:27.536590+00:00",
+  "pull_utc": "2026-11-25T08:39:59.167625+00:00",
   "rows": [
     {
       "model": "gfs_seamless",
@@ -22,6 +22,14 @@
       "mae": 0.014,
       "rmse": 0.028,
       "bias": -0.014,
+      "storm_subset": {
+        "threshold_m": 0.05,
+        "definition": "dates where start-of-day depth rose >= threshold vs prior day (undercounts events: SNWD deltas are net of settling/compaction)",
+        "n": 1,
+        "mae": 0.046,
+        "rmse": 0.046,
+        "bias": -0.046
+      },
       "provenance": {
         "2026-10-23": {
           "init": "2026-10-23T00:00Z",
@@ -164,6 +172,14 @@
       "mae": 0.014,
       "rmse": 0.027,
       "bias": -0.009,
+      "storm_subset": {
+        "threshold_m": 0.05,
+        "definition": "dates where start-of-day depth rose >= threshold vs prior day (undercounts events: SNWD deltas are net of settling/compaction)",
+        "n": 1,
+        "mae": 0.066,
+        "rmse": 0.066,
+        "bias": -0.066
+      },
       "provenance": {
         "2026-10-23": {
           "init": "2026-10-22T00:00Z",
@@ -306,6 +322,14 @@
       "mae": 0.011,
       "rmse": 0.024,
       "bias": -0.009,
+      "storm_subset": {
+        "threshold_m": 0.05,
+        "definition": "dates where start-of-day depth rose >= threshold vs prior day (undercounts events: SNWD deltas are net of settling/compaction)",
+        "n": 1,
+        "mae": 0.066,
+        "rmse": 0.066,
+        "bias": -0.066
+      },
       "provenance": {
         "2026-10-23": {
           "init": "2026-10-23T00:00Z",
@@ -448,6 +472,14 @@
       "mae": 0.013,
       "rmse": 0.024,
       "bias": -0.007,
+      "storm_subset": {
+        "threshold_m": 0.05,
+        "definition": "dates where start-of-day depth rose >= threshold vs prior day (undercounts events: SNWD deltas are net of settling/compaction)",
+        "n": 1,
+        "mae": 0.046,
+        "rmse": 0.046,
+        "bias": -0.046
+      },
       "provenance": {
         "2026-10-23": {
           "init": "2026-10-22T00:00Z",
@@ -590,6 +622,14 @@
       "mae": 0.018,
       "rmse": 0.036,
       "bias": 0.005,
+      "storm_subset": {
+        "threshold_m": 0.05,
+        "definition": "dates where start-of-day depth rose >= threshold vs prior day (undercounts events: SNWD deltas are net of settling/compaction)",
+        "n": 1,
+        "mae": 0.114,
+        "rmse": 0.114,
+        "bias": 0.114
+      },
       "provenance": {
         "2026-10-23": {
           "init": "2026-10-23T00:00Z",
@@ -732,6 +772,14 @@
       "mae": 0.016,
       "rmse": 0.033,
       "bias": -0.001,
+      "storm_subset": {
+        "threshold_m": 0.05,
+        "definition": "dates where start-of-day depth rose >= threshold vs prior day (undercounts events: SNWD deltas are net of settling/compaction)",
+        "n": 1,
+        "mae": 0.076,
+        "rmse": 0.076,
+        "bias": -0.076
+      },
       "provenance": {
         "2026-10-23": {
           "init": "2026-10-22T00:00Z",
@@ -873,7 +921,15 @@
       "n": 32,
       "mae": 0.01,
       "rmse": 0.019,
-      "bias": -0.003
+      "bias": -0.003,
+      "storm_subset": {
+        "threshold_m": 0.05,
+        "definition": "dates where start-of-day depth rose >= threshold vs prior day (undercounts events: SNWD deltas are net of settling/compaction)",
+        "n": 1,
+        "mae": 0.076,
+        "rmse": 0.076,
+        "bias": -0.076
+      }
     }
   ]
 }

@@ -40,6 +40,8 @@ from __future__ import annotations
 
 import csv
 import io
+from typing import Mapping
+
 from urllib.request import Request, urlopen
 
 USER_AGENT = "weather-model-grading/0.1.0 (personal research)"
@@ -175,6 +177,20 @@ SINGLE_RUNS_URL = "https://single-runs-api.open-meteo.com/v1/forecast"
 STATION_MIDNIGHT_UTC_HOUR = 8
 
 
+def storm_dates(actual: Mapping[str, float], threshold_m: float = 0.05
+                ) -> frozenset[str]:
+    """Dates where start-of-day depth rose >= threshold vs the prior day.
+
+    A depth-rise proxy for snowfall events (SNWD deltas are net of
+    settling/compaction, so this UNDERCOUNTS snow events - it identifies
+    unambiguous accumulation days only).
+    """
+    days = sorted(actual)
+    return frozenset(
+        d for prev, d in zip(days, days[1:])
+        if actual[d] - actual[prev] >= threshold_m)
+
+
 def fetch_singlerun_hourly(lat: float, lon: float, model: str,
                            init_date: str, forecast_days: int = 2
                            ) -> dict[str, float]:
@@ -219,6 +235,7 @@ def run_snotel_leads_live(resort: str, past_days: int, output_dir,
     dates = [(end - timedelta(days=k)).isoformat()
              for k in range(past_days - 1, -1, -1)]
     actual = fetch_snwd_daily(st["triplet"], dates[0], dates[-1])
+    storms = storm_dates(actual)
     rows = []
     for model in ("gfs_seamless", "icon_seamless", "ecmwf_ifs025"):
         runs: dict[str, dict[str, float]] = {}
@@ -239,11 +256,26 @@ def run_snotel_leads_live(resort: str, past_days: int, output_dir,
                                      "valid": valid + "Z"}
             row = {"model": model, "lead": f"lead_{lead}h",
                    **score_series(pred, actual)}
+            row["storm_subset"] = {
+                "threshold_m": 0.05,
+                "definition": "dates where start-of-day depth rose >= "
+                              "threshold vs prior day (undercounts events: "
+                              "SNWD deltas are net of settling/compaction)",
+                **score_series({d: v for d, v in pred.items() if d in storms},
+                               {d: v for d, v in actual.items() if d in storms})}
             row["provenance"] = provenance
             rows.append(row)
     base = persistence_baseline(actual, 1)
-    rows.append({"model": "persistence_1d", "lead": "baseline",
-                 **score_series(base, actual)})
+    base_row = {"model": "persistence_1d", "lead": "baseline",
+                **score_series(base, actual)}
+    base_row["storm_subset"] = {
+        "threshold_m": 0.05,
+        "definition": "dates where start-of-day depth rose >= threshold vs "
+                      "prior day (undercounts events: SNWD deltas are net "
+                      "of settling/compaction)",
+        **score_series({d: v for d, v in base.items() if d in storms},
+                       {d: v for d, v in actual.items() if d in storms})}
+    rows.append(base_row)
     out_dir = Path(output_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
     out_path = out_dir / f"grading_{resort}_snow-depth-snotel-leads_{end.isoformat()}.json"

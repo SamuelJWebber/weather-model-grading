@@ -148,8 +148,13 @@ Reading: no model separates from persistence and no 8h->32h degradation
 in this window - but the window had few snow events and snow depth is
 slow-moving, so this measures quiet-weather tracking, NOT storm skill.
 The lead_8h column closely matches the recent_run series below, an
-internal consistency check (recent_run is a short mixed lead). Storm
-windows are the informative test, now that the route exists.
+internal consistency check (recent_run is a short mixed lead). The
+results JSON also scores a storm subset (dates with >=5cm start-of-day
+depth rise vs the prior present day; SNWD deltas are net of settling,
+so this undercounts events): the window contains exactly ONE such day
+(2026-11-21), so storm skill is unmeasurable so far - the subset is
+scored automatically on every run and becomes informative as winter
+accumulation arrives.
 
 First matched result (Vail, recent_run series - consecutive most-recent
 runs, short mixed lead, no per-step issue time; n=35 days, snow depth
