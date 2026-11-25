@@ -76,6 +76,10 @@ def fetch_model_lead_daily(
         day = t[:10]
         if reduce == "sum":
             daily[day] = daily.get(day, 0.0) + float(v)
+        elif reduce == "sod":
+            # start-of-day value only (00:00 local), matching SNOTEL SNWD basis
+            if t.endswith("T00:00"):
+                daily[day] = float(v)
         else:
             daily[day] = max(daily.get(day, float("-inf")), float(v))
     return daily

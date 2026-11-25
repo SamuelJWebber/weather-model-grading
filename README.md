@@ -75,6 +75,47 @@ actuals (a real snow-stake source) remain an open research item; until one is
 verified, treat every number below as a plumbing check against grid-cell
 archive analysis.
 
+## Independent mountain actuals (SNOTEL, integrated 2026-11-24, wxgrade/snotel.py)
+
+USDA NRCS SNOTEL site 842 "Vail Mountain" (physical snow pillow on the
+mountain), free keyless CSV endpoint, verified live. Coverage correction:
+SNOTEL covers the 11 western US states + Alaska ONLY - Stowe VT has NO
+SNOTEL station (NWS COOP on Mount Mansfield is the eastern alternative,
+not yet integrated); Whistler (BC) and Zermatt (CH) need their national
+networks, unverified. Only Vail's station is verified so far; other
+resorts must be checked one by one before claiming coverage.
+
+Matched-variable discipline: SNOTEL measures snow DEPTH (SNWD,
+start-of-day inches). It is NOT a snowfall observation, and SNWD deltas
+are net of settling/compaction - so snowfall forecasts are never scored
+against SNOTEL. Scoring uses Open-Meteo's snow_depth variable on both
+sides, start-of-day values, meters.
+
+Controlled lead-N snow-depth grading is an UNRESOLVED research problem:
+the Previous Runs API retains no snow_depth (snow_depth_previous_dayN
+verified all-null for all four models, 2026-11-24). Accumulating
+current-run forecasts daily is one verified route to controlled leads;
+other archive sources have not been ruled out. What runs today is the
+Historical Forecast API - consecutive most-recent model runs, a short
+mixed lead (~0-24h), labeled recent_run, never "lead-1".
+
+First matched result (Vail, n=32 days, snow depth in meters, model grid
+cell vs on-mountain pillow - a real basis difference; rolling window, so
+exact values shift by a day):
+
+| series | lead | MAE (m) | bias (m) |
+|---|---|---|---|
+| persistence (yesterday's depth) | baseline | ~0.009 | ~-0.002 |
+| icon_seamless | recent_run | ~0.010 | ~-0.008 |
+| gfs_seamless | recent_run | ~0.012 | ~-0.012 |
+| ecmwf_ifs025 | recent_run | ~0.016 | ~+0.003 |
+| ukmo_seamless | recent_run | no data (all null) | - |
+
+Reading: at this short mixed lead the models are at or slightly WORSE
+than persistence - expected, since snow depth is slow-moving and the
+window had few snow events; this says nothing yet about storm-day skill.
+The interesting test is controlled lead-N accumulation.
+
 Daily max temp, vs archive actuals (MAE F):
 
 | model | lead 1 | lead 3 | lead 5 |
