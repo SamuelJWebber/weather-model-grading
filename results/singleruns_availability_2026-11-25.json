@@ -1,0 +1,26 @@
+{
+  "question": "Earliest model run served by the Open-Meteo Single Runs API (snow_depth, run-resolved) - can controlled-lead grading reach past winters?",
+  "method": "HTTP probes at Vail grid cell (39.6403,-106.3742 area), hourly snow_depth, run=<date>T00:00, forecast_days=1-2, timezone=UTC. ECMWF bisected between 2026-01-15 (HTTP 400) and 2026-04-05 (OK); other models spot-checked.",
+  "probes": {
+    "ecmwf_ifs025": {
+      "2024-03-15": "HTTP 400 run not available",
+      "2024-06-15": "HTTP 400",
+      "2024-10-15": "HTTP 400",
+      "2025-01-15": "HTTP 400",
+      "2025-06-15": "HTTP 400",
+      "2025-10-15": "HTTP 400",
+      "2026-01-15": "HTTP 400",
+      "2026-04-02": "OK (bisection result, earliest)",
+      "2026-04-05": "OK nonnull=48/48"
+    },
+    "gfs_seamless": {
+      "2026-04-02": "OK nonnull=24/24"
+    },
+    "icon_seamless": {
+      "2026-04-02": "OK nonnull=24/24"
+    }
+  },
+  "finding": "Single Runs API serves runs from 2026-04-02 onward for ALL probed models including ecmwf_ifs025. The docs statement 'ECMWF IFS HRES runs archived from 2024-03' does NOT hold on this endpoint (every 2024-03..2026-01 probe returned HTTP 400 'model run is not available').",
+  "consequence": "Controlled lead-N snow-depth grading cannot reach the 2024-25 or 2025-26 winters; the storm-day sample grows only from new accumulation going forward. The only historical route is the Historical Forecast API (mixed/unknown lead provenance), which violates the controlled-lead measurement contract.",
+  "pull_utc": "2026-11-25T12:48:51.032815+00:00"
+}

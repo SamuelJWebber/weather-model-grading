@@ -125,10 +125,17 @@ snow_depth (verified all-null 2026-11-24), but the Single Runs API
 serves snow_depth with non-null, run-resolved values for
 gfs_seamless/icon_seamless/ecmwf_ifs025 (same valid instant, different
 runs give different values), with the run's UTC initialisation time
-explicit in the request - exact issue/lead provenance. Per Open-Meteo
-docs, ECMWF IFS HRES single runs are archived from 2024-03, all other
-models from 2026-04-02, so controlled lead-N snow-depth grading is
-possible from this season onward (run_snotel_leads_live).
+explicit in the request - exact issue/lead provenance. Archive reach
+was measured 2026-11-25 (results/singleruns_availability_2026-11-25.json):
+the Single Runs API serves runs from 2026-04-02 onward for ALL probed
+models including ecmwf_ifs025 - the docs statement that ECMWF IFS HRES
+runs are archived from 2024-03 does NOT hold on this endpoint (every
+2024-03..2026-01 probe returned HTTP 400 'run not available'). So
+controlled lead-N snow-depth grading is possible from this season
+onward only (run_snotel_leads_live); past winters are unreachable on
+this route, and the storm-day sample grows only from new accumulation.
+The Historical Forecast API reaches past winters but with mixed/unknown
+lead provenance, which breaks this measurement contract.
 
 Controlled-lead result (Vail, valid instant = station midnight 08:00
 UTC, runs initialised at 00:00 UTC exactly 8h or 32h earlier, per-date

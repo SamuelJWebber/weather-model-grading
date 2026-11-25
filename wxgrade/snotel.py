@@ -299,10 +299,12 @@ def run_snotel_leads_live(resort: str, past_days: int, output_dir,
                  "recorded per row); actual: SNOTEL SNWD daily value, the "
                  "same instant. Same variable/instant/units; grid cell vs "
                  "on-mountain pillow basis difference still applies.",
-        "archive_limits": "Single Runs API snow_depth verified non-null "
-                          "2026-11-25 for gfs/icon/ecmwf; per Open-Meteo "
-                          "docs, ECMWF IFS HRES runs archived from 2024-03, "
-                          "other models from 2026-04-02.",
+        "archive_limits": "Single Runs API archive reach measured "
+                          "2026-11-25 (results/singleruns_availability_"
+                          "2026-11-25.json): runs served from 2026-04-02 "
+                          "onward for gfs/icon/ecmwf; the docs claim of "
+                          "ECMWF runs from 2024-03 does not hold on this "
+                          "endpoint (all 2024-03..2026-01 probes HTTP 400).",
         "actual_window": [dates[0], dates[-1]],
         "pull_utc": datetime.now(timezone.utc).isoformat(),
         "rows": rows}, indent=2))
