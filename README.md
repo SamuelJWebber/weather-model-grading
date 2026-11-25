@@ -105,50 +105,93 @@ are net of settling/compaction - so snowfall forecasts are never scored
 against SNOTEL. Scoring uses Open-Meteo's snow_depth variable on both
 sides, start-of-day values, meters.
 
-Controlled lead-N snow-depth grading is an UNRESOLVED research problem:
-the Previous Runs API retains no snow_depth (snow_depth_previous_dayN
-verified all-null for all four models, 2026-11-24). Accumulating
-current-run forecasts daily is one verified route to controlled leads;
-other archive sources have not been ruled out. What runs today is the
-Historical Forecast API - consecutive most-recent model runs, a short
-mixed lead (~0-24h), labeled recent_run, never "lead-1".
+Measurement contract (verified 2026-11-25, not assumed):
+- Daily SNWD is an INSTANT, not a day summary: the CSV header reads
+  "Snow Depth (in) Start of Day Values" and daily[D] == hourly[D 00:00]
+  (checked at 842 for 2026-11-24).
+- Station reporting time is fixed-offset local standard time, no DST,
+  and the offset is per-station, not per-state: all four stations above
+  report at UTC-8 (opensnotel.com station records, utcOffsetMinutes=-480
+  for all four, corroborated by a latest-hourly-timestamp check at
+  ~08:00 UTC 2026-11-25 showing every station's latest stamp at 23:00
+  the prior day). So daily SNWD[D] = depth at 08:00 UTC of date D, and
+  the forecast series is sampled at that exact instant (fixed Etc/GMT+8,
+  never the resort's IANA zone). Guarded by a test.
+- Units: inches -> meters (x0.0254) on the actual side; Open-Meteo
+  hourly snow_depth is meters.
 
-First matched result (Vail, n=32 days, snow depth in meters, model grid
-cell vs on-mountain pillow - a real basis difference; rolling window, so
-exact values shift by a day):
+Lead provenance, resolved 2026-11-25: the Previous Runs API retains no
+snow_depth (verified all-null 2026-11-24), but the Single Runs API
+serves snow_depth with non-null, run-resolved values for
+gfs_seamless/icon_seamless/ecmwf_ifs025 (same valid instant, different
+runs give different values), with the run's UTC initialisation time
+explicit in the request - exact issue/lead provenance. Per Open-Meteo
+docs, ECMWF IFS HRES single runs are archived from 2024-03, all other
+models from 2026-04-02, so controlled lead-N snow-depth grading is
+possible from this season onward (run_snotel_leads_live).
+
+Controlled-lead result (Vail, valid instant = station midnight 08:00
+UTC, runs initialised at 00:00 UTC exactly 8h or 32h earlier, per-date
+init/valid provenance in the results JSON; rolling window, n=33):
 
 | series | lead | MAE (m) | bias (m) |
 |---|---|---|---|
-| persistence (yesterday's depth) | baseline | ~0.009 | ~-0.002 |
-| icon_seamless | recent_run | ~0.010 | ~-0.008 |
-| gfs_seamless | recent_run | ~0.012 | ~-0.012 |
-| ecmwf_ifs025 | recent_run | ~0.016 | ~+0.003 |
+| persistence (yesterday's depth) | baseline | 0.010 | -0.003 |
+| icon_seamless | 8h | 0.011 | -0.009 |
+| icon_seamless | 32h | 0.013 | -0.007 |
+| gfs_seamless | 8h | 0.014 | -0.014 |
+| gfs_seamless | 32h | 0.014 | -0.009 |
+| ecmwf_ifs025 | 8h | 0.018 | +0.005 |
+| ecmwf_ifs025 | 32h | 0.016 | -0.001 |
+
+Reading: no model separates from persistence and no 8h->32h degradation
+in this window - but the window had few snow events and snow depth is
+slow-moving, so this measures quiet-weather tracking, NOT storm skill.
+The lead_8h column closely matches the recent_run series below, an
+internal consistency check (recent_run is a short mixed lead). Storm
+windows are the informative test, now that the route exists.
+
+First matched result (Vail, recent_run series - consecutive most-recent
+runs, short mixed lead, no per-step issue time; n=35 days, snow depth
+in meters, model grid cell vs on-mountain pillow - a real basis
+difference; rolling window, so exact values shift by a day):
+
+| series | lead | MAE (m) | bias (m) |
+|---|---|---|---|
+| persistence (yesterday's depth) | baseline | ~0.009 | ~-0.003 |
+| icon_seamless | recent_run | ~0.011 | ~-0.009 |
+| gfs_seamless | recent_run | ~0.014 | ~-0.014 |
+| ecmwf_ifs025 | recent_run | ~0.016 | ~+0.005 |
 | ukmo_seamless | recent_run | no data (all null) | - |
 
 Reading: at this short mixed lead the models are at or slightly WORSE
 than persistence - expected, since snow depth is slow-moving and the
 window had few snow events; this says nothing yet about storm-day skill.
-The interesting test is controlled lead-N accumulation.
 
-Station expansion results (2026-11-25, recent_run, n=32 days, meters;
+Station expansion results (2026-11-25, recent_run, n=35 days, meters;
 same rolling-window caveat as Vail):
 
 | resort | gfs | icon | ecmwf | persistence |
 |---|---|---|---|---|
-| breckenridge | 0.116 | 0.123 | 0.135 | 0.013 |
-| park_city | 0.148 | 0.163 | 0.149 | 0.032 |
-| palisades | 0.124 | 0.180 | 0.082 | 0.047 |
+| breckenridge | 0.110 | 0.116 | 0.127 | 0.013 |
+| park_city | 0.135 | 0.149 | 0.136 | 0.029 |
+| palisades | 0.113 | 0.165 | 0.075 | 0.043 |
 
-The dominant signal here is NOT forecast skill: every model bias is
-negative and roughly equal to its MAE, and the bias size tracks the
-elevation gap in the station table (Vail gap ~0, models match
-persistence; 470-676m gaps, models under-read depth by 8-18cm).
-Model grid cells sit below the pillows, so the cells hold less snow.
-At mismatched elevations, raw model-vs-pillow snow-depth scoring mostly
-measures the grid-elevation difference, not forecast error. Consequence
-for the project: SNOTEL scoring needs elevation-matched stations (or an
-explicit bias correction by elevation gap) before model rankings mean
-anything. Vail remains the only clean head-to-head so far.
+This table is a coverage/mismatch diagnostic, NOT a skill ranking.
+Every model bias is negative and roughly equal to its MAE, and the bias
+magnitude tracks the elevation gap in the station table above (Vail gap
+~0 with models near persistence; 470-676m gaps with 8-18cm under-reads).
+The elevation gap is a PLAUSIBLE CONFOUND consistent with this pattern,
+not an established cause: four correlated sites cannot isolate it, and
+other representativeness differences (station siting, distance, terrain,
+model grid physics) remain in play. Nor is Vail a clean head-to-head:
+a near-zero elevation gap is only one requirement, and the recent_run
+series lacks verified issue-time/lead provenance (addressed for Vail
+by the controlled-lead run above). No bias correction is applied or
+justified on the current evaluation window. Consequence for the
+project: before any model ranking from SNOTEL, verify the full
+measurement contract (done above) and prefer elevation-matched
+stations.
 
 Daily max temp, vs archive actuals (MAE F):
 

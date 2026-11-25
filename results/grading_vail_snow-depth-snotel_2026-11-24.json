@@ -1,50 +1,51 @@
 {
   "actual_source": "USDA NRCS SNOTEL report generator (physical station)",
   "actual_window": [
-    "2026-10-24",
+    "2026-10-21",
     "2026-11-24"
   ],
-  "basis": "forecast: model grid-cell snow_depth at 00:00 local (m), consecutive most-recent runs (mixed ~0-24h lead, NOT controlled lead-N; previous-runs API retains no snow_depth, verified all-null 2026-11-24); actual: SNOTEL SNWD start-of-day snow pillow (in->m). Same variable, different location basis (grid cell vs on-mountain pillow).",
+  "basis": "forecast: model grid-cell snow_depth at station midnight (fixed UTC-8 reporting zone = 08:00 UTC), consecutive most-recent runs (short mixed lead, no per-step issue time; previous-runs API retains no snow_depth, verified all-null 2026-11-24); actual: SNOTEL SNWD daily value, the same 08:00 UTC instant (header 'Start of Day Values', daily[D]==hourly[D 00:00] verified at 842). Same variable/instant/units; different location basis (grid cell vs on-mountain pillow).",
   "forecast_source": "open-meteo historical-forecast API (recent runs)",
   "resort": "vail",
   "rows": [
     {
-      "bias": -0.015,
+      "bias": -0.014,
       "lead": "recent_run",
-      "mae": 0.015,
+      "mae": 0.014,
       "model": "gfs_seamless",
-      "n": 32,
-      "rmse": 0.03
+      "n": 35,
+      "rmse": 0.029
     },
     {
-      "bias": -0.01,
+      "bias": -0.009,
       "lead": "recent_run",
-      "mae": 0.012,
+      "mae": 0.011,
       "model": "icon_seamless",
-      "n": 32,
-      "rmse": 0.024
+      "n": 35,
+      "rmse": 0.023
     },
     {
       "bias": 0.005,
       "lead": "recent_run",
-      "mae": 0.018,
+      "mae": 0.016,
       "model": "ecmwf_ifs025",
-      "n": 32,
-      "rmse": 0.036
+      "n": 35,
+      "rmse": 0.034
     },
     {
       "bias": -0.003,
       "lead": "baseline",
-      "mae": 0.01,
+      "mae": 0.009,
       "model": "persistence_1d",
-      "n": 31,
-      "rmse": 0.019
+      "n": 34,
+      "rmse": 0.018
     }
   ],
   "station": {
     "name": "Vail Mountain",
+    "note": "on-mountain, 2495m",
     "triplet": "842:CO:SNTL",
-    "tz": "America/Denver"
+    "tz": "Etc/GMT+8"
   },
   "variable": "snow_depth"
 }

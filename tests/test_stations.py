@@ -33,3 +33,11 @@ def test_snotel_parse():
     assert d == {"2026-11-17": 0.0, "2026-11-18": 1.0, "2026-11-19": 0.0,
                  "2026-11-21": 3.0, "2026-11-22": 4.0}
     assert abs(3 * INCHES_TO_M - 0.0762) < 1e-9
+
+
+def test_station_tz_is_fixed_offset():
+    # Measurement contract: forecast sampling must use the station's
+    # fixed-offset reporting zone (no DST), never an IANA zone.
+    from wxgrade.snotel import RESORT_STATIONS
+    for resort, st in RESORT_STATIONS.items():
+        assert st["tz"].startswith("Etc/GMT"), (resort, st["tz"])

@@ -1,51 +1,51 @@
 {
   "actual_source": "USDA NRCS SNOTEL report generator (physical station)",
   "actual_window": [
-    "2026-10-24",
+    "2026-10-21",
     "2026-11-24"
   ],
-  "basis": "forecast: model grid-cell snow_depth at 00:00 local (m), consecutive most-recent runs (mixed ~0-24h lead, NOT controlled lead-N; previous-runs API retains no snow_depth, verified all-null 2026-11-24); actual: SNOTEL SNWD start-of-day snow pillow (in->m). Same variable, different location basis (grid cell vs on-mountain pillow).",
+  "basis": "forecast: model grid-cell snow_depth at station midnight (fixed UTC-8 reporting zone = 08:00 UTC), consecutive most-recent runs (short mixed lead, no per-step issue time; previous-runs API retains no snow_depth, verified all-null 2026-11-24); actual: SNOTEL SNWD daily value, the same 08:00 UTC instant (header 'Start of Day Values', daily[D]==hourly[D 00:00] verified at 842). Same variable/instant/units; different location basis (grid cell vs on-mountain pillow).",
   "forecast_source": "open-meteo historical-forecast API (recent runs)",
   "resort": "palisades",
   "rows": [
     {
-      "bias": -0.124,
+      "bias": -0.113,
       "lead": "recent_run",
-      "mae": 0.124,
+      "mae": 0.113,
       "model": "gfs_seamless",
-      "n": 32,
-      "rmse": 0.177
+      "n": 35,
+      "rmse": 0.169
     },
     {
-      "bias": -0.18,
+      "bias": -0.165,
       "lead": "recent_run",
-      "mae": 0.18,
+      "mae": 0.165,
       "model": "icon_seamless",
-      "n": 32,
-      "rmse": 0.267
+      "n": 35,
+      "rmse": 0.255
     },
     {
-      "bias": -0.082,
+      "bias": -0.075,
       "lead": "recent_run",
-      "mae": 0.082,
+      "mae": 0.075,
       "model": "ecmwf_ifs025",
-      "n": 32,
-      "rmse": 0.116
+      "n": 35,
+      "rmse": 0.111
     },
     {
-      "bias": -0.025,
+      "bias": -0.023,
       "lead": "baseline",
-      "mae": 0.047,
+      "mae": 0.043,
       "model": "persistence_1d",
-      "n": 31,
-      "rmse": 0.091
+      "n": 34,
+      "rmse": 0.087
     }
   ],
   "station": {
     "name": "Palisades Tahoe",
     "note": "39.18,-120.27 at 8010ft, ~3km; named for the resort",
     "triplet": "784:CA:SNTL",
-    "tz": "America/Los_Angeles"
+    "tz": "Etc/GMT+8"
   },
   "variable": "snow_depth"
 }
