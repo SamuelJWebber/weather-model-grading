@@ -1,0 +1,123 @@
+{
+  "actual_source": "open-meteo archive (ERA5/best_match analysis)",
+  "actual_window": [
+    "2026-10-19",
+    "2026-11-23"
+  ],
+  "forecast_source": "open-meteo previous-runs API (archived model runs)",
+  "location": {
+    "lat": 40.71,
+    "lon": -74.01
+  },
+  "past_days": 30,
+  "rows": [
+    {
+      "bias": -2.1,
+      "lead_days": 1,
+      "mae": 2.14,
+      "model": "ecmwf_ifs025",
+      "n": 30,
+      "persistence_mae": 4.154,
+      "rmse": 2.465
+    },
+    {
+      "bias": -2.38,
+      "lead_days": 3,
+      "mae": 2.86,
+      "model": "ecmwf_ifs025",
+      "n": 30,
+      "persistence_mae": 6.518,
+      "rmse": 3.333
+    },
+    {
+      "bias": -2.11,
+      "lead_days": 5,
+      "mae": 3.63,
+      "model": "ecmwf_ifs025",
+      "n": 30,
+      "persistence_mae": 7.771,
+      "rmse": 4.169
+    },
+    {
+      "bias": -1.417,
+      "lead_days": 1,
+      "mae": 1.95,
+      "model": "gfs_seamless",
+      "n": 30,
+      "persistence_mae": 4.154,
+      "rmse": 2.599
+    },
+    {
+      "bias": -2.363,
+      "lead_days": 3,
+      "mae": 3.25,
+      "model": "gfs_seamless",
+      "n": 30,
+      "persistence_mae": 6.518,
+      "rmse": 3.989
+    },
+    {
+      "bias": -2.44,
+      "lead_days": 5,
+      "mae": 3.933,
+      "model": "gfs_seamless",
+      "n": 30,
+      "persistence_mae": 7.771,
+      "rmse": 4.727
+    },
+    {
+      "bias": -0.987,
+      "lead_days": 1,
+      "mae": 1.553,
+      "model": "icon_seamless",
+      "n": 30,
+      "persistence_mae": 4.154,
+      "rmse": 2.017
+    },
+    {
+      "bias": -1.157,
+      "lead_days": 3,
+      "mae": 2.063,
+      "model": "icon_seamless",
+      "n": 30,
+      "persistence_mae": 6.518,
+      "rmse": 2.665
+    },
+    {
+      "bias": -1.057,
+      "lead_days": 5,
+      "mae": 2.623,
+      "model": "icon_seamless",
+      "n": 30,
+      "persistence_mae": 7.771,
+      "rmse": 3.264
+    },
+    {
+      "bias": -3.44,
+      "lead_days": 1,
+      "mae": 3.553,
+      "model": "ukmo_seamless",
+      "n": 30,
+      "persistence_mae": 4.154,
+      "rmse": 4.062
+    },
+    {
+      "bias": -3.873,
+      "lead_days": 3,
+      "mae": 4.073,
+      "model": "ukmo_seamless",
+      "n": 30,
+      "persistence_mae": 6.518,
+      "rmse": 4.725
+    },
+    {
+      "bias": -3.403,
+      "lead_days": 5,
+      "mae": 3.877,
+      "model": "ukmo_seamless",
+      "n": 30,
+      "persistence_mae": 7.771,
+      "rmse": 4.689
+    }
+  ]
+}

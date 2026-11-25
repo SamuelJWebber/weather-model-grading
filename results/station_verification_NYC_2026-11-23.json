@@ -1,0 +1,104 @@
+{
+  "past_days": 30,
+  "rows": [
+    {
+      "bias": -1.083,
+      "lead_days": 1,
+      "mae": 1.869,
+      "model": "ecmwf_ifs025",
+      "n": 29,
+      "rmse": 2.382
+    },
+    {
+      "bias": -1.362,
+      "lead_days": 3,
+      "mae": 2.597,
+      "model": "ecmwf_ifs025",
+      "n": 29,
+      "rmse": 3.268
+    },
+    {
+      "bias": -0.869,
+      "lead_days": 5,
+      "mae": 3.455,
+      "model": "ecmwf_ifs025",
+      "n": 29,
+      "rmse": 4.075
+    },
+    {
+      "bias": -0.407,
+      "lead_days": 1,
+      "mae": 1.566,
+      "model": "gfs_seamless",
+      "n": 29,
+      "rmse": 2.198
+    },
+    {
+      "bias": -1.221,
+      "lead_days": 3,
+      "mae": 2.524,
+      "model": "gfs_seamless",
+      "n": 29,
+      "rmse": 3.264
+    },
+    {
+      "bias": -1.297,
+      "lead_days": 5,
+      "mae": 3.303,
+      "model": "gfs_seamless",
+      "n": 29,
+      "rmse": 4.056
+    },
+    {
+      "bias": 0.083,
+      "lead_days": 1,
+      "mae": 1.166,
+      "model": "icon_seamless",
+      "n": 29,
+      "rmse": 1.478
+    },
+    {
+      "bias": -0.086,
+      "lead_days": 3,
+      "mae": 1.99,
+      "model": "icon_seamless",
+      "n": 29,
+      "rmse": 2.449
+    },
+    {
+      "bias": 0.11,
+      "lead_days": 5,
+      "mae": 2.607,
+      "model": "icon_seamless",
+      "n": 29,
+      "rmse": 3.29
+    },
+    {
+      "bias": -2.393,
+      "lead_days": 1,
+      "mae": 2.676,
+      "model": "ukmo_seamless",
+      "n": 29,
+      "rmse": 3.362
+    },
+    {
+      "bias": -2.81,
+      "lead_days": 3,
+      "mae": 3.148,
+      "model": "ukmo_seamless",
+      "n": 29,
+      "rmse": 4.112
+    },
+    {
+      "bias": -2.341,
+      "lead_days": 5,
+      "mae": 3.438,
+      "model": "ukmo_seamless",
+      "n": 29,
+      "rmse": 4.584
+    }
+  ],
+  "station": "NYC",
+  "station_days": 35,
+  "station_source": "Iowa State IEM ASOS service, station NYC (KNYC Central Park), hourly METAR"
+}
