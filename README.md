@@ -76,8 +76,12 @@ Vail. Coverage is patchy (26 of 30 days had values; missing days are
 skipped and n is reported).
 
 Controlled-lead result (Stowe / Mt Mansfield, valid instant 21:00 UTC,
-00:00 UTC inits, leads 21h/45h, n=26 days of the 30 ending 2026-11-24,
-snow depth in meters):
+00:00 UTC inits, leads 21h/45h, snow depth in meters). Actual window
+2026-10-26..2026-11-24 (30 days, all valid times in the past at pull
+time; window end is "yesterday" by construction, so no future actuals,
+backfill or substituted years enter). The IEM feed itself is null on
+2026-11-19, 11-20, 11-22 and 11-24; those days are skipped, giving
+n=26 (persistence baseline n=23, it needs a prior present day).
 
 | series | lead | MAE (m) | bias (m) |
 |---|---|---|---|
@@ -90,11 +94,14 @@ snow depth in meters):
 | ecmwf_ifs025 | 45h | 0.033 | -0.033 |
 
 Reading: same pattern as Vail's quiet window - no model separates from
-persistence, small uniform negative biases. Because this station sits at
-the model grid elevation (~3m gap), the -2..-3cm under-read here is NOT
-explained by the elevation-gap confound that dominates the other mountain
-diagnostics; quiet-weather depth drift or stake/grid representativeness
-are candidates, and one station with 2 storm days cannot separate them.
+persistence, small uniform negative biases. The large elevation-gap
+confound behind the western mountain diagnostics (model grid ~1000m
+below the stake) is absent here: a ~3m gap cannot produce a 2-3cm depth
+bias. That does NOT clear the comparison of every representativeness
+confound: a single stake on a wind-exposed ridgeline samples drift and
+scour that a grid-cell mean does not, so quiet-weather depth drift,
+stake exposure or grid smoothing are all still candidates, and one
+station with 2 storm days cannot separate them.
 Storm subset n=2: too few to read; scored automatically every run.
 
 Construction note (2026-11-24): both sides are maxima of hourly values, hourly model forecasts on one side and hourly METAR observations on the other, over New York local calendar days (both requests specify America/New_York); coverage was verified complete, 24-25 obs/day, zero missing hours. An hourly sampled high can still miss the true peak between observations, so small MAE differences between models are noise. KNYC sits ~7 km from the queried grid point. A sample
