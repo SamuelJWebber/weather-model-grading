@@ -1,0 +1,127 @@
+{
+  "actual_source": "open-meteo archive (ERA5/best_match analysis)",
+  "actual_window": [
+    "2026-10-21",
+    "2026-11-25"
+  ],
+  "forecast_source": "open-meteo previous-runs API (archived model runs)",
+  "location": {
+    "label": "New York City",
+    "lat": 40.71,
+    "lon": -74.01,
+    "timezone": "America/New_York"
+  },
+  "past_days": 30,
+  "reduce": "sum",
+  "rows": [
+    {
+      "bias": null,
+      "lead_days": 1,
+      "mae": null,
+      "model": "ecmwf_ifs025",
+      "n": 0,
+      "persistence_mae": 0.0,
+      "rmse": null
+    },
+    {
+      "bias": null,
+      "lead_days": 3,
+      "mae": null,
+      "model": "ecmwf_ifs025",
+      "n": 0,
+      "persistence_mae": 0.0,
+      "rmse": null
+    },
+    {
+      "bias": null,
+      "lead_days": 5,
+      "mae": null,
+      "model": "ecmwf_ifs025",
+      "n": 0,
+      "persistence_mae": 0.0,
+      "rmse": null
+    },
+    {
+      "bias": 0.0,
+      "lead_days": 1,
+      "mae": 0.0,
+      "model": "gfs_seamless",
+      "n": 30,
+      "persistence_mae": 0.0,
+      "rmse": 0.0
+    },
+    {
+      "bias": 0.0,
+      "lead_days": 3,
+      "mae": 0.0,
+      "model": "gfs_seamless",
+      "n": 30,
+      "persistence_mae": 0.0,
+      "rmse": 0.0
+    },
+    {
+      "bias": 0.0,
+      "lead_days": 5,
+      "mae": 0.0,
+      "model": "gfs_seamless",
+      "n": 30,
+      "persistence_mae": 0.0,
+      "rmse": 0.0
+    },
+    {
+      "bias": 0.0,
+      "lead_days": 1,
+      "mae": 0.0,
+      "model": "icon_seamless",
+      "n": 30,
+      "persistence_mae": 0.0,
+      "rmse": 0.0
+    },
+    {
+      "bias": 0.0,
+      "lead_days": 3,
+      "mae": 0.0,
+      "model": "icon_seamless",
+      "n": 30,
+      "persistence_mae": 0.0,
+      "rmse": 0.0
+    },
+    {
+      "bias": 0.0,
+      "lead_days": 5,
+      "mae": 0.0,
+      "model": "icon_seamless",
+      "n": 30,
+      "persistence_mae": 0.0,
+      "rmse": 0.0
+    },
+    {
+      "bias": 0.0,
+      "lead_days": 1,
+      "mae": 0.0,
+      "model": "ukmo_seamless",
+      "n": 30,
+      "persistence_mae": 0.0,
+      "rmse": 0.0
+    },
+    {
+      "bias": 0.0,
+      "lead_days": 3,
+      "mae": 0.0,
+      "model": "ukmo_seamless",
+      "n": 30,
+      "persistence_mae": 0.0,
+      "rmse": 0.0
+    },
+    {
+      "bias": 0.0,
+      "lead_days": 5,
+      "mae": 0.0,
+      "model": "ukmo_seamless",
+      "n": 30,
+      "persistence_mae": 0.0,
+      "rmse": 0.0
+    }
+  ],
+  "variable": "snowfall"
+}

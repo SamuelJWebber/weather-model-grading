@@ -26,20 +26,25 @@ and scoring joins on identical dates (n=30 per cell).
 - Metrics per model x lead (1/3/5 days): MAE, RMSE, bias, plus a persistence
   baseline (today's weather = N-days-ago actual) as the no-skill floor.
 
-## First result (NYC, daily max temp, 30 days ending 2026-11-23)
+## First result (NYC, daily max temp; refreshed 2026-11-26, 30 days ending 2026-11-25)
 
 | model | lead | MAE (F) | persistence MAE |
 |---|---|---|---|
-| icon_seamless | 1d | 1.55 | 4.15 |
-| icon_seamless | 3d | 2.06 | 6.52 |
-| icon_seamless | 5d | 2.62 | 7.77 |
-| gfs_seamless | 1d | 1.95 | 4.15 |
-| ecmwf_ifs025 | 1d | 2.14 | 4.15 |
-| ukmo_seamless | 1d | 3.55 | 4.15 |
+| icon_seamless | 1d | 1.70 | 4.60 |
+| icon_seamless | 3d | 2.09 | 7.14 |
+| icon_seamless | 5d | 2.54 | 8.91 |
+| gfs_seamless | 1d | 2.11 | 4.60 |
+| ecmwf_ifs025 | 1d | 2.14 | 4.60 |
+| ukmo_seamless | 1d | 3.28 | 4.60 |
 
 ICON led at every lead in this window; all four models beat persistence by a
 wide margin. One location, one variable, one month: a sample ranking for this
-place and season, not a general model winner.
+place and season, not a general model winner. (First window, ending
+2026-11-23: icon 1.55/2.06/2.62, gfs 1.95, ecmwf 2.14, ukmo 3.55 at the
+same rows - same ranking, small drift. The NYC snowfall window is now
+entirely zero: the early-November events rolled out of the rolling 30
+days, so snowfall MAEs are all 0.0 and carry no information until the
+next event. Artifacts: results/grading_new-york-city_*_2026-11-25.json.)
 
 ## Station cross-check (added 2026-11-24)
 
