@@ -1,9 +1,11 @@
 {
- "check": "same-lead hourly persistence vs model forecasts, 3 matched SNOTEL stations; retrospective symmetric upper-bound benchmark, NOT operational (anchors unavailable at issue time - see vail artifact)",
+ "check": "same-lead hourly persistence vs model forecasts, 3 matched SNOTEL stations; RETROSPECTIVE symmetric benchmark (anchors unavailable at issue time), NOT an upper bound on operational persistence skill - see vail artifact",
  "window": [
   "2026-10-24",
   "2026-11-24"
  ],
+ "correction_2026-11-26_pm": "the first version of this check computed anchors with date-minus-timedelta(hours), which drops sub-day offsets (8h anchors landed ON the valid instant - MAE exactly 0.0 was the tell; 32h anchors at valid-24h). Anchors now use explicit UTC datetimes with each station's verified CSV clock offset; all numbers in this file are the corrected ones.",
+ "retrospective_not_operational": "zero-lag anchors coincide with forecast init and were not available at issue time; this is a retrospective symmetric benchmark, NOT an upper bound on operational persistence skill (a more recent anchor does not guarantee smaller realized error). Delayed-anchor sensitivities assume operational timeliness at the stated delays; sampled archive lags exceeded 38h.",
  "stations": {
   "breckenridge": {
    "triplet": "415:CO:SNTL",
@@ -41,7 +43,85 @@
       "rmse": 0.0194,
       "bias": -0.0016
      },
-     "hourly_persistence_beats_models": true
+     "hourly_persistence_beats_models": true,
+     "delayed_anchor_sensitivity": {
+      "delayed_3h": {
+       "common_dates": 18,
+       "hourly_persistence_8h_delayed_3h": {
+        "n": 18,
+        "mae": 0.0042,
+        "rmse": 0.0134,
+        "bias": -0.0042
+       },
+       "gfs_seamless lead_8h": {
+        "n": 18,
+        "mae": 0.0154,
+        "rmse": 0.0239,
+        "bias": 0.0056
+       },
+       "icon_seamless lead_8h": {
+        "n": 18,
+        "mae": 0.0149,
+        "rmse": 0.0199,
+        "bias": 0.005
+       },
+       "models_beat_delayed_persistence": {
+        "gfs_seamless": false,
+        "icon_seamless": false
+       }
+      },
+      "delayed_24h": {
+       "common_dates": 31,
+       "hourly_persistence_8h_delayed_24h": {
+        "n": 31,
+        "mae": 0.0074,
+        "rmse": 0.0188,
+        "bias": -0.0041
+       },
+       "gfs_seamless lead_8h": {
+        "n": 31,
+        "mae": 0.0172,
+        "rmse": 0.0283,
+        "bias": 0.0098
+       },
+       "icon_seamless lead_8h": {
+        "n": 31,
+        "mae": 0.0104,
+        "rmse": 0.0167,
+        "bias": 0.0031
+       },
+       "models_beat_delayed_persistence": {
+        "gfs_seamless": false,
+        "icon_seamless": false
+       }
+      },
+      "delayed_48h": {
+       "common_dates": 30,
+       "hourly_persistence_8h_delayed_48h": {
+        "n": 30,
+        "mae": 0.0093,
+        "rmse": 0.0213,
+        "bias": -0.0059
+       },
+       "gfs_seamless lead_8h": {
+        "n": 30,
+        "mae": 0.0178,
+        "rmse": 0.0288,
+        "bias": 0.0102
+       },
+       "icon_seamless lead_8h": {
+        "n": 30,
+        "mae": 0.0108,
+        "rmse": 0.017,
+        "bias": 0.0032
+       },
+       "models_beat_delayed_persistence": {
+        "gfs_seamless": false,
+        "icon_seamless": false
+       }
+      }
+     },
+     "delayed_anchor_note": "anchor at init minus delay; delay 3h ~ real-time telemetry assumption, 24-48h ~ archive-class lag. Operational timeliness at these delays is ASSUMED, not established; sampled archive lags exceeded 38h."
     },
     "lead_32h": {
      "common_dates": 31,
@@ -69,7 +149,85 @@
       "rmse": 0.0194,
       "bias": -0.0016
      },
-     "hourly_persistence_beats_models": true
+     "hourly_persistence_beats_models": true,
+     "delayed_anchor_sensitivity": {
+      "delayed_3h": {
+       "common_dates": 18,
+       "hourly_persistence_32h_delayed_3h": {
+        "n": 18,
+        "mae": 0.0141,
+        "rmse": 0.0254,
+        "bias": -0.0085
+       },
+       "gfs_seamless lead_32h": {
+        "n": 18,
+        "mae": 0.0207,
+        "rmse": 0.0444,
+        "bias": -0.0008
+       },
+       "icon_seamless lead_32h": {
+        "n": 18,
+        "mae": 0.0118,
+        "rmse": 0.0152,
+        "bias": 0.0014
+       },
+       "models_beat_delayed_persistence": {
+        "gfs_seamless": false,
+        "icon_seamless": true
+       }
+      },
+      "delayed_24h": {
+       "common_dates": 30,
+       "hourly_persistence_32h_delayed_24h": {
+        "n": 30,
+        "mae": 0.0093,
+        "rmse": 0.0213,
+        "bias": -0.0059
+       },
+       "gfs_seamless lead_32h": {
+        "n": 30,
+        "mae": 0.0158,
+        "rmse": 0.0368,
+        "bias": 0.0028
+       },
+       "icon_seamless lead_32h": {
+        "n": 30,
+        "mae": 0.0117,
+        "rmse": 0.0179,
+        "bias": 0.0055
+       },
+       "models_beat_delayed_persistence": {
+        "gfs_seamless": false,
+        "icon_seamless": false
+       }
+      },
+      "delayed_48h": {
+       "common_dates": 29,
+       "hourly_persistence_32h_delayed_48h": {
+        "n": 29,
+        "mae": 0.0105,
+        "rmse": 0.0231,
+        "bias": -0.0088
+       },
+       "gfs_seamless lead_32h": {
+        "n": 29,
+        "mae": 0.0163,
+        "rmse": 0.0375,
+        "bias": 0.0029
+       },
+       "icon_seamless lead_32h": {
+        "n": 29,
+        "mae": 0.0121,
+        "rmse": 0.0182,
+        "bias": 0.0057
+       },
+       "models_beat_delayed_persistence": {
+        "gfs_seamless": false,
+        "icon_seamless": false
+       }
+      }
+     },
+     "delayed_anchor_note": "anchor at init minus delay; delay 3h ~ real-time telemetry assumption, 24-48h ~ archive-class lag. Operational timeliness at these delays is ASSUMED, not established; sampled archive lags exceeded 38h."
     }
    }
   },
@@ -109,7 +267,85 @@
       "rmse": 0.0449,
       "bias": -0.009
      },
-     "hourly_persistence_beats_models": true
+     "hourly_persistence_beats_models": true,
+     "delayed_anchor_sensitivity": {
+      "delayed_3h": {
+       "common_dates": 24,
+       "hourly_persistence_8h_delayed_3h": {
+        "n": 24,
+        "mae": 0.0095,
+        "rmse": 0.0269,
+        "bias": -0.0074
+       },
+       "gfs_seamless lead_8h": {
+        "n": 24,
+        "mae": 0.0317,
+        "rmse": 0.066,
+        "bias": -0.0317
+       },
+       "icon_seamless lead_8h": {
+        "n": 24,
+        "mae": 0.053,
+        "rmse": 0.1097,
+        "bias": -0.053
+       },
+       "models_beat_delayed_persistence": {
+        "gfs_seamless": false,
+        "icon_seamless": false
+       }
+      },
+      "delayed_24h": {
+       "common_dates": 25,
+       "hourly_persistence_8h_delayed_24h": {
+        "n": 25,
+        "mae": 0.0183,
+        "rmse": 0.0518,
+        "bias": -0.0122
+       },
+       "gfs_seamless lead_8h": {
+        "n": 25,
+        "mae": 0.0278,
+        "rmse": 0.0633,
+        "bias": -0.0278
+       },
+       "icon_seamless lead_8h": {
+        "n": 25,
+        "mae": 0.0482,
+        "rmse": 0.1066,
+        "bias": -0.0482
+       },
+       "models_beat_delayed_persistence": {
+        "gfs_seamless": false,
+        "icon_seamless": false
+       }
+      },
+      "delayed_48h": {
+       "common_dates": 24,
+       "hourly_persistence_8h_delayed_48h": {
+        "n": 24,
+        "mae": 0.0349,
+        "rmse": 0.0791,
+        "bias": -0.0265
+       },
+       "gfs_seamless lead_8h": {
+        "n": 24,
+        "mae": 0.0283,
+        "rmse": 0.0639,
+        "bias": -0.0283
+       },
+       "icon_seamless lead_8h": {
+        "n": 24,
+        "mae": 0.0496,
+        "rmse": 0.1084,
+        "bias": -0.0496
+       },
+       "models_beat_delayed_persistence": {
+        "gfs_seamless": true,
+        "icon_seamless": false
+       }
+      }
+     },
+     "delayed_anchor_note": "anchor at init minus delay; delay 3h ~ real-time telemetry assumption, 24-48h ~ archive-class lag. Operational timeliness at these delays is ASSUMED, not established; sampled archive lags exceeded 38h."
     },
     "lead_32h": {
      "common_dates": 25,
@@ -137,7 +373,85 @@
       "rmse": 0.0449,
       "bias": -0.009
      },
-     "hourly_persistence_beats_models": true
+     "hourly_persistence_beats_models": true,
+     "delayed_anchor_sensitivity": {
+      "delayed_3h": {
+       "common_dates": 24,
+       "hourly_persistence_32h_delayed_3h": {
+        "n": 24,
+        "mae": 0.018,
+        "rmse": 0.0511,
+        "bias": -0.0138
+       },
+       "gfs_seamless lead_32h": {
+        "n": 24,
+        "mae": 0.027,
+        "rmse": 0.0592,
+        "bias": -0.0256
+       },
+       "icon_seamless lead_32h": {
+        "n": 24,
+        "mae": 0.051,
+        "rmse": 0.1095,
+        "bias": -0.051
+       },
+       "models_beat_delayed_persistence": {
+        "gfs_seamless": false,
+        "icon_seamless": false
+       }
+      },
+      "delayed_24h": {
+       "common_dates": 24,
+       "hourly_persistence_32h_delayed_24h": {
+        "n": 24,
+        "mae": 0.0349,
+        "rmse": 0.0791,
+        "bias": -0.0265
+       },
+       "gfs_seamless lead_32h": {
+        "n": 24,
+        "mae": 0.0273,
+        "rmse": 0.0595,
+        "bias": -0.0258
+       },
+       "icon_seamless lead_32h": {
+        "n": 24,
+        "mae": 0.0504,
+        "rmse": 0.1091,
+        "bias": -0.0504
+       },
+       "models_beat_delayed_persistence": {
+        "gfs_seamless": true,
+        "icon_seamless": false
+       }
+      },
+      "delayed_48h": {
+       "common_dates": 23,
+       "hourly_persistence_32h_delayed_48h": {
+        "n": 23,
+        "mae": 0.0464,
+        "rmse": 0.1027,
+        "bias": -0.0398
+       },
+       "gfs_seamless lead_32h": {
+        "n": 23,
+        "mae": 0.0308,
+        "rmse": 0.0625,
+        "bias": -0.0308
+       },
+       "icon_seamless lead_32h": {
+        "n": 23,
+        "mae": 0.0517,
+        "rmse": 0.1107,
+        "bias": -0.0517
+       },
+       "models_beat_delayed_persistence": {
+        "gfs_seamless": true,
+        "icon_seamless": false
+       }
+      }
+     },
+     "delayed_anchor_note": "anchor at init minus delay; delay 3h ~ real-time telemetry assumption, 24-48h ~ archive-class lag. Operational timeliness at these delays is ASSUMED, not established; sampled archive lags exceeded 38h."
     }
    }
   },
@@ -177,7 +491,85 @@
       "rmse": 0.0741,
       "bias": -0.0164
      },
-     "hourly_persistence_beats_models": false
+     "hourly_persistence_beats_models": false,
+     "delayed_anchor_sensitivity": {
+      "delayed_3h": {
+       "common_dates": 31,
+       "hourly_persistence_8h_delayed_3h": {
+        "n": 31,
+        "mae": 0.0156,
+        "rmse": 0.0481,
+        "bias": -0.0107
+       },
+       "gfs_seamless lead_8h": {
+        "n": 31,
+        "mae": 0.0137,
+        "rmse": 0.0244,
+        "bias": 0.0038
+       },
+       "icon_seamless lead_8h": {
+        "n": 31,
+        "mae": 0.0549,
+        "rmse": 0.1011,
+        "bias": -0.0549
+       },
+       "models_beat_delayed_persistence": {
+        "gfs_seamless": true,
+        "icon_seamless": false
+       }
+      },
+      "delayed_24h": {
+       "common_dates": 30,
+       "hourly_persistence_8h_delayed_24h": {
+        "n": 30,
+        "mae": 0.0406,
+        "rmse": 0.0946,
+        "bias": -0.0254
+       },
+       "gfs_seamless lead_8h": {
+        "n": 30,
+        "mae": 0.0141,
+        "rmse": 0.0248,
+        "bias": 0.0039
+       },
+       "icon_seamless lead_8h": {
+        "n": 30,
+        "mae": 0.0567,
+        "rmse": 0.1028,
+        "bias": -0.0567
+       },
+       "models_beat_delayed_persistence": {
+        "gfs_seamless": true,
+        "icon_seamless": false
+       }
+      },
+      "delayed_48h": {
+       "common_dates": 29,
+       "hourly_persistence_8h_delayed_48h": {
+        "n": 29,
+        "mae": 0.0648,
+        "rmse": 0.1364,
+        "bias": -0.0455
+       },
+       "gfs_seamless lead_8h": {
+        "n": 29,
+        "mae": 0.0146,
+        "rmse": 0.0252,
+        "bias": 0.0041
+       },
+       "icon_seamless lead_8h": {
+        "n": 29,
+        "mae": 0.0587,
+        "rmse": 0.1045,
+        "bias": -0.0587
+       },
+       "models_beat_delayed_persistence": {
+        "gfs_seamless": true,
+        "icon_seamless": true
+       }
+      }
+     },
+     "delayed_anchor_note": "anchor at init minus delay; delay 3h ~ real-time telemetry assumption, 24-48h ~ archive-class lag. Operational timeliness at these delays is ASSUMED, not established; sampled archive lags exceeded 38h."
     },
     "lead_32h": {
      "common_dates": 30,
@@ -205,11 +597,87 @@
       "rmse": 0.0741,
       "bias": -0.0164
      },
-     "hourly_persistence_beats_models": false
+     "hourly_persistence_beats_models": false,
+     "delayed_anchor_sensitivity": {
+      "delayed_3h": {
+       "common_dates": 30,
+       "hourly_persistence_32h_delayed_3h": {
+        "n": 30,
+        "mae": 0.0415,
+        "rmse": 0.1056,
+        "bias": -0.0279
+       },
+       "gfs_seamless lead_32h": {
+        "n": 30,
+        "mae": 0.0247,
+        "rmse": 0.0459,
+        "bias": 0.0163
+       },
+       "icon_seamless lead_32h": {
+        "n": 30,
+        "mae": 0.0591,
+        "rmse": 0.104,
+        "bias": -0.0591
+       },
+       "models_beat_delayed_persistence": {
+        "gfs_seamless": true,
+        "icon_seamless": false
+       }
+      },
+      "delayed_24h": {
+       "common_dates": 29,
+       "hourly_persistence_32h_delayed_24h": {
+        "n": 29,
+        "mae": 0.0648,
+        "rmse": 0.1364,
+        "bias": -0.0455
+       },
+       "gfs_seamless lead_32h": {
+        "n": 29,
+        "mae": 0.0255,
+        "rmse": 0.0467,
+        "bias": 0.0168
+       },
+       "icon_seamless lead_32h": {
+        "n": 29,
+        "mae": 0.0611,
+        "rmse": 0.1058,
+        "bias": -0.0611
+       },
+       "models_beat_delayed_persistence": {
+        "gfs_seamless": true,
+        "icon_seamless": true
+       }
+      },
+      "delayed_48h": {
+       "common_dates": 28,
+       "hourly_persistence_32h_delayed_48h": {
+        "n": 28,
+        "mae": 0.088,
+        "rmse": 0.1694,
+        "bias": -0.068
+       },
+       "gfs_seamless lead_32h": {
+        "n": 28,
+        "mae": 0.0264,
+        "rmse": 0.0475,
+        "bias": 0.0174
+       },
+       "icon_seamless lead_32h": {
+        "n": 28,
+        "mae": 0.0633,
+        "rmse": 0.1077,
+        "bias": -0.0633
+       },
+       "models_beat_delayed_persistence": {
+        "gfs_seamless": true,
+        "icon_seamless": true
+       }
+      }
+     },
+     "delayed_anchor_note": "anchor at init minus delay; delay 3h ~ real-time telemetry assumption, 24-48h ~ archive-class lag. Operational timeliness at these delays is ASSUMED, not established; sampled archive lags exceeded 38h."
     }
    }
   }
- },
- "correction_2026-11-26_pm": "first run of this script scored anchors computed with date-minus-timedelta(hours), which drops sub-day offsets (8h anchors landed ON the valid instant, giving MAE exactly 0.0 - the tell). Anchors now use explicit UTC datetimes with each station's verified CSV clock offset; numbers in this file are the corrected ones.",
- "retrospective_not_operational": "anchors coincide with forecast init and were not available at issue time (see hourly_persistence_vail_2026-11-26.json anchor_availability); upper-bound symmetric benchmark, not an operational selector"
+ }
 }

@@ -1,4 +1,5 @@
 """Same-lead hourly persistence benchmark at Vail (station 842:CO:SNTL).
+RETROSPECTIVE only: anchors use observations unavailable at issue time.
 
 Motivation: the paired artifacts compare model forecasts against 1-DAY
 persistence anchored on the prior daily actual - a favorable persistence
@@ -15,8 +16,10 @@ So for valid instant D 08:00 UTC, same-lead hourly persistence at lead
 8h is CSV row "D-1 16:00"; at lead 32h, CSV row "D-2 16:00".
 
 NOT an operational selector: the 00Z run is published after 00:00 UTC
-and the anchor observation at t-L may lag; this is an upper-bound
-symmetric benchmark only. Hourly 842 values flicker by ~1 inch (sensor
+and the anchor observation at t-L was not available at init; this is a
+retrospective symmetric benchmark only. It is NOT an upper bound on
+operational persistence skill: a more recent anchor does not guarantee
+smaller realized error. Hourly 842 values flicker by ~1 inch (sensor
 noise at event scale) - scores are at cm precision with that caveat.
 
 Run from repo root: PYTHONPATH=. python3 scripts/hourly_persistence_check.py
@@ -115,8 +118,10 @@ def main():
                 "bias": round(sum(errs) / n, 4)}
 
     out = {"check": "same-lead hourly persistence vs model forecasts, "
-                    "Vail 842 only; symmetric upper-bound benchmark, NOT an "
-                    "operational selector",
+                    "Vail 842 only; RETROSPECTIVE symmetric benchmark "
+                    "(anchors unavailable at issue time), NOT an "
+                    "operational selector and NOT an upper bound on "
+                    "operational persistence skill",
            "correction_2026-11-26_pm": (
                "supersedes the numbers first committed in 4ebb1b1: the "
                "initial version of this script computed anchors with "
@@ -132,19 +137,26 @@ def main():
                "available_at_init": "NO - the same-lead construction puts "
                    "the anchor exactly AT the init instant (anchor = valid "
                    "- lead = init), and an observation is not transmitted "
-                   "before it exists; observed NRCS archive latency: hourly "
-                   ">38h, daily SNOTEL <32h, COOP daily >35h",
-               "why_symmetric_upper_bound": "SYMMETRIC: anchor sits "
-                   "lead-hours before the valid instant, the same horizon "
-                   "the model covers. UPPER BOUND: zero-lag anchor is the "
-                   "best possible persistence estimate; a real-time anchor "
-                   "must sit earlier and cannot do better in expectation. "
-                   "The benchmark uses observations unavailable at issue "
-                   "time - it is retrospective.",
-               "consequence": "persistence wins DESPITE the favorable "
-                   "anchor, so 'models track quiet-window depth worse "
-                   "than persistence at these leads' is a conservative "
-                   "retrospective conclusion, not an operational one."},
+                   "before it exists. In the pulls sampled on 2026-11-26 "
+                   "(these stations, these dates), archive availability "
+                   "lagged >38h for hourly values, <32h for daily SNOTEL "
+                   "values, and >35h for one COOP daily value - sampled "
+                   "observations, not universal latency guarantees.",
+               "why_symmetric": "the anchor sits lead-hours before the "
+                   "valid instant, the same horizon the model forecast "
+                   "covers. This benchmark uses observations unavailable "
+                   "at issue time, so it is RETROSPECTIVE only.",
+               "what_it_does_not_show": ["it is NOT an upper bound on "
+                   "operational persistence skill: a more recent anchor "
+                   "does not guarantee smaller realized error, and a "
+                   "delayed operational anchor can do better on some "
+                   "samples",
+                   "models losing to this benchmark does NOT establish "
+                   "that they lose to an operational delayed-anchor "
+                   "persistence; that comparison favors this benchmark "
+                   "and is tested separately in "
+                   "hourly_persistence_snotel_2026-11-26.json "
+                   "(delayed-anchor sensitivity)"]},
            "window": list(WINDOW),
            "timezone_contract": tz_contract,
            "raw_hourly_csv": str(raw_dst),

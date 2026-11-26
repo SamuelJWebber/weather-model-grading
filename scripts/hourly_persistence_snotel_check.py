@@ -7,9 +7,14 @@ Per station: the hourly timestamp convention is verified empirically
 against the saved daily series (candidate offsets 00:00 and 01:00,
 >=95% match within 0.5in required), then gfs/icon at leads 8h/32h are
 scored against persistence anchored lead-hours before the SAME valid
-instant (08:00 UTC, the SNOTEL daily contract). Retrospective,
-symmetric, upper-bound benchmark - anchors coincide with init and were
-NOT available at issue time; not an operational selector.
+instant (08:00 UTC, the SNOTEL daily contract). RETROSPECTIVE symmetric
+benchmark - anchors coincide with init and were NOT available at issue
+time; not an operational selector and NOT an upper bound on operational
+persistence skill (a more recent anchor does not guarantee smaller
+realized error). A delayed-anchor sensitivity (anchors at init-3h,
+init-24h, init-48h) is included as the feasible operational-direction
+comparison - still archive-fed, so operational timeliness is assumed,
+not established, for those delays.
 
 Run from repo root:
   PYTHONPATH=. python3 scripts/hourly_persistence_snotel_check.py
@@ -55,11 +60,28 @@ def score(pred, actual, cd):
 
 
 def main():
-    report = {"check": "same-lead hourly persistence vs model forecasts, "
-                       "3 matched SNOTEL stations; retrospective symmetric "
-                       "upper-bound benchmark, NOT operational (anchors "
-                       "unavailable at issue time - see vail artifact)",
+    report = {"check": "same-lead hourly persistence vs model "
+                       "forecasts, 3 matched SNOTEL stations; RETROSPECTIVE "
+                       "symmetric benchmark (anchors unavailable at issue "
+                       "time), NOT an upper bound on operational "
+                       "persistence skill - see vail artifact",
               "window": list(WINDOW),
+              "correction_2026-11-26_pm": (
+                  "the first version of this check computed anchors with "
+                  "date-minus-timedelta(hours), which drops sub-day "
+                  "offsets (8h anchors landed ON the valid instant - MAE "
+                  "exactly 0.0 was the tell; 32h anchors at valid-24h). "
+                  "Anchors now use explicit UTC datetimes with each "
+                  "station's verified CSV clock offset; all numbers in "
+                  "this file are the corrected ones."),
+              "retrospective_not_operational": (
+                  "zero-lag anchors coincide with forecast init and were "
+                  "not available at issue time; this is a retrospective "
+                  "symmetric benchmark, NOT an upper bound on operational "
+                  "persistence skill (a more recent anchor does not "
+                  "guarantee smaller realized error). Delayed-anchor "
+                  "sensitivities assume operational timeliness at the "
+                  "stated delays; sampled archive lags exceeded 38h."),
               "stations": {}}
     for resort, triplet in STATIONS.items():
         safe = triplet.replace(':', '-')
@@ -123,21 +145,28 @@ def main():
         # best_off is the CSV clock hour of the 08:00 UTC valid instant.
         off_h = int(best_off[:2])
         from datetime import datetime
-        pers = {}
-        for lead in LEADS:
+
+        def anchor_series(lead, delay_h):
+            # anchor at init - delay_h; delay 0 = retrospective same-lead
             p = {}
             for d in dates:
-                # valid instant = D 08:00 UTC; CSV clock = UTC - 8h, with
-                # the station's verified daily row at CSV "D {off_h}:00".
                 valid_utc = datetime.fromisoformat(d).replace(hour=8)
-                anchor_utc = valid_utc - timedelta(hours=lead)
+                anchor_utc = (valid_utc - timedelta(hours=lead)
+                              - timedelta(hours=delay_h))
                 # CSV clock offset implied by the verified daily match:
                 # off_h=0 -> UTC-8, off_h=1 -> UTC-7
                 csv_clock = anchor_utc - timedelta(hours=8 - off_h)
                 key = csv_clock.strftime("%Y-%m-%d %H:00")
                 if key in hourly:
                     p[d] = hourly[key]
-            pers[f"hourly_persistence_{lead}h"] = p
+            return p
+
+        pers = {}
+        for lead in LEADS:
+            pers[f"hourly_persistence_{lead}h"] = anchor_series(lead, 0)
+            for delay in (3, 24, 48):
+                pers[f"hourly_persistence_{lead}h_delayed_{delay}h"] = \
+                    anchor_series(lead, delay)
         dp = persistence_baseline(actual, 1)
         rec["scores"] = {}
         for lead in LEADS:
@@ -159,6 +188,30 @@ def main():
             block["hourly_persistence_beats_models"] = all(
                 block[f"hourly_persistence_{lead}h"]["mae"]
                 < block[f"{m} lead_{lead}h"]["mae"] for m in MODELS)
+            # delayed anchors on their OWN maximal intersection with the
+            # models (each delayed series reaches further back and would
+            # otherwise shrink every series' common dates)
+            sens = {}
+            for delay in (3, 24, 48):
+                pname = f"hourly_persistence_{lead}h_delayed_{delay}h"
+                pd = pers[pname]
+                cd3 = sorted(set(actual) & set(pd)
+                             & set.intersection(*(set(series[n])
+                                                  for n in names)))
+                sens[f"delayed_{delay}h"] = {
+                    "common_dates": len(cd3),
+                    pname: score(pd, actual, cd3),
+                    **{n: score(series[n], actual, cd3) for n in names},
+                    "models_beat_delayed_persistence": {
+                        m: score(series[f"{m} lead_{lead}h"], actual,
+                                 cd3)["mae"] < score(pd, actual, cd3)["mae"]
+                        for m in MODELS}}
+            block["delayed_anchor_sensitivity"] = sens
+            block["delayed_anchor_note"] = (
+                "anchor at init minus delay; delay 3h ~ real-time "
+                "telemetry assumption, 24-48h ~ archive-class lag. "
+                "Operational timeliness at these delays is ASSUMED, not "
+                "established; sampled archive lags exceeded 38h.")
             rec["scores"][f"lead_{lead}h"] = block
         report["stations"][resort] = rec
 

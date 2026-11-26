@@ -462,14 +462,15 @@ values flicker by one inch; event cells at that scale may be sensor noise.
 Separately labeled supplementary cells report MAE in inches and realized
 >=2in / >=3in counts, plus a forecast-predicted-change split using GFS
 versus yesterday's actual. These supplements were defined after seeing
-this sample. Prior-day actual reporting latency is now verified
-ADVERSELY (2026-11-26 PM, saved actuals metadata): the COOP MMNV1 daily
-value for 11-24 was still missing ~35h after its valid instant; SNOTEL
-daily values through 11-24 appeared only in a pull ~32h later (latency
-<32h, not tighter); the hourly archive lagged >38h. So prior-day
-actuals from these sources are NOT available at operational
-decision time on a sub-daily horizon, so the forecast-based split
-remains only a candidate selector, not a validated operational rule. Inch threshold comparisons use a tiny float
+this sample. Prior-day actual reporting latency: in the pulls sampled
+on 2026-11-26 (these stations/dates, not universal guarantees), the
+COOP MMNV1 daily value for 11-24 was still missing ~35h after its
+valid instant; SNOTEL daily values through 11-24 appeared only in a
+pull ~32h later (latency <32h, not tighter); the hourly archive
+lagged >38h. On that sampled evidence, prior-day actuals from these
+sources were NOT available at operational decision time on a
+sub-daily horizon, so the forecast-based split remains only a
+candidate selector, not a validated operational rule. Inch threshold comparisons use a tiny float
 roundoff tolerance; original frozen centimeter comparisons are unchanged.
 The artifact, not a prose significance claim, contains the full cells.
 
@@ -503,12 +504,14 @@ persistence anchored lead-hours before the SAME valid instant.
 "Same-lead" makes the anchor coincide with the init instant at every
 lead (anchor = valid - lead = init), so the anchor observation could
 NOT have been available at issue time - an observation is not
-transmitted before it exists, and the observed archive latency is >38h
-for hourly values. The benchmark is therefore retrospective, symmetric
-(same horizon as the model), and an UPPER BOUND on operational
-persistence skill (a real-time anchor must sit earlier and cannot do
-better in expectation); it uses observations unavailable at issue and
-is not an operational selector. Hourly station values flicker ~1 inch.
+transmitted before it exists, and in the pulls sampled on 2026-11-26
+(these stations, these dates) the archive lagged >38h for hourly
+values. The benchmark is therefore retrospective and symmetric (same
+horizon as the model); it uses observations unavailable at issue and
+is not an operational selector. It is NOT an upper bound on
+operational persistence skill: a more recent anchor does not guarantee
+smaller realized error, and a delayed anchor can do better on some
+samples. Hourly station values flicker ~1 inch.
 (Correction: the first version of this check mis-computed anchors via
 date-minus-timedelta hour arithmetic - the 8h anchor landed after the
 valid instant and the 32h anchor 24h before it; numbers here are the
@@ -521,17 +524,31 @@ Hourly-persistence vs model MAE (m), paired common dates:
 | Vail 842 | 30 | 8h/32h | 0.0059/0.0119 | 0.0098 | 0.0153/0.0149 | 0.0126/0.0126 | no |
 | Copper 415 (breck) | 31 | 8h/32h | 0.0025/0.0074 | 0.0082 | 0.0172/0.0153 | 0.0104/0.0113 | no |
 | Mill Creek 1321 (park city) | 25 | 8h/32h | 0.0061/0.0183 | 0.0156 | 0.0304/0.0260 | 0.0508/0.0490 | no |
-| Truckee 834 (palisades) | 31/30 | 8h/32h | 0.0139/0.0406 | 0.0311 | 0.0137/0.0247 | 0.0549/0.0591 | GFS: ties 8h, wins 32h |
+| Truckee 834 (palisades) | 31/30 | 8h/32h | 0.0139/0.0406 | 0.0311 | 0.0137/0.0247 | 0.0549/0.0591 | GFS at 8h: 0.0137 vs 0.0139 (difference 0.0002, no equality criterion defined); GFS at 32h: 0.0247 < 0.0406 |
 
-Read: at Vail, Copper and Mill Creek the models' persistence shortfall
-is NOT an artifact of the daily anchor - it holds (and mostly widens)
-under the honest same-lead benchmark, and since that benchmark is
-favorable to persistence the conclusion is conservative. Truckee is
-the exception: GFS ties hourly persistence at 8h and beats it at 32h
-(0.0247 vs 0.0406) - consistent with the paired daily-persistence
-result where GFS at Truckee was the one single-model exception, now
-seen against the stricter benchmark too. Still one model at one
-station in a quiet window, not a pattern. Label map: "Vail" = resort
-grid 39.64,-106.37 vs on-mountain SNOTEL 842:CO:SNTL (gap ~0);
-Copper/Mill Creek/Truckee per the elevation-matched station table
-above.
+Read (retrospective only): at Vail, Copper and Mill Creek, gfs and
+icon lose to same-lead zero-lag hourly persistence in this window.
+That comparison grants the benchmark information unavailable at issue
+time, so it does NOT establish that models lose to any operational
+persistence - it is one retrospective contrast, not a conservative
+form of an operational claim. At Truckee, GFS is below hourly
+persistence at 32h (0.0247 vs 0.0406) and 0.0002 below it at 8h
+(0.0137 vs 0.0139) - consistent with its paired daily-persistence
+exception. Quiet window, one model at one station: not a pattern.
+
+Delayed-anchor sensitivity (same artifact; anchor at init-3h/-24h/-48h,
+each on its own maximal date intersection; operational timeliness at
+these delays is ASSUMED, not established, since sampled archive lags
+exceeded 38h): persistence stays ahead of both models at Copper at
+nearly every delay (exception: icon edges the 3h-delayed anchor at
+32h, 0.0118 vs 0.0141). At Mill Creek, GFS drops below the 24-48h
+delayed anchors (0.0283 vs 0.0349 at 8h/48h). At Truckee, GFS is
+below the delayed anchors at every delay and lead (e.g. 8h/24h:
+0.0141 vs 0.0406) and icon joins at 24-48h delays. So the
+operational-direction comparison differs by station: persistence
+robust at Copper, GFS increasingly competitive at Mill Creek, GFS
+clearly ahead at Truckee. Small n, quiet window, descriptive only.
+
+Label map: "Vail" = resort grid 39.64,-106.37 vs on-mountain SNOTEL
+842:CO:SNTL (gap ~0); Copper/Mill Creek/Truckee per the
+elevation-matched station table above.
