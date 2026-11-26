@@ -397,6 +397,16 @@ Live pulls are manual only; tests never touch the network.
 
 ## Audit-repaired retrospective decomposition (2026-11-26)
 
+Corrections of record: (1) the first hourly-persistence numbers
+mis-computed anchors (sub-day timedelta bug; superseded, notes in the
+artifacts); (2) the ">38h hourly / <32h daily SNOTEL" latency claims
+were confounded by window-censored pulls and are RETRACTED - direct
+sampling (results/raw/obslog/, 2026-11-26 ~19:57 UTC) shows ~1h SNOTEL
+hourly availability and a ~71h COOP MMNV1 lag. Details in the latency
+and same-lead benchmark paragraphs below; pilot handoff in
+docs/obslog-pilot-handoff.md.
+
+
 Inputs: saved actuals JSON plus CSV, hashes, fetch timestamps and station
 identifiers in results/raw/actuals/; cached forecasts in
 results/raw/singleruns/. The saved actuals were first preserved during

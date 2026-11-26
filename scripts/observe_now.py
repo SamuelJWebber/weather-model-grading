@@ -38,9 +38,15 @@ from pathlib import Path
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 
-sys.path.insert(0, '.')
-from wxgrade.snotel import REPORT_URL, USER_AGENT  # noqa: E402
-from wxgrade.coop import DAILY_URL  # noqa: E402
+# Inlined source constants (identical to wxgrade/snotel.py and
+# wxgrade/coop.py) so this collector is standalone-portable: it needs only
+# python3 stdlib, no repo checkout.
+USER_AGENT = "weather-model-grading/0.1.0 (personal research)"
+REPORT_URL = (
+    "https://wcc.sc.egov.usda.gov/reportGenerator/view_csv/"
+    "customSingleStationReport/daily/{triplet}%7Cid=%22%22%7Cname/"
+    "{start},{end}/SNWD::value")
+DAILY_URL = "https://mesonet.agron.iastate.edu/cgi-bin/request/daily.py"
 
 OUT = Path('results/raw/obslog')
 SNOTEL = ["842:CO:SNTL", "415:CO:SNTL", "1321:UT:SNTL", "834:CA:SNTL"]
