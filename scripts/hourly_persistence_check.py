@@ -89,12 +89,14 @@ def main():
                 if valid in r:
                     pred[d] = r[valid]
             series[f"{model} lead_{lead}h"] = pred
+    from datetime import datetime
     for lead in leads:
         p = {}
         for d in dates:
-            anchor = (date.fromisoformat(d)
-                      - timedelta(hours=lead)).isoformat()
-            key = f"{anchor} 16:00"  # D 00:00 minus lead hours, CSV conv.
+            valid_utc = datetime.fromisoformat(d).replace(hour=8)
+            anchor_utc = valid_utc - timedelta(hours=lead)
+            csv_clock = anchor_utc - timedelta(hours=8)  # UTC-8 convention
+            key = csv_clock.strftime("%Y-%m-%d %H:00")
             if key in hourly:
                 p[d] = hourly[key]
         pers[f"hourly_persistence_{lead}h"] = p
@@ -115,6 +117,34 @@ def main():
     out = {"check": "same-lead hourly persistence vs model forecasts, "
                     "Vail 842 only; symmetric upper-bound benchmark, NOT an "
                     "operational selector",
+           "correction_2026-11-26_pm": (
+               "supersedes the numbers first committed in 4ebb1b1: the "
+               "initial version of this script computed anchors with "
+               "date-minus-timedelta(hours) arithmetic, which drops "
+               "sub-day offsets (8h anchor landed 16h AFTER the valid "
+               "instant - look-ahead - and 32h at valid-24h). Anchors "
+               "are now computed with explicit UTC datetimes: valid "
+               "D 08:00 UTC minus lead, converted to the verified UTC-8 "
+               "CSV clock. Model scores also shifted slightly because "
+               "the common-date intersection changed with anchor "
+               "availability."),
+           "anchor_availability": {
+               "available_at_init": "NO - the same-lead construction puts "
+                   "the anchor exactly AT the init instant (anchor = valid "
+                   "- lead = init), and an observation is not transmitted "
+                   "before it exists; observed NRCS archive latency: hourly "
+                   ">38h, daily SNOTEL <32h, COOP daily >35h",
+               "why_symmetric_upper_bound": "SYMMETRIC: anchor sits "
+                   "lead-hours before the valid instant, the same horizon "
+                   "the model covers. UPPER BOUND: zero-lag anchor is the "
+                   "best possible persistence estimate; a real-time anchor "
+                   "must sit earlier and cannot do better in expectation. "
+                   "The benchmark uses observations unavailable at issue "
+                   "time - it is retrospective.",
+               "consequence": "persistence wins DESPITE the favorable "
+                   "anchor, so 'models track quiet-window depth worse "
+                   "than persistence at these leads' is a conservative "
+                   "retrospective conclusion, not an operational one."},
            "window": list(WINDOW),
            "timezone_contract": tz_contract,
            "raw_hourly_csv": str(raw_dst),

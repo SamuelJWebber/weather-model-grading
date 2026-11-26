@@ -1,0 +1,215 @@
+{
+ "check": "same-lead hourly persistence vs model forecasts, 3 matched SNOTEL stations; retrospective symmetric upper-bound benchmark, NOT operational (anchors unavailable at issue time - see vail artifact)",
+ "window": [
+  "2026-10-24",
+  "2026-11-24"
+ ],
+ "stations": {
+  "breckenridge": {
+   "triplet": "415:CO:SNTL",
+   "raw_hourly_csv": "results/raw/actuals/snotel_415-CO-SNTL_hourly_2026-10-22_2026-11-24.csv",
+   "raw_hourly_csv_sha256": "ff4c55effe4b9c576c66af608395ef68573e361063665ca7483a8576d2b0eada",
+   "tz_contract": {
+    "daily_matches_hourly_at": "00:00",
+    "match": "33/33",
+    "verified": true
+   },
+   "scores": {
+    "lead_8h": {
+     "common_dates": 31,
+     "gfs_seamless lead_8h": {
+      "n": 31,
+      "mae": 0.0172,
+      "rmse": 0.0283,
+      "bias": 0.0098
+     },
+     "icon_seamless lead_8h": {
+      "n": 31,
+      "mae": 0.0104,
+      "rmse": 0.0167,
+      "bias": 0.0031
+     },
+     "hourly_persistence_8h": {
+      "n": 31,
+      "mae": 0.0025,
+      "rmse": 0.0102,
+      "bias": -0.0025
+     },
+     "daily_persistence_1d_same_dates": {
+      "n": 31,
+      "mae": 0.0082,
+      "rmse": 0.0194,
+      "bias": -0.0016
+     },
+     "hourly_persistence_beats_models": true
+    },
+    "lead_32h": {
+     "common_dates": 31,
+     "gfs_seamless lead_32h": {
+      "n": 31,
+      "mae": 0.0153,
+      "rmse": 0.0362,
+      "bias": 0.0027
+     },
+     "icon_seamless lead_32h": {
+      "n": 31,
+      "mae": 0.0113,
+      "rmse": 0.0176,
+      "bias": 0.0053
+     },
+     "hourly_persistence_32h": {
+      "n": 31,
+      "mae": 0.0074,
+      "rmse": 0.0188,
+      "bias": -0.0041
+     },
+     "daily_persistence_1d_same_dates": {
+      "n": 31,
+      "mae": 0.0082,
+      "rmse": 0.0194,
+      "bias": -0.0016
+     },
+     "hourly_persistence_beats_models": true
+    }
+   }
+  },
+  "park_city": {
+   "triplet": "1321:UT:SNTL",
+   "raw_hourly_csv": "results/raw/actuals/snotel_1321-UT-SNTL_hourly_2026-10-22_2026-11-24.csv",
+   "raw_hourly_csv_sha256": "8c751d55d72b33e050707351ba8467b9b49cf1c1687286373c43a1d9dcce1810",
+   "tz_contract": {
+    "daily_matches_hourly_at": "00:00",
+    "match": "33/33",
+    "verified": true
+   },
+   "scores": {
+    "lead_8h": {
+     "common_dates": 25,
+     "gfs_seamless lead_8h": {
+      "n": 25,
+      "mae": 0.0304,
+      "rmse": 0.0647,
+      "bias": -0.0304
+     },
+     "icon_seamless lead_8h": {
+      "n": 25,
+      "mae": 0.0508,
+      "rmse": 0.1075,
+      "bias": -0.0508
+     },
+     "hourly_persistence_8h": {
+      "n": 25,
+      "mae": 0.0061,
+      "rmse": 0.0259,
+      "bias": -0.0061
+     },
+     "daily_persistence_1d_same_dates": {
+      "n": 31,
+      "mae": 0.0156,
+      "rmse": 0.0449,
+      "bias": -0.009
+     },
+     "hourly_persistence_beats_models": true
+    },
+    "lead_32h": {
+     "common_dates": 25,
+     "gfs_seamless lead_32h": {
+      "n": 25,
+      "mae": 0.026,
+      "rmse": 0.058,
+      "bias": -0.0246
+     },
+     "icon_seamless lead_32h": {
+      "n": 25,
+      "mae": 0.049,
+      "rmse": 0.1073,
+      "bias": -0.049
+     },
+     "hourly_persistence_32h": {
+      "n": 25,
+      "mae": 0.0183,
+      "rmse": 0.0518,
+      "bias": -0.0122
+     },
+     "daily_persistence_1d_same_dates": {
+      "n": 31,
+      "mae": 0.0156,
+      "rmse": 0.0449,
+      "bias": -0.009
+     },
+     "hourly_persistence_beats_models": true
+    }
+   }
+  },
+  "palisades": {
+   "triplet": "834:CA:SNTL",
+   "raw_hourly_csv": "results/raw/actuals/snotel_834-CA-SNTL_hourly_2026-10-22_2026-11-24.csv",
+   "raw_hourly_csv_sha256": "a8897088e8bbdb9a3e13a367eb42d32dc4503194b7e7e24a981762564de8598a",
+   "tz_contract": {
+    "daily_matches_hourly_at": "00:00",
+    "match": "33/33",
+    "verified": true
+   },
+   "scores": {
+    "lead_8h": {
+     "common_dates": 31,
+     "gfs_seamless lead_8h": {
+      "n": 31,
+      "mae": 0.0137,
+      "rmse": 0.0244,
+      "bias": 0.0038
+     },
+     "icon_seamless lead_8h": {
+      "n": 31,
+      "mae": 0.0549,
+      "rmse": 0.1011,
+      "bias": -0.0549
+     },
+     "hourly_persistence_8h": {
+      "n": 31,
+      "mae": 0.0139,
+      "rmse": 0.0373,
+      "bias": -0.0074
+     },
+     "daily_persistence_1d_same_dates": {
+      "n": 31,
+      "mae": 0.0311,
+      "rmse": 0.0741,
+      "bias": -0.0164
+     },
+     "hourly_persistence_beats_models": false
+    },
+    "lead_32h": {
+     "common_dates": 30,
+     "gfs_seamless lead_32h": {
+      "n": 30,
+      "mae": 0.0247,
+      "rmse": 0.0459,
+      "bias": 0.0163
+     },
+     "icon_seamless lead_32h": {
+      "n": 30,
+      "mae": 0.0591,
+      "rmse": 0.104,
+      "bias": -0.0591
+     },
+     "hourly_persistence_32h": {
+      "n": 30,
+      "mae": 0.0406,
+      "rmse": 0.0946,
+      "bias": -0.0254
+     },
+     "daily_persistence_1d_same_dates": {
+      "n": 31,
+      "mae": 0.0311,
+      "rmse": 0.0741,
+      "bias": -0.0164
+     },
+     "hourly_persistence_beats_models": false
+    }
+   }
+  }
+ },
+ "correction_2026-11-26_pm": "first run of this script scored anchors computed with date-minus-timedelta(hours), which drops sub-day offsets (8h anchors landed ON the valid instant, giving MAE exactly 0.0 - the tell). Anchors now use explicit UTC datetimes with each station's verified CSV clock offset; numbers in this file are the corrected ones.",
+ "retrospective_not_operational": "anchors coincide with forecast init and were not available at issue time (see hourly_persistence_vail_2026-11-26.json anchor_availability); upper-bound symmetric benchmark, not an operational selector"
+}

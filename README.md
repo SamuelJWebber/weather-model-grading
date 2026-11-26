@@ -492,25 +492,46 @@ These targets differ from raw depth and do not identify sensor truth.
 The result limits any claim of a stable advantage; it is not evidence
 that one transformed target should replace the original target.
 
-Same-lead hourly persistence benchmark (2026-11-26 PM, Vail 842 only,
-results/hourly_persistence_vail_2026-11-26.json): hourly SNWD pulled
-from NRCS (raw CSV + sha256 preserved; timestamp convention verified
-33/33 against the saved daily series, so "D 00:00" = D 08:00 UTC).
-Scored gfs/icon at leads 8h/32h against persistence anchored lead-hours
-before the SAME valid instant. "Same-lead" makes the anchor coincide
-with the init instant at every lead (anchor = valid - lead = init), so
-the anchor observation could NOT have been available at issue time -
-an observation is not transmitted before it exists, and the observed
-archive latency is >38h for hourly values. The benchmark is therefore
-retrospective, symmetric (same horizon as the model), and an UPPER
-BOUND on operational persistence skill (a real-time anchor must sit
-earlier and cannot do better in expectation); it uses observations
-unavailable at issue and is not an operational selector. Hourly 842
-values flicker ~1 inch. On 30 common dates: hourly persistence MAE
-0.0059 at BOTH leads vs daily persistence 0.0098, gfs 0.0153/0.0159,
-icon 0.0126/0.0139. Because the benchmark is favorable to persistence
-and the models still lose, the models' persistence shortfall is NOT an
-artifact of the daily anchor - it widens under the honest same-lead
-benchmark, and that retrospective conclusion is conservative.
-Label map: this row's "Vail" = resort grid 39.64,-106.37 vs on-mountain
-SNOTEL 842:CO:SNTL (gap ~0).
+Same-lead hourly persistence benchmark (2026-11-26 PM;
+results/hourly_persistence_vail_2026-11-26.json and
+results/hourly_persistence_snotel_2026-11-26.json): hourly SNWD pulled
+from NRCS for all four matched SNOTEL stations (raw CSVs + sha256
+preserved; each station's timestamp convention verified 33/33 against
+its saved daily series, "D 00:00" = D 08:00 UTC). Stowe excluded:
+COOP MMNV1 reports daily only. Scored gfs/icon at leads 8h/32h against
+persistence anchored lead-hours before the SAME valid instant.
+"Same-lead" makes the anchor coincide with the init instant at every
+lead (anchor = valid - lead = init), so the anchor observation could
+NOT have been available at issue time - an observation is not
+transmitted before it exists, and the observed archive latency is >38h
+for hourly values. The benchmark is therefore retrospective, symmetric
+(same horizon as the model), and an UPPER BOUND on operational
+persistence skill (a real-time anchor must sit earlier and cannot do
+better in expectation); it uses observations unavailable at issue and
+is not an operational selector. Hourly station values flicker ~1 inch.
+(Correction: the first version of this check mis-computed anchors via
+date-minus-timedelta hour arithmetic - the 8h anchor landed after the
+valid instant and the 32h anchor 24h before it; numbers here are the
+corrected ones and the artifacts carry the correction note.)
+
+Hourly-persistence vs model MAE (m), paired common dates:
+
+| station | n | lead | hourly pers | daily pers | gfs | icon | models beat hourly pers? |
+|---|---|---|---|---|---|---|---|
+| Vail 842 | 30 | 8h/32h | 0.0059/0.0119 | 0.0098 | 0.0153/0.0149 | 0.0126/0.0126 | no |
+| Copper 415 (breck) | 31 | 8h/32h | 0.0025/0.0074 | 0.0082 | 0.0172/0.0153 | 0.0104/0.0113 | no |
+| Mill Creek 1321 (park city) | 25 | 8h/32h | 0.0061/0.0183 | 0.0156 | 0.0304/0.0260 | 0.0508/0.0490 | no |
+| Truckee 834 (palisades) | 31/30 | 8h/32h | 0.0139/0.0406 | 0.0311 | 0.0137/0.0247 | 0.0549/0.0591 | GFS: ties 8h, wins 32h |
+
+Read: at Vail, Copper and Mill Creek the models' persistence shortfall
+is NOT an artifact of the daily anchor - it holds (and mostly widens)
+under the honest same-lead benchmark, and since that benchmark is
+favorable to persistence the conclusion is conservative. Truckee is
+the exception: GFS ties hourly persistence at 8h and beats it at 32h
+(0.0247 vs 0.0406) - consistent with the paired daily-persistence
+result where GFS at Truckee was the one single-model exception, now
+seen against the stricter benchmark too. Still one model at one
+station in a quiet window, not a pattern. Label map: "Vail" = resort
+grid 39.64,-106.37 vs on-mountain SNOTEL 842:CO:SNTL (gap ~0);
+Copper/Mill Creek/Truckee per the elevation-matched station table
+above.
