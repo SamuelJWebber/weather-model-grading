@@ -1,0 +1,129 @@
+{
+ "check": "W3 follow-up: ECMWF zero snow_depth - vendor gap or real model behavior? RESOLVED",
+ "run_utc": "2026-11-26T19:46:02+00:00",
+ "method": "live Open-Meteo Single Runs queries (ecmwf_ifs025, hourly snow_depth + snowfall): current run at Copper/Stowe/Fairbanks/2 CO control cells + archived inits for the confirmed snow days (Stowe 2026-11-13T00:00 -> +4.0in SNWD Nov 14; Copper 2026-11-20T00:00 -> +3.0in SNWD Nov 21). Discriminator: if the same run's snowfall is nonzero while snow_depth stays exactly 0.0, the zero depth is not a model forecast of no snow; control cell with snow cover shows whether the variable is served at all.",
+ "cells": {
+  "Copper grid 39.48,-106.07": {
+   "lat": 39.48,
+   "lon": -106.07,
+   "run": "2026-11-26T00:00",
+   "payload_sha256": "5cf9b83c19ae7466347b6344219e0825e23a7770478ac84e6c6e653039cc8be0",
+   "snow_depth": {
+    "n": 48,
+    "nonzero": 0,
+    "max": 0.0
+   },
+   "snowfall": {
+    "n": 47,
+    "nonzero": 0,
+    "max": 0.0
+   }
+  },
+  "Stowe grid 44.5248,-72.8154": {
+   "lat": 44.5248,
+   "lon": -72.8154,
+   "run": "2026-11-26T00:00",
+   "payload_sha256": "b796bab5ce55313ee7067a20ddd4fb2f7b36017c84a1cf20a2d83f39ae39e206",
+   "snow_depth": {
+    "n": 48,
+    "nonzero": 0,
+    "max": 0.0
+   },
+   "snowfall": {
+    "n": 47,
+    "nonzero": 0,
+    "max": 0.0
+   }
+  },
+  "Fairbanks AK 64.84,-147.72": {
+   "lat": 64.84,
+   "lon": -147.72,
+   "run": "2026-11-26T00:00",
+   "payload_sha256": "530557dbc2acd4fd0c23771053c496f23082de38b42056ec458ff19266fd2da6",
+   "snow_depth": {
+    "n": 48,
+    "nonzero": 48,
+    "max": 0.14
+   },
+   "snowfall": {
+    "n": 47,
+    "nonzero": 0,
+    "max": 0.0
+   }
+  },
+  "Stowe grid, archived 2026-11-13T00:00 init": {
+   "lat": 44.5248,
+   "lon": -72.8154,
+   "run": "2026-11-13T00:00",
+   "payload_sha256": "8ebecd5230795afd483a6326a04480d5b297a6a22849645fc1f66384a547f3ea",
+   "snow_depth": {
+    "n": 48,
+    "nonzero": 0,
+    "max": 0.0
+   },
+   "snowfall": {
+    "n": 47,
+    "nonzero": 17,
+    "max": 0.84
+   }
+  },
+  "Copper grid, archived 2026-11-20T00:00 init": {
+   "lat": 39.48,
+   "lon": -106.07,
+   "run": "2026-11-20T00:00",
+   "payload_sha256": "49ec944b9ed0fad29af055f362632bc8d1ff11f1c9aaf1275f822c8c900ed031",
+   "snow_depth": {
+    "n": 48,
+    "nonzero": 0,
+    "max": 0.0
+   },
+   "snowfall": {
+    "n": 47,
+    "nonzero": 9,
+    "max": 0.21
+   }
+  },
+  "Berthoud Pass CO 39.79,-105.78": {
+   "lat": 39.79,
+   "lon": -105.78,
+   "run": "2026-11-26T00:00",
+   "payload_sha256": "539ffeb4991df6e418a6680051894b796aed0078f34e4bb435d2f665a3bf5308",
+   "snow_depth": {
+    "n": 48,
+    "nonzero": 0,
+    "max": 0.0
+   },
+   "snowfall": {
+    "n": 47,
+    "nonzero": 0,
+    "max": 0.0
+   }
+  },
+  "Rabbit Ears Pass CO 40.48,-106.61": {
+   "lat": 40.48,
+   "lon": -106.61,
+   "run": "2026-11-26T00:00",
+   "payload_sha256": "e50857f59de689abd45a88494d6f4e5e07e27dfffa7f05a2dc356945b0465cf7",
+   "snow_depth": {
+    "n": 48,
+    "nonzero": 0,
+    "max": 0.0
+   },
+   "snowfall": {
+    "n": 47,
+    "nonzero": 0,
+    "max": 0.0
+   }
+  }
+ },
+ "findings": [
+  "ECMWF snow_depth IS served and works where snow cover exists: Fairbanks 48/48 nonzero, max 0.14m, current run.",
+  "Stowe archived 2026-11-13 init: snowfall nonzero in 17/47h (max 0.84 cm/h) while snow_depth stayed exactly 0.0 for all 48h - the model forecast the snow; the depth series did not record it.",
+  "Copper archived 2026-11-20 init: snowfall nonzero in 9/47h (max 0.21 cm/h) with snow_depth exactly 0.0 - same pattern.",
+  "Current run (2026-11-26T00:00): Copper/Stowe/Berthoud/Rabbit Ears all zero on BOTH variables - consistent with a genuinely dry forecast today, not evidence either way."
+ ],
+ "verdict": "VENDOR-SIDE GAP, not real model behavior: ECMWF IFS 0.25deg snow_depth via the Open-Meteo Single Runs API is exactly 0.0 at the Copper and Stowe grid cells even in runs whose own snowfall output is nonzero and on which snow actually accumulated. The variable works at snow-covered cells (Fairbanks), so this is a spatially selective serving gap/mask at these mid-latitude mountain cells, not a global unsupported variable and not a genuine zero-depth prediction. Exact vendor-side cause (masking criterion, grid/elevation handling) is not determinable from the API.",
+ "consequence": "ECMWF snow_depth at Copper/Stowe must NOT be scored as a real model forecast: the series is a vendor artifact. Keep the const_zero_depth baseline visible, but label ECMWF depth scores at these cells as measuring a broken vendor series, or exclude ECMWF from depth grading at these cells. ECMWF snowfall remains usable. Cached-run conclusion in ecmwf_zero_check_2026-11-26.json is superseded by this verdict.",
+ "supersedes": "results/ecmwf_zero_check_2026-11-26.json conclusion",
+ "note": "Raw payloads preserved at /tmp during session only; payload sha256 recorded above. Re-runnable any time via the same Single Runs queries."
+}
