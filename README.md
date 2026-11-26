@@ -564,6 +564,24 @@ persistence at 32h (0.0247 vs 0.0406) and 0.0002 below it at 8h
 (0.0137 vs 0.0139) - consistent with its paired daily-persistence
 exception. Quiet window, one model at one station: not a pattern.
 
+Timezone-offset sensitivity (2026-11-26, offline diagnostic;
+results/tz_sensitivity_2026-11-26.json): the benchmark above assumes
+the provisional +8h CSV clock conversion. Re-scoring all 16
+station/lead/delay series under assumed UTC-6..UTC-10 conversions, on
+common paired support per series and winners from unrounded MAE: 14/16
+series keep the same winner across the full range. The
+persistence-beats-models read is robust at Vail Mountain 842 except
+lead 32h/delay 3h, which flips to icon at UTC-10 only (margin 0.0037);
+robust at Copper Mountain 415 and Mill Creek Canyon 1321 throughout.
+At Truckee #2 834 lead 8h/delay 0h, gfs wins only at UTC-8/-9;
+persistence wins at UTC-6/-10 and edges gfs by 3e-5 unrounded at
+UTC-7 (rounds to 0.0188 both - a rounding-level difference, not an
+exact tie). The Truckee exception is therefore offset-dependent and
+should be read with the provisional-timezone caveat until per-station
+metadata (AWDB stationDataTimeZone) resolves the conversion.
+Retrospective sensitivity result, not an operational conclusion; the
+true timezone is not resolved.
+
 Delayed-anchor sensitivity (same artifact; anchor at init-3h/-24h/-48h,
 each on its own maximal date intersection; operational timeliness is
 ASSUMED, not established - though the obslog's ~1h sampled SNOTEL

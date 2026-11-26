@@ -17,7 +17,7 @@
     "a uniform per-station offset is assumed; a real station in a DST-observing local zone would have a MID-WINDOW offset shift, which no constant-offset variant represents",
     "common support shrinks n vs the headline artifact; MAEs here are not comparable to it, only across offsets",
     "archive-fed; says nothing about operational timeliness",
-    "quiet support is degenerate for persistence: where actuals are constant (e.g., vail pre-storm, 5 distinct values over 27 dates), persistence error is ~0 at ANY offset, so small MAE differences there carry little information"
+    "quiet support is degenerate for persistence on computed pairs: at 842:CO:SNTL Vail Mountain lead_8h_delay_0h UTC-10, anchor equaled actual on all 27 computed common-support pairs (5 distinct actual values), so the exactly-0.0 persistence MAE there is constancy of the series, not evidence about alignment quality"
   ],
   "stations": {
     "vail": {
@@ -57,27 +57,52 @@
           "utc_minus_6": {
             "persistence_mae": 0.0082,
             "gfs_seamless_mae": 0.0182,
-            "icon_seamless_mae": 0.0153
+            "icon_seamless_mae": 0.0153,
+            "unrounded": {
+              "persistence": 0.008164285714285714,
+              "gfs_seamless": 0.0182,
+              "icon_seamless": 0.015342857142857142
+            }
           },
           "utc_minus_7": {
             "persistence_mae": 0.0036,
             "gfs_seamless_mae": 0.0146,
-            "icon_seamless_mae": 0.0128
+            "icon_seamless_mae": 0.0128,
+            "unrounded": {
+              "persistence": 0.0036285714285714285,
+              "gfs_seamless": 0.01457142857142857,
+              "icon_seamless": 0.012757142857142856
+            }
           },
           "utc_minus_8": {
             "persistence_mae": 0.0045,
             "gfs_seamless_mae": 0.0146,
-            "icon_seamless_mae": 0.0128
+            "icon_seamless_mae": 0.0128,
+            "unrounded": {
+              "persistence": 0.004535714285714286,
+              "gfs_seamless": 0.01457142857142857,
+              "icon_seamless": 0.012757142857142856
+            }
           },
           "utc_minus_9": {
             "persistence_mae": 0.0063,
             "gfs_seamless_mae": 0.016,
-            "icon_seamless_mae": 0.0135
+            "icon_seamless_mae": 0.0135,
+            "unrounded": {
+              "persistence": 0.00635,
+              "gfs_seamless": 0.015999999999999997,
+              "icon_seamless": 0.013471428571428568
+            }
           },
           "utc_minus_10": {
             "persistence_mae": 0.0,
             "gfs_seamless_mae": 0.0142,
-            "icon_seamless_mae": 0.0117
+            "icon_seamless_mae": 0.0117,
+            "unrounded": {
+              "persistence": 0.0,
+              "gfs_seamless": 0.014185714285714286,
+              "icon_seamless": 0.011657142857142854
+            }
           }
         }
       },
@@ -114,27 +139,52 @@
           "utc_minus_6": {
             "persistence_mae": 0.0132,
             "gfs_seamless_mae": 0.0224,
-            "icon_seamless_mae": 0.018
+            "icon_seamless_mae": 0.018,
+            "unrounded": {
+              "persistence": 0.013208000000000003,
+              "gfs_seamless": 0.022416000000000002,
+              "icon_seamless": 0.018015999999999997
+            }
           },
           "utc_minus_7": {
             "persistence_mae": 0.0051,
             "gfs_seamless_mae": 0.0173,
-            "icon_seamless_mae": 0.0145
+            "icon_seamless_mae": 0.0145,
+            "unrounded": {
+              "persistence": 0.00508,
+              "gfs_seamless": 0.017335999999999997,
+              "icon_seamless": 0.014471999999999999
+            }
           },
           "utc_minus_8": {
             "persistence_mae": 0.0051,
             "gfs_seamless_mae": 0.0184,
-            "icon_seamless_mae": 0.0151
+            "icon_seamless_mae": 0.0151,
+            "unrounded": {
+              "persistence": 0.00508,
+              "gfs_seamless": 0.018352,
+              "icon_seamless": 0.015119999999999998
+            }
           },
           "utc_minus_9": {
             "persistence_mae": 0.0071,
             "gfs_seamless_mae": 0.02,
-            "icon_seamless_mae": 0.0159
+            "icon_seamless_mae": 0.0159,
+            "unrounded": {
+              "persistence": 0.007111999999999999,
+              "gfs_seamless": 0.019951999999999998,
+              "icon_seamless": 0.01592
+            }
           },
           "utc_minus_10": {
             "persistence_mae": 0.0071,
             "gfs_seamless_mae": 0.0179,
-            "icon_seamless_mae": 0.0139
+            "icon_seamless_mae": 0.0139,
+            "unrounded": {
+              "persistence": 0.007112,
+              "gfs_seamless": 0.01792,
+              "icon_seamless": 0.013887999999999998
+            }
           }
         }
       },
@@ -173,27 +223,52 @@
           "utc_minus_6": {
             "persistence_mae": 0.0132,
             "gfs_seamless_mae": 0.0173,
-            "icon_seamless_mae": 0.0163
+            "icon_seamless_mae": 0.0163,
+            "unrounded": {
+              "persistence": 0.013170370370370372,
+              "gfs_seamless": 0.017303703703703703,
+              "icon_seamless": 0.01625185185185185
+            }
           },
           "utc_minus_7": {
             "persistence_mae": 0.0103,
             "gfs_seamless_mae": 0.0169,
-            "icon_seamless_mae": 0.0136
+            "icon_seamless_mae": 0.0136,
+            "unrounded": {
+              "persistence": 0.010348148148148148,
+              "gfs_seamless": 0.016903703703703702,
+              "icon_seamless": 0.013570370370370368
+            }
           },
           "utc_minus_8": {
             "persistence_mae": 0.0113,
             "gfs_seamless_mae": 0.015,
-            "icon_seamless_mae": 0.0125
+            "icon_seamless_mae": 0.0125,
+            "unrounded": {
+              "persistence": 0.011288888888888888,
+              "gfs_seamless": 0.015022222222222222,
+              "icon_seamless": 0.012488888888888886
+            }
           },
           "utc_minus_9": {
             "persistence_mae": 0.0113,
             "gfs_seamless_mae": 0.0169,
-            "icon_seamless_mae": 0.0125
+            "icon_seamless_mae": 0.0125,
+            "unrounded": {
+              "persistence": 0.011288888888888888,
+              "gfs_seamless": 0.016903703703703702,
+              "icon_seamless": 0.012488888888888886
+            }
           },
           "utc_minus_10": {
             "persistence_mae": 0.0085,
             "gfs_seamless_mae": 0.015,
-            "icon_seamless_mae": 0.0106
+            "icon_seamless_mae": 0.0106,
+            "unrounded": {
+              "persistence": 0.008466666666666666,
+              "gfs_seamless": 0.015022222222222223,
+              "icon_seamless": 0.010607407407407407
+            }
           }
         }
       },
@@ -229,27 +304,52 @@
           "utc_minus_6": {
             "persistence_mae": 0.0159,
             "gfs_seamless_mae": 0.0201,
-            "icon_seamless_mae": 0.0172
+            "icon_seamless_mae": 0.0172,
+            "unrounded": {
+              "persistence": 0.015875,
+              "gfs_seamless": 0.020108333333333332,
+              "icon_seamless": 0.017225
+            }
           },
           "utc_minus_7": {
             "persistence_mae": 0.0116,
             "gfs_seamless_mae": 0.0191,
-            "icon_seamless_mae": 0.0153
+            "icon_seamless_mae": 0.0153,
+            "unrounded": {
+              "persistence": 0.011641666666666666,
+              "gfs_seamless": 0.01905,
+              "icon_seamless": 0.015266666666666664
+            }
           },
           "utc_minus_8": {
             "persistence_mae": 0.0106,
             "gfs_seamless_mae": 0.0169,
-            "icon_seamless_mae": 0.014
+            "icon_seamless_mae": 0.014,
+            "unrounded": {
+              "persistence": 0.010583333333333333,
+              "gfs_seamless": 0.01693333333333333,
+              "icon_seamless": 0.014049999999999998
+            }
           },
           "utc_minus_9": {
             "persistence_mae": 0.0138,
             "gfs_seamless_mae": 0.018,
-            "icon_seamless_mae": 0.0143
+            "icon_seamless_mae": 0.0143,
+            "unrounded": {
+              "persistence": 0.01375833333333333,
+              "gfs_seamless": 0.017991666666666666,
+              "icon_seamless": 0.014274999999999998
+            }
           },
           "utc_minus_10": {
             "persistence_mae": 0.0169,
             "gfs_seamless_mae": 0.0159,
-            "icon_seamless_mae": 0.0122
+            "icon_seamless_mae": 0.0122,
+            "unrounded": {
+              "persistence": 0.016933333333333335,
+              "gfs_seamless": 0.015875,
+              "icon_seamless": 0.012158333333333332
+            }
           }
         }
       }
@@ -284,27 +384,52 @@
           "utc_minus_6": {
             "persistence_mae": 0.0036,
             "gfs_seamless_mae": 0.0186,
-            "icon_seamless_mae": 0.0106
+            "icon_seamless_mae": 0.0106,
+            "unrounded": {
+              "persistence": 0.003628571428571428,
+              "gfs_seamless": 0.01857142857142857,
+              "icon_seamless": 0.01059047619047619
+            }
           },
           "utc_minus_7": {
             "persistence_mae": 0.0012,
             "gfs_seamless_mae": 0.021,
-            "icon_seamless_mae": 0.0106
+            "icon_seamless_mae": 0.0106,
+            "unrounded": {
+              "persistence": 0.0012095238095238092,
+              "gfs_seamless": 0.020990476190476188,
+              "icon_seamless": 0.01059047619047619
+            }
           },
           "utc_minus_8": {
             "persistence_mae": 0.0012,
             "gfs_seamless_mae": 0.0234,
-            "icon_seamless_mae": 0.013
+            "icon_seamless_mae": 0.013,
+            "unrounded": {
+              "persistence": 0.0012095238095238094,
+              "gfs_seamless": 0.023409523809523807,
+              "icon_seamless": 0.013009523809523808
+            }
           },
           "utc_minus_9": {
             "persistence_mae": 0.0,
             "gfs_seamless_mae": 0.0222,
-            "icon_seamless_mae": 0.0118
+            "icon_seamless_mae": 0.0118,
+            "unrounded": {
+              "persistence": 0.0,
+              "gfs_seamless": 0.022199999999999994,
+              "icon_seamless": 0.011799999999999998
+            }
           },
           "utc_minus_10": {
             "persistence_mae": 0.0012,
             "gfs_seamless_mae": 0.0222,
-            "icon_seamless_mae": 0.0118
+            "icon_seamless_mae": 0.0118,
+            "unrounded": {
+              "persistence": 0.0012095238095238094,
+              "gfs_seamless": 0.022199999999999994,
+              "icon_seamless": 0.011799999999999998
+            }
           }
         }
       },
@@ -326,27 +451,52 @@
           "utc_minus_6": {
             "persistence_mae": 0.0051,
             "gfs_seamless_mae": 0.0135,
-            "icon_seamless_mae": 0.0178
+            "icon_seamless_mae": 0.0178,
+            "unrounded": {
+              "persistence": 0.0050799999999999994,
+              "gfs_seamless": 0.01354,
+              "icon_seamless": 0.017779999999999997
+            }
           },
           "utc_minus_7": {
             "persistence_mae": 0.0051,
             "gfs_seamless_mae": 0.0161,
-            "icon_seamless_mae": 0.0152
+            "icon_seamless_mae": 0.0152,
+            "unrounded": {
+              "persistence": 0.0050799999999999994,
+              "gfs_seamless": 0.01608,
+              "icon_seamless": 0.015239999999999998
+            }
           },
           "utc_minus_8": {
             "persistence_mae": 0.0025,
             "gfs_seamless_mae": 0.0186,
-            "icon_seamless_mae": 0.0178
+            "icon_seamless_mae": 0.0178,
+            "unrounded": {
+              "persistence": 0.0025399999999999997,
+              "gfs_seamless": 0.018619999999999998,
+              "icon_seamless": 0.01778
+            }
           },
           "utc_minus_9": {
             "persistence_mae": 0.0102,
             "gfs_seamless_mae": 0.0186,
-            "icon_seamless_mae": 0.0178
+            "icon_seamless_mae": 0.0178,
+            "unrounded": {
+              "persistence": 0.010159999999999999,
+              "gfs_seamless": 0.018619999999999998,
+              "icon_seamless": 0.01778
+            }
           },
           "utc_minus_10": {
             "persistence_mae": 0.0051,
             "gfs_seamless_mae": 0.0186,
-            "icon_seamless_mae": 0.0178
+            "icon_seamless_mae": 0.0178,
+            "unrounded": {
+              "persistence": 0.0050799999999999994,
+              "gfs_seamless": 0.018619999999999998,
+              "icon_seamless": 0.01778
+            }
           }
         }
       },
@@ -378,27 +528,52 @@
           "utc_minus_6": {
             "persistence_mae": 0.0076,
             "gfs_seamless_mae": 0.0156,
-            "icon_seamless_mae": 0.0111
+            "icon_seamless_mae": 0.0111,
+            "unrounded": {
+              "persistence": 0.007619999999999999,
+              "gfs_seamless": 0.015580000000000002,
+              "icon_seamless": 0.011079999999999998
+            }
           },
           "utc_minus_7": {
             "persistence_mae": 0.0076,
             "gfs_seamless_mae": 0.014,
-            "icon_seamless_mae": 0.0112
+            "icon_seamless_mae": 0.0112,
+            "unrounded": {
+              "persistence": 0.007619999999999999,
+              "gfs_seamless": 0.014040000000000002,
+              "icon_seamless": 0.01116
+            }
           },
           "utc_minus_8": {
             "persistence_mae": 0.0076,
             "gfs_seamless_mae": 0.0166,
-            "icon_seamless_mae": 0.0121
+            "icon_seamless_mae": 0.0121,
+            "unrounded": {
+              "persistence": 0.007619999999999999,
+              "gfs_seamless": 0.016580000000000004,
+              "icon_seamless": 0.012079999999999999
+            }
           },
           "utc_minus_9": {
             "persistence_mae": 0.0076,
             "gfs_seamless_mae": 0.0166,
-            "icon_seamless_mae": 0.0121
+            "icon_seamless_mae": 0.0121,
+            "unrounded": {
+              "persistence": 0.007619999999999999,
+              "gfs_seamless": 0.016580000000000004,
+              "icon_seamless": 0.012079999999999999
+            }
           },
           "utc_minus_10": {
             "persistence_mae": 0.0089,
             "gfs_seamless_mae": 0.0166,
-            "icon_seamless_mae": 0.0121
+            "icon_seamless_mae": 0.0121,
+            "unrounded": {
+              "persistence": 0.008889999999999999,
+              "gfs_seamless": 0.016580000000000004,
+              "icon_seamless": 0.012079999999999999
+            }
           }
         }
       },
@@ -419,27 +594,52 @@
           "utc_minus_6": {
             "persistence_mae": 0.0056,
             "gfs_seamless_mae": 0.0102,
-            "icon_seamless_mae": 0.0091
+            "icon_seamless_mae": 0.0091,
+            "unrounded": {
+              "persistence": 0.005644444444444443,
+              "gfs_seamless": 0.010177777777777777,
+              "icon_seamless": 0.009066666666666666
+            }
           },
           "utc_minus_7": {
             "persistence_mae": 0.0056,
             "gfs_seamless_mae": 0.0096,
-            "icon_seamless_mae": 0.0085
+            "icon_seamless_mae": 0.0085,
+            "unrounded": {
+              "persistence": 0.005644444444444443,
+              "gfs_seamless": 0.009577777777777777,
+              "icon_seamless": 0.008466666666666666
+            }
           },
           "utc_minus_8": {
             "persistence_mae": 0.0085,
             "gfs_seamless_mae": 0.0124,
-            "icon_seamless_mae": 0.0113
+            "icon_seamless_mae": 0.0113,
+            "unrounded": {
+              "persistence": 0.008466666666666666,
+              "gfs_seamless": 0.012400000000000001,
+              "icon_seamless": 0.011288888888888888
+            }
           },
           "utc_minus_9": {
             "persistence_mae": 0.0056,
             "gfs_seamless_mae": 0.0096,
-            "icon_seamless_mae": 0.0085
+            "icon_seamless_mae": 0.0085,
+            "unrounded": {
+              "persistence": 0.005644444444444443,
+              "gfs_seamless": 0.009577777777777777,
+              "icon_seamless": 0.008466666666666666
+            }
           },
           "utc_minus_10": {
             "persistence_mae": 0.0028,
             "gfs_seamless_mae": 0.0096,
-            "icon_seamless_mae": 0.0085
+            "icon_seamless_mae": 0.0085,
+            "unrounded": {
+              "persistence": 0.002822222222222221,
+              "gfs_seamless": 0.009577777777777777,
+              "icon_seamless": 0.008466666666666666
+            }
           }
         }
       }
@@ -474,27 +674,52 @@
           "utc_minus_6": {
             "persistence_mae": 0.0085,
             "gfs_seamless_mae": 0.0374,
-            "icon_seamless_mae": 0.0617
+            "icon_seamless_mae": 0.0617,
+            "unrounded": {
+              "persistence": 0.008466666666666666,
+              "gfs_seamless": 0.03744761904761904,
+              "icon_seamless": 0.061733333333333335
+            }
           },
           "utc_minus_7": {
             "persistence_mae": 0.0073,
             "gfs_seamless_mae": 0.0374,
-            "icon_seamless_mae": 0.0617
+            "icon_seamless_mae": 0.0617,
+            "unrounded": {
+              "persistence": 0.007257142857142856,
+              "gfs_seamless": 0.03744761904761904,
+              "icon_seamless": 0.061733333333333335
+            }
           },
           "utc_minus_8": {
             "persistence_mae": 0.0073,
             "gfs_seamless_mae": 0.0362,
-            "icon_seamless_mae": 0.0605
+            "icon_seamless_mae": 0.0605,
+            "unrounded": {
+              "persistence": 0.007257142857142856,
+              "gfs_seamless": 0.036238095238095236,
+              "icon_seamless": 0.06052380952380952
+            }
           },
           "utc_minus_9": {
             "persistence_mae": 0.0073,
             "gfs_seamless_mae": 0.0384,
-            "icon_seamless_mae": 0.0605
+            "icon_seamless_mae": 0.0605,
+            "unrounded": {
+              "persistence": 0.007257142857142856,
+              "gfs_seamless": 0.03842857142857142,
+              "icon_seamless": 0.06052380952380952
+            }
           },
           "utc_minus_10": {
             "persistence_mae": 0.006,
             "gfs_seamless_mae": 0.036,
-            "icon_seamless_mae": 0.0581
+            "icon_seamless_mae": 0.0581,
+            "unrounded": {
+              "persistence": 0.006047619047619047,
+              "gfs_seamless": 0.036009523809523804,
+              "icon_seamless": 0.0581047619047619
+            }
           }
         }
       },
@@ -525,27 +750,52 @@
           "utc_minus_6": {
             "persistence_mae": 0.0094,
             "gfs_seamless_mae": 0.0414,
-            "icon_seamless_mae": 0.0682
+            "icon_seamless_mae": 0.0682,
+            "unrounded": {
+              "persistence": 0.009357894736842103,
+              "gfs_seamless": 0.04138947368421052,
+              "icon_seamless": 0.06823157894736842
+            }
           },
           "utc_minus_7": {
             "persistence_mae": 0.0107,
             "gfs_seamless_mae": 0.0414,
-            "icon_seamless_mae": 0.0682
+            "icon_seamless_mae": 0.0682,
+            "unrounded": {
+              "persistence": 0.010694736842105262,
+              "gfs_seamless": 0.04138947368421052,
+              "icon_seamless": 0.06823157894736842
+            }
           },
           "utc_minus_8": {
             "persistence_mae": 0.012,
             "gfs_seamless_mae": 0.0401,
-            "icon_seamless_mae": 0.0669
+            "icon_seamless_mae": 0.0669,
+            "unrounded": {
+              "persistence": 0.01203157894736842,
+              "gfs_seamless": 0.04005263157894736,
+              "icon_seamless": 0.06689473684210526
+            }
           },
           "utc_minus_9": {
             "persistence_mae": 0.012,
             "gfs_seamless_mae": 0.0425,
-            "icon_seamless_mae": 0.0669
+            "icon_seamless_mae": 0.0669,
+            "unrounded": {
+              "persistence": 0.01203157894736842,
+              "gfs_seamless": 0.04247368421052631,
+              "icon_seamless": 0.06689473684210526
+            }
           },
           "utc_minus_10": {
             "persistence_mae": 0.0107,
             "gfs_seamless_mae": 0.0398,
-            "icon_seamless_mae": 0.0642
+            "icon_seamless_mae": 0.0642,
+            "unrounded": {
+              "persistence": 0.010694736842105262,
+              "gfs_seamless": 0.039799999999999995,
+              "icon_seamless": 0.06422105263157894
+            }
           }
         }
       },
@@ -578,27 +828,52 @@
           "utc_minus_6": {
             "persistence_mae": 0.023,
             "gfs_seamless_mae": 0.0321,
-            "icon_seamless_mae": 0.0595
+            "icon_seamless_mae": 0.0595,
+            "unrounded": {
+              "persistence": 0.02298095238095238,
+              "gfs_seamless": 0.03212380952380952,
+              "icon_seamless": 0.05949523809523809
+            }
           },
           "utc_minus_7": {
             "persistence_mae": 0.0218,
             "gfs_seamless_mae": 0.0321,
-            "icon_seamless_mae": 0.0595
+            "icon_seamless_mae": 0.0595,
+            "unrounded": {
+              "persistence": 0.02177142857142857,
+              "gfs_seamless": 0.03212380952380952,
+              "icon_seamless": 0.05949523809523809
+            }
           },
           "utc_minus_8": {
             "persistence_mae": 0.0218,
             "gfs_seamless_mae": 0.0309,
-            "icon_seamless_mae": 0.0583
+            "icon_seamless_mae": 0.0583,
+            "unrounded": {
+              "persistence": 0.02177142857142857,
+              "gfs_seamless": 0.03091428571428571,
+              "icon_seamless": 0.05828571428571429
+            }
           },
           "utc_minus_9": {
             "persistence_mae": 0.0194,
             "gfs_seamless_mae": 0.0333,
-            "icon_seamless_mae": 0.0583
+            "icon_seamless_mae": 0.0583,
+            "unrounded": {
+              "persistence": 0.01935238095238095,
+              "gfs_seamless": 0.033333333333333326,
+              "icon_seamless": 0.05828571428571429
+            }
           },
           "utc_minus_10": {
             "persistence_mae": 0.0194,
             "gfs_seamless_mae": 0.0321,
-            "icon_seamless_mae": 0.0571
+            "icon_seamless_mae": 0.0571,
+            "unrounded": {
+              "persistence": 0.01935238095238095,
+              "gfs_seamless": 0.03212380952380952,
+              "icon_seamless": 0.05707619047619047
+            }
           }
         }
       },
@@ -628,27 +903,52 @@
           "utc_minus_6": {
             "persistence_mae": 0.024,
             "gfs_seamless_mae": 0.0375,
-            "icon_seamless_mae": 0.0694
+            "icon_seamless_mae": 0.0694,
+            "unrounded": {
+              "persistence": 0.023988888888888886,
+              "gfs_seamless": 0.03747777777777777,
+              "icon_seamless": 0.0694111111111111
+            }
           },
           "utc_minus_7": {
             "persistence_mae": 0.0254,
             "gfs_seamless_mae": 0.0375,
-            "icon_seamless_mae": 0.0694
+            "icon_seamless_mae": 0.0694,
+            "unrounded": {
+              "persistence": 0.0254,
+              "gfs_seamless": 0.03747777777777777,
+              "icon_seamless": 0.0694111111111111
+            }
           },
           "utc_minus_8": {
             "persistence_mae": 0.024,
             "gfs_seamless_mae": 0.0361,
-            "icon_seamless_mae": 0.068
+            "icon_seamless_mae": 0.068,
+            "unrounded": {
+              "persistence": 0.023988888888888886,
+              "gfs_seamless": 0.036066666666666664,
+              "icon_seamless": 0.068
+            }
           },
           "utc_minus_9": {
             "persistence_mae": 0.0268,
             "gfs_seamless_mae": 0.0389,
-            "icon_seamless_mae": 0.068
+            "icon_seamless_mae": 0.068,
+            "unrounded": {
+              "persistence": 0.02681111111111111,
+              "gfs_seamless": 0.03888888888888888,
+              "icon_seamless": 0.068
+            }
           },
           "utc_minus_10": {
             "persistence_mae": 0.0268,
             "gfs_seamless_mae": 0.0375,
-            "icon_seamless_mae": 0.0666
+            "icon_seamless_mae": 0.0666,
+            "unrounded": {
+              "persistence": 0.02681111111111111,
+              "gfs_seamless": 0.03747777777777777,
+              "icon_seamless": 0.06658888888888888
+            }
           }
         }
       }
@@ -689,27 +989,52 @@
           "utc_minus_6": {
             "persistence_mae": 0.0179,
             "gfs_seamless_mae": 0.0206,
-            "icon_seamless_mae": 0.0649
+            "icon_seamless_mae": 0.0649,
+            "unrounded": {
+              "persistence": 0.01787407407407407,
+              "gfs_seamless": 0.020607407407407408,
+              "icon_seamless": 0.06493333333333333
+            }
           },
           "utc_minus_7": {
             "persistence_mae": 0.0188,
             "gfs_seamless_mae": 0.0188,
-            "icon_seamless_mae": 0.0631
+            "icon_seamless_mae": 0.0631,
+            "unrounded": {
+              "persistence": 0.018814814814814815,
+              "gfs_seamless": 0.01884444444444445,
+              "icon_seamless": 0.06305185185185185
+            }
           },
           "utc_minus_8": {
             "persistence_mae": 0.016,
             "gfs_seamless_mae": 0.0157,
-            "icon_seamless_mae": 0.0631
+            "icon_seamless_mae": 0.0631,
+            "unrounded": {
+              "persistence": 0.01599259259259259,
+              "gfs_seamless": 0.015703703703703706,
+              "icon_seamless": 0.06305185185185186
+            }
           },
           "utc_minus_9": {
             "persistence_mae": 0.0179,
             "gfs_seamless_mae": 0.0153,
-            "icon_seamless_mae": 0.0612
+            "icon_seamless_mae": 0.0612,
+            "unrounded": {
+              "persistence": 0.01787407407407407,
+              "gfs_seamless": 0.015303703703703708,
+              "icon_seamless": 0.06117037037037036
+            }
           },
           "utc_minus_10": {
             "persistence_mae": 0.016,
             "gfs_seamless_mae": 0.0175,
-            "icon_seamless_mae": 0.0585
+            "icon_seamless_mae": 0.0585,
+            "unrounded": {
+              "persistence": 0.015992592592592586,
+              "gfs_seamless": 0.017511111111111116,
+              "icon_seamless": 0.05847407407407407
+            }
           }
         }
       },
@@ -748,27 +1073,52 @@
           "utc_minus_6": {
             "persistence_mae": 0.0254,
             "gfs_seamless_mae": 0.0206,
-            "icon_seamless_mae": 0.0649
+            "icon_seamless_mae": 0.0649,
+            "unrounded": {
+              "persistence": 0.025399999999999992,
+              "gfs_seamless": 0.020607407407407408,
+              "icon_seamless": 0.06493333333333333
+            }
           },
           "utc_minus_7": {
             "persistence_mae": 0.0216,
             "gfs_seamless_mae": 0.0188,
-            "icon_seamless_mae": 0.0631
+            "icon_seamless_mae": 0.0631,
+            "unrounded": {
+              "persistence": 0.021637037037037034,
+              "gfs_seamless": 0.01884444444444445,
+              "icon_seamless": 0.06305185185185185
+            }
           },
           "utc_minus_8": {
             "persistence_mae": 0.0179,
             "gfs_seamless_mae": 0.0157,
-            "icon_seamless_mae": 0.0631
+            "icon_seamless_mae": 0.0631,
+            "unrounded": {
+              "persistence": 0.01787407407407407,
+              "gfs_seamless": 0.015703703703703706,
+              "icon_seamless": 0.06305185185185186
+            }
           },
           "utc_minus_9": {
             "persistence_mae": 0.0188,
             "gfs_seamless_mae": 0.0153,
-            "icon_seamless_mae": 0.0612
+            "icon_seamless_mae": 0.0612,
+            "unrounded": {
+              "persistence": 0.018814814814814815,
+              "gfs_seamless": 0.015303703703703708,
+              "icon_seamless": 0.06117037037037036
+            }
           },
           "utc_minus_10": {
             "persistence_mae": 0.0216,
             "gfs_seamless_mae": 0.0175,
-            "icon_seamless_mae": 0.0585
+            "icon_seamless_mae": 0.0585,
+            "unrounded": {
+              "persistence": 0.021637037037037034,
+              "gfs_seamless": 0.017511111111111116,
+              "icon_seamless": 0.05847407407407407
+            }
           }
         }
       },
@@ -805,27 +1155,52 @@
           "utc_minus_6": {
             "persistence_mae": 0.0528,
             "gfs_seamless_mae": 0.0316,
-            "icon_seamless_mae": 0.0729
+            "icon_seamless_mae": 0.0729,
+            "unrounded": {
+              "persistence": 0.052832,
+              "gfs_seamless": 0.031648,
+              "icon_seamless": 0.07292799999999999
+            }
           },
           "utc_minus_7": {
             "persistence_mae": 0.0518,
             "gfs_seamless_mae": 0.0296,
-            "icon_seamless_mae": 0.0709
+            "icon_seamless_mae": 0.0709,
+            "unrounded": {
+              "persistence": 0.051815999999999994,
+              "gfs_seamless": 0.02961600000000001,
+              "icon_seamless": 0.07089599999999999
+            }
           },
           "utc_minus_8": {
             "persistence_mae": 0.0488,
             "gfs_seamless_mae": 0.0296,
-            "icon_seamless_mae": 0.0709
+            "icon_seamless_mae": 0.0709,
+            "unrounded": {
+              "persistence": 0.04876799999999999,
+              "gfs_seamless": 0.029616000000000007,
+              "icon_seamless": 0.07089599999999999
+            }
           },
           "utc_minus_9": {
             "persistence_mae": 0.0488,
             "gfs_seamless_mae": 0.0312,
-            "icon_seamless_mae": 0.0689
+            "icon_seamless_mae": 0.0689,
+            "unrounded": {
+              "persistence": 0.04876799999999999,
+              "gfs_seamless": 0.031216000000000008,
+              "icon_seamless": 0.068864
+            }
           },
           "utc_minus_10": {
             "persistence_mae": 0.0478,
             "gfs_seamless_mae": 0.0353,
-            "icon_seamless_mae": 0.0648
+            "icon_seamless_mae": 0.0648,
+            "unrounded": {
+              "persistence": 0.04775200000000001,
+              "gfs_seamless": 0.035280000000000006,
+              "icon_seamless": 0.06479999999999998
+            }
           }
         }
       },
@@ -862,27 +1237,52 @@
           "utc_minus_6": {
             "persistence_mae": 0.0549,
             "gfs_seamless_mae": 0.0316,
-            "icon_seamless_mae": 0.0729
+            "icon_seamless_mae": 0.0729,
+            "unrounded": {
+              "persistence": 0.05486399999999999,
+              "gfs_seamless": 0.031648,
+              "icon_seamless": 0.07292799999999999
+            }
           },
           "utc_minus_7": {
             "persistence_mae": 0.0538,
             "gfs_seamless_mae": 0.0296,
-            "icon_seamless_mae": 0.0709
+            "icon_seamless_mae": 0.0709,
+            "unrounded": {
+              "persistence": 0.053848,
+              "gfs_seamless": 0.02961600000000001,
+              "icon_seamless": 0.07089599999999999
+            }
           },
           "utc_minus_8": {
             "persistence_mae": 0.0498,
             "gfs_seamless_mae": 0.0296,
-            "icon_seamless_mae": 0.0709
+            "icon_seamless_mae": 0.0709,
+            "unrounded": {
+              "persistence": 0.04978400000000001,
+              "gfs_seamless": 0.029616000000000007,
+              "icon_seamless": 0.07089599999999999
+            }
           },
           "utc_minus_9": {
             "persistence_mae": 0.0508,
             "gfs_seamless_mae": 0.0312,
-            "icon_seamless_mae": 0.0689
+            "icon_seamless_mae": 0.0689,
+            "unrounded": {
+              "persistence": 0.0508,
+              "gfs_seamless": 0.031216000000000008,
+              "icon_seamless": 0.068864
+            }
           },
           "utc_minus_10": {
             "persistence_mae": 0.0528,
             "gfs_seamless_mae": 0.0353,
-            "icon_seamless_mae": 0.0648
+            "icon_seamless_mae": 0.0648,
+            "unrounded": {
+              "persistence": 0.052832,
+              "gfs_seamless": 0.035280000000000006,
+              "icon_seamless": 0.06479999999999998
+            }
           }
         }
       }
@@ -890,134 +1290,159 @@
   },
   "conclusion_stability": [
     {
-      "station": "vail",
+      "station": "842:CO:SNTL Vail Mountain, CO",
       "series": "lead_8h_delay_0h",
       "n_common": 28,
       "winner_at_utc_minus_8": "persistence",
+      "margin_at_utc_minus_8_unrounded": 0.00822142857142857,
       "winner_changes": []
     },
     {
-      "station": "vail",
+      "station": "842:CO:SNTL Vail Mountain, CO",
       "series": "lead_8h_delay_3h",
       "n_common": 25,
       "winner_at_utc_minus_8": "persistence",
+      "margin_at_utc_minus_8_unrounded": 0.010039999999999997,
       "winner_changes": []
     },
     {
-      "station": "vail",
+      "station": "842:CO:SNTL Vail Mountain, CO",
       "series": "lead_32h_delay_0h",
       "n_common": 27,
       "winner_at_utc_minus_8": "persistence",
+      "margin_at_utc_minus_8_unrounded": 0.001199999999999998,
       "winner_changes": []
     },
     {
-      "station": "vail",
+      "station": "842:CO:SNTL Vail Mountain, CO",
       "series": "lead_32h_delay_3h",
       "n_common": 24,
       "winner_at_utc_minus_8": "persistence",
+      "margin_at_utc_minus_8_unrounded": 0.0034666666666666648,
       "winner_changes": [
-        [
-          10,
-          "icon_seamless"
-        ]
+        {
+          "offset": "utc_minus_10",
+          "winner": "icon_seamless",
+          "margin_unrounded": 0.0037166666666666685,
+          "rounding_level": false
+        }
       ]
     },
     {
-      "station": "breckenridge",
+      "station": "415:CO:SNTL Copper Mountain, CO (benchmark resort key: breckenridge)",
       "series": "lead_8h_delay_0h",
       "n_common": 21,
       "winner_at_utc_minus_8": "persistence",
+      "margin_at_utc_minus_8_unrounded": 0.011799999999999998,
       "winner_changes": []
     },
     {
-      "station": "breckenridge",
+      "station": "415:CO:SNTL Copper Mountain, CO (benchmark resort key: breckenridge)",
       "series": "lead_8h_delay_3h",
       "n_common": 10,
       "winner_at_utc_minus_8": "persistence",
+      "margin_at_utc_minus_8_unrounded": 0.01524,
       "winner_changes": []
     },
     {
-      "station": "breckenridge",
+      "station": "415:CO:SNTL Copper Mountain, CO (benchmark resort key: breckenridge)",
       "series": "lead_32h_delay_0h",
       "n_common": 20,
       "winner_at_utc_minus_8": "persistence",
+      "margin_at_utc_minus_8_unrounded": 0.0044599999999999996,
       "winner_changes": []
     },
     {
-      "station": "breckenridge",
+      "station": "415:CO:SNTL Copper Mountain, CO (benchmark resort key: breckenridge)",
       "series": "lead_32h_delay_3h",
       "n_common": 9,
       "winner_at_utc_minus_8": "persistence",
+      "margin_at_utc_minus_8_unrounded": 0.0028222222222222225,
       "winner_changes": []
     },
     {
-      "station": "park_city",
+      "station": "1321:UT:SNTL Mill Creek Canyon, UT (benchmark resort key: park_city)",
       "series": "lead_8h_delay_0h",
       "n_common": 21,
       "winner_at_utc_minus_8": "persistence",
+      "margin_at_utc_minus_8_unrounded": 0.028980952380952378,
       "winner_changes": []
     },
     {
-      "station": "park_city",
+      "station": "1321:UT:SNTL Mill Creek Canyon, UT (benchmark resort key: park_city)",
       "series": "lead_8h_delay_3h",
       "n_common": 19,
       "winner_at_utc_minus_8": "persistence",
+      "margin_at_utc_minus_8_unrounded": 0.02802105263157894,
       "winner_changes": []
     },
     {
-      "station": "park_city",
+      "station": "1321:UT:SNTL Mill Creek Canyon, UT (benchmark resort key: park_city)",
       "series": "lead_32h_delay_0h",
       "n_common": 21,
       "winner_at_utc_minus_8": "persistence",
+      "margin_at_utc_minus_8_unrounded": 0.00914285714285714,
       "winner_changes": []
     },
     {
-      "station": "park_city",
+      "station": "1321:UT:SNTL Mill Creek Canyon, UT (benchmark resort key: park_city)",
       "series": "lead_32h_delay_3h",
       "n_common": 18,
       "winner_at_utc_minus_8": "persistence",
+      "margin_at_utc_minus_8_unrounded": 0.012077777777777778,
       "winner_changes": []
     },
     {
-      "station": "palisades",
+      "station": "834:CA:SNTL Truckee #2, CA (benchmark resort key: palisades)",
       "series": "lead_8h_delay_0h",
       "n_common": 27,
       "winner_at_utc_minus_8": "gfs_seamless",
+      "margin_at_utc_minus_8_unrounded": 0.00028888888888888367,
       "winner_changes": [
-        [
-          6,
-          "persistence"
-        ],
-        [
-          7,
-          "persistence"
-        ],
-        [
-          10,
-          "persistence"
-        ]
+        {
+          "offset": "utc_minus_6",
+          "winner": "persistence",
+          "margin_unrounded": 0.0027333333333333376,
+          "rounding_level": false
+        },
+        {
+          "offset": "utc_minus_7",
+          "winner": "persistence",
+          "margin_unrounded": 2.962962962963292e-05,
+          "rounding_level": true
+        },
+        {
+          "offset": "utc_minus_10",
+          "winner": "persistence",
+          "margin_unrounded": 0.0015185185185185301,
+          "rounding_level": false
+        }
       ]
     },
     {
-      "station": "palisades",
+      "station": "834:CA:SNTL Truckee #2, CA (benchmark resort key: palisades)",
       "series": "lead_8h_delay_3h",
       "n_common": 27,
       "winner_at_utc_minus_8": "gfs_seamless",
+      "margin_at_utc_minus_8_unrounded": 0.002170370370370364,
       "winner_changes": []
     },
     {
-      "station": "palisades",
+      "station": "834:CA:SNTL Truckee #2, CA (benchmark resort key: palisades)",
       "series": "lead_32h_delay_0h",
       "n_common": 25,
       "winner_at_utc_minus_8": "gfs_seamless",
+      "margin_at_utc_minus_8_unrounded": 0.019151999999999985,
       "winner_changes": []
     },
     {
-      "station": "palisades",
+      "station": "834:CA:SNTL Truckee #2, CA (benchmark resort key: palisades)",
       "series": "lead_32h_delay_3h",
       "n_common": 25,
       "winner_at_utc_minus_8": "gfs_seamless",
+      "margin_at_utc_minus_8_unrounded": 0.020168000000000002,
       "winner_changes": []
     }
-  ]
+  ],
+  "summary_2026-11-26": "14/16 series keep the same winner (unrounded MAE) across the whole UTC-6..UTC-10 diagnostic range. The persistence-beats-models conclusion is robust at 842:CO:SNTL Vail Mountain EXCEPT lead_32h_delay_3h, which flips to icon at UTC-10 only; robust at 415:CO:SNTL Copper Mountain and 1321:UT:SNTL Mill Creek Canyon throughout. At 834:CA:SNTL Truckee #2 lead_8h_delay_0h, gfs wins only at UTC-8/UTC-9; persistence wins at UTC-6/-10 and edges gfs by 3e-5 unrounded at UTC-7 (rounds to 0.0188 both - a rounding-level difference, not an exact tie and not a meaningful win). The Truckee #2 exception to 'persistence wins everywhere' is therefore offset-dependent. Retrospective sensitivity result, not an operational conclusion; the true timezone is not resolved."
 }

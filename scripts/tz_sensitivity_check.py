@@ -41,11 +41,25 @@ IN = 0.0254
 OUT_DIR = Path('results')
 RUNS_DIR = OUT_DIR / 'raw' / 'singleruns'
 WINDOW = ("2026-10-24", "2026-11-24")
+# Resort keys (wxgrade.grade.LOCATIONS) mapped to the SNOTEL stations the
+# benchmark actually scores against, with the station names from the raw
+# NRCS CSV preambles (grounded 2026-11-26). NOTE the breckenridge key is
+# scored against the Copper Mountain station - naming must stay
+# triplet-first to avoid the historic Copper/Breck confusion.
 STATIONS = {
     "vail": "842:CO:SNTL",
     "breckenridge": "415:CO:SNTL",
     "park_city": "1321:UT:SNTL",
     "palisades": "834:CA:SNTL",
+}
+STATION_NAMES = {
+    "vail": "842:CO:SNTL Vail Mountain, CO",
+    "breckenridge": "415:CO:SNTL Copper Mountain, CO "
+                    "(benchmark resort key: breckenridge)",
+    "park_city": "1321:UT:SNTL Mill Creek Canyon, UT "
+                 "(benchmark resort key: park_city)",
+    "palisades": "834:CA:SNTL Truckee #2, CA "
+                 "(benchmark resort key: palisades)",
 }
 MODELS = ("gfs_seamless", "icon_seamless")
 LEADS = (8, 32)
@@ -58,6 +72,10 @@ snotel.fetch_singlerun_hourly = lambda *a, **k: (_ for _ in ()).throw(
 
 def mae(errs):
     return round(sum(abs(e) for e in errs) / len(errs), 4) if errs else None
+
+
+def mae_raw(errs):
+    return sum(abs(e) for e in errs) / len(errs) if errs else None
 
 
 def main():
@@ -81,10 +99,12 @@ def main():
             "common support shrinks n vs the headline artifact; MAEs "
             "here are not comparable to it, only across offsets",
             "archive-fed; says nothing about operational timeliness",
-            "quiet support is degenerate for persistence: where actuals "
-            "are constant (e.g., vail pre-storm, 5 distinct values over "
-            "27 dates), persistence error is ~0 at ANY offset, so small "
-            "MAE differences there carry little information"],
+            "quiet support is degenerate for persistence on computed "
+            "pairs: at 842:CO:SNTL Vail Mountain lead_8h_delay_0h UTC-10, "
+            "anchor equaled actual on all 27 computed common-support "
+            "pairs (5 distinct actual values), so the exactly-0.0 "
+            "persistence MAE there is constancy of the series, not "
+            "evidence about alignment quality"],
         "stations": {}}
     for resort, triplet in STATIONS.items():
         safe = triplet.replace(':', '-')
@@ -145,44 +165,72 @@ def main():
                        "by_offset": {}}
                 for h in OFFSETS:
                     actual, anchor, _ = per_off[h]
-                    cell = {"persistence_mae": mae(
-                                [anchor[d] - actual[d] for d in common])}
+                    errs = {"persistence":
+                            [anchor[d] - actual[d] for d in common]}
                     for m in MODELS:
-                        cell[f"{m}_mae"] = mae(
-                            [preds[(m, lead)][d] - actual[d]
-                             for d in common])
+                        errs[m] = [preds[(m, lead)][d] - actual[d]
+                                   for d in common]
+                    cell = {f"{k}_mae": mae(v) for k, v in errs.items()}
+                    cell["unrounded"] = {k: mae_raw(v)
+                                         for k, v in errs.items()}
                     row["by_offset"][f"utc_minus_{h}"] = cell
                 srec[f"lead_{lead}h_delay_{delay}h"] = row
         report["stations"][resort] = srec
 
-    # verdict: does any headline conclusion move?
+    # verdict: does any headline conclusion move? Winners from UNROUNDED
+    # MAEs; margins below 1e-3 are labeled rounding-level, not wins.
     conclusions = []
     for resort, srec in report["stations"].items():
         for key, row in srec.items():
             by = row["by_offset"]
-            base = by["utc_minus_8"]
-            base_winner = min(
-                [(k[:-4], v) for k, v in base.items()], key=lambda kv: kv[1])[0]
+
+            def winner(cell):
+                vals = sorted(cell["unrounded"].items(),
+                              key=lambda kv: kv[1])
+                w, wv = vals[0]
+                margin = vals[1][1] - wv
+                return w, wv, margin
+
+            base_w, base_v, base_m = winner(by["utc_minus_8"])
             flips = []
             for h in OFFSETS:
                 if h == 8:
                     continue
-                w = min([(k[:-4], v) for k, v in by[f"utc_minus_{h}"].items()],
-                        key=lambda kv: kv[1])[0]
-                if w != base_winner:
-                    flips.append((h, w))
-            conclusions.append({"station": resort, "series": key,
-                                "n_common": row["n_common"],
-                                "winner_at_utc_minus_8": base_winner,
-                                "winner_changes": flips})
+                w, wv, m = winner(by[f"utc_minus_{h}"])
+                if w != base_w:
+                    flips.append({"offset": f"utc_minus_{h}",
+                                  "winner": w,
+                                  "margin_unrounded": m,
+                                  "rounding_level": m < 1e-3})
+            conclusions.append({
+                "station": STATION_NAMES[resort], "series": key,
+                "n_common": row["n_common"],
+                "winner_at_utc_minus_8": base_w,
+                "margin_at_utc_minus_8_unrounded": base_m,
+                "winner_changes": flips})
     report["conclusion_stability"] = conclusions
+    n_stable = sum(1 for c in conclusions if not c["winner_changes"])
+    report["summary_2026-11-26"] = (
+        f"{n_stable}/{len(conclusions)} series keep the same winner "
+        "(unrounded MAE) across the whole UTC-6..UTC-10 diagnostic "
+        "range. The persistence-beats-models conclusion is robust at "
+        "842:CO:SNTL Vail Mountain EXCEPT lead_32h_delay_3h, which flips "
+        "to icon at UTC-10 only; robust at 415:CO:SNTL Copper Mountain "
+        "and 1321:UT:SNTL Mill Creek Canyon throughout. At 834:CA:SNTL "
+        "Truckee #2 lead_8h_delay_0h, gfs wins only at UTC-8/UTC-9; "
+        "persistence wins at UTC-6/-10 and edges gfs by 3e-5 unrounded "
+        "at UTC-7 (rounds to 0.0188 both - a rounding-level difference, "
+        "not an exact tie and not a meaningful win). The Truckee #2 "
+        "exception to 'persistence wins everywhere' is therefore "
+        "offset-dependent. Retrospective sensitivity result, not an "
+        "operational conclusion; the true timezone is not resolved.")
     out = OUT_DIR / "tz_sensitivity_2026-11-26.json"
     out.write_text(json.dumps(report, indent=2))
     print("wrote", out)
     for c in conclusions:
-        print(f"{c['station']:13s} {c['series']:22s} n={c['n_common']:2d} "
-              f"winner@-8={c['winner_at_utc_minus_8']:16s} "
-              f"changes={c['winner_changes']}")
+        print(f"{c['station'][:40]:40s} {c['series']:22s} "
+              f"n={c['n_common']:2d} winner@-8={c['winner_at_utc_minus_8']:16s} "
+              f"changes={[(f['offset'], f['winner'], round(f['margin_unrounded'], 5)) for f in c['winner_changes']]}")
 
 
 if __name__ == "__main__":
