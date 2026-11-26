@@ -362,3 +362,46 @@ mountain snow stake either.
     PYTHONPATH=. python -m pytest tests/   # offline
 
 Live pulls are manual only; tests never touch the network.
+
+## Error decomposition: quiet days vs change days (2026-11-26, wxgrade/decompose.py)
+
+The paired checks above score whole windows; this asks WHERE persistence's
+edge comes from, using the cached raw runs (results/raw/singleruns/) plus
+one actuals pull per station (results/decomposition_2026-11-26.json;
+short-lead series: 8h SNOTEL / 21h COOP). Descriptive, small n.
+
+1. **Quiet days stack the deck for persistence.** On days where the
+   start-of-day depth is unchanged from the prior day, persistence's
+   error is zero BY CONSTRUCTION (it predicts yesterday's depth), while
+   models carry 0.3-0.9cm of noise. Most days in these windows are
+   quiet (19-24 of ~31 paired days per station), so the whole-window
+   "no model beats persistence" is substantially this composition
+   effect.
+2. **On change days the picture flips at some stations.** At a >=1in
+   (2.54cm) day-over-day depth change (SNWD is integer inches, so the
+   1cm and 2cm thresholds select the same days), paired MAE on change
+   days: Vail n=10 persistence 0.0305 best; Copper Mountain n=7 ALL
+   THREE models beat persistence (gfs 0.0154 / icon 0.0155 / ecmwf
+   0.0327 vs 0.0363); Mill Creek n=7 persistence 0.0689 best; Truckee
+   n=12 gfs 0.0297 beats persistence 0.0804 (icon/ecmwf worse); Stowe
+   n=4 persistence 0.0571 best.
+3. **On the biggest days (>=2in change, n=1-6 per station) gfs beats
+   persistence at ALL FIVE stations** (e.g. Truckee 0.0382 vs 0.1355,
+   Copper 0.0285 vs 0.0635; Vail n=1 so barely a data point). Consistent
+   direction but 18 station-days total: a pattern to test as real
+   storms arrive, NOT a finding.
+4. **Model errors are often the same errors.** Per-day signed-error
+   correlations between model pairs reach 0.90-0.996 at Park City and
+   Stowe (ensemble would add little there), but are NEGATIVE for some
+   pairs at Vail (ecmwf/icon -0.773) and Palisades (ecmwf/icon -0.835):
+   at those stations model errors partially offset, so a simple
+   average could beat every member. Mixed, descriptive.
+
+Caveats: one quiet November window; change-day counts are 4-12 per
+station at >=1in and 1-6 at >=2in; depth deltas are net of
+settling/compaction (the storm subset undercounts events); SNWD's
+integer-inch quantization makes 1cm/2cm thresholds identical; nothing
+here is a storm-skill claim. The forward test is the next real storm
+window: predictions implied by this decomposition are (a) persistence
+wins quiet days trivially, (b) gfs should beat persistence on >=2in
+change days if the pattern is real.

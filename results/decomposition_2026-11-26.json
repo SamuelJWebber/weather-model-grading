@@ -1,0 +1,791 @@
+{
+  "basis": "short-lead (8h SNOTEL / 21h COOP) grid-cell snow_depth at the station's valid instant vs station actual; models from cached Single Runs payloads (results/raw/singleruns/), actuals pulled once per station; change day = |depth delta vs prior present day| >= threshold; descriptive, small n",
+  "pull_utc": "2026-11-26T07:37:48.306858+00:00",
+  "resorts": {
+    "vail": {
+      "station": "Vail Mountain",
+      "window": [
+        "2026-10-24",
+        "2026-11-24"
+      ],
+      "lead_h": 8,
+      "actual_days": 32,
+      "decomposition": {
+        "threshold_0.01": {
+          "change": {
+            "gfs_seamless": {
+              "n": 10,
+              "mae": 0.0383
+            },
+            "icon_seamless": {
+              "n": 10,
+              "mae": 0.0322
+            },
+            "ecmwf_ifs025": {
+              "n": 10,
+              "mae": 0.0501
+            },
+            "persistence_1d": {
+              "n": 10,
+              "mae": 0.0305
+            },
+            "paired_days": 10
+          },
+          "quiet": {
+            "gfs_seamless": {
+              "n": 21,
+              "mae": 0.0036
+            },
+            "icon_seamless": {
+              "n": 21,
+              "mae": 0.0027
+            },
+            "ecmwf_ifs025": {
+              "n": 21,
+              "mae": 0.0036
+            },
+            "persistence_1d": {
+              "n": 21,
+              "mae": 0.0
+            },
+            "paired_days": 21
+          }
+        },
+        "threshold_0.02": {
+          "change": {
+            "gfs_seamless": {
+              "n": 10,
+              "mae": 0.0383
+            },
+            "icon_seamless": {
+              "n": 10,
+              "mae": 0.0322
+            },
+            "ecmwf_ifs025": {
+              "n": 10,
+              "mae": 0.0501
+            },
+            "persistence_1d": {
+              "n": 10,
+              "mae": 0.0305
+            },
+            "paired_days": 10
+          },
+          "quiet": {
+            "gfs_seamless": {
+              "n": 21,
+              "mae": 0.0036
+            },
+            "icon_seamless": {
+              "n": 21,
+              "mae": 0.0027
+            },
+            "ecmwf_ifs025": {
+              "n": 21,
+              "mae": 0.0036
+            },
+            "persistence_1d": {
+              "n": 21,
+              "mae": 0.0
+            },
+            "paired_days": 21
+          }
+        },
+        "threshold_0.03": {
+          "change": {
+            "gfs_seamless": {
+              "n": 1,
+              "mae": 0.0462
+            },
+            "icon_seamless": {
+              "n": 1,
+              "mae": 0.0662
+            },
+            "ecmwf_ifs025": {
+              "n": 1,
+              "mae": 0.1138
+            },
+            "persistence_1d": {
+              "n": 1,
+              "mae": 0.0762
+            },
+            "paired_days": 1
+          },
+          "quiet": {
+            "gfs_seamless": {
+              "n": 30,
+              "mae": 0.0138
+            },
+            "icon_seamless": {
+              "n": 30,
+              "mae": 0.0104
+            },
+            "ecmwf_ifs025": {
+              "n": 30,
+              "mae": 0.0155
+            },
+            "persistence_1d": {
+              "n": 30,
+              "mae": 0.0076
+            },
+            "paired_days": 30
+          }
+        }
+      },
+      "error_correlations": {
+        "ecmwf_ifs025 vs gfs_seamless": {
+          "n": 32,
+          "pearson": -0.6
+        },
+        "ecmwf_ifs025 vs icon_seamless": {
+          "n": 32,
+          "pearson": -0.773
+        },
+        "ecmwf_ifs025 vs persistence_1d": {
+          "n": 31,
+          "pearson": -0.347
+        },
+        "gfs_seamless vs icon_seamless": {
+          "n": 32,
+          "pearson": 0.894
+        },
+        "gfs_seamless vs persistence_1d": {
+          "n": 31,
+          "pearson": 0.371
+        },
+        "icon_seamless vs persistence_1d": {
+          "n": 31,
+          "pearson": 0.466
+        }
+      }
+    },
+    "breckenridge": {
+      "station": "Copper Mountain",
+      "window": [
+        "2026-10-24",
+        "2026-11-24"
+      ],
+      "lead_h": 8,
+      "actual_days": 32,
+      "decomposition": {
+        "threshold_0.01": {
+          "change": {
+            "gfs_seamless": {
+              "n": 7,
+              "mae": 0.0154
+            },
+            "icon_seamless": {
+              "n": 7,
+              "mae": 0.0155
+            },
+            "ecmwf_ifs025": {
+              "n": 7,
+              "mae": 0.0327
+            },
+            "persistence_1d": {
+              "n": 7,
+              "mae": 0.0363
+            },
+            "paired_days": 7
+          },
+          "quiet": {
+            "gfs_seamless": {
+              "n": 24,
+              "mae": 0.0177
+            },
+            "icon_seamless": {
+              "n": 24,
+              "mae": 0.0089
+            },
+            "ecmwf_ifs025": {
+              "n": 24,
+              "mae": 0.0032
+            },
+            "persistence_1d": {
+              "n": 24,
+              "mae": 0.0
+            },
+            "paired_days": 24
+          }
+        },
+        "threshold_0.02": {
+          "change": {
+            "gfs_seamless": {
+              "n": 7,
+              "mae": 0.0154
+            },
+            "icon_seamless": {
+              "n": 7,
+              "mae": 0.0155
+            },
+            "ecmwf_ifs025": {
+              "n": 7,
+              "mae": 0.0327
+            },
+            "persistence_1d": {
+              "n": 7,
+              "mae": 0.0363
+            },
+            "paired_days": 7
+          },
+          "quiet": {
+            "gfs_seamless": {
+              "n": 24,
+              "mae": 0.0177
+            },
+            "icon_seamless": {
+              "n": 24,
+              "mae": 0.0089
+            },
+            "ecmwf_ifs025": {
+              "n": 24,
+              "mae": 0.0032
+            },
+            "persistence_1d": {
+              "n": 24,
+              "mae": 0.0
+            },
+            "paired_days": 24
+          }
+        },
+        "threshold_0.03": {
+          "change": {
+            "gfs_seamless": {
+              "n": 2,
+              "mae": 0.0285
+            },
+            "icon_seamless": {
+              "n": 2,
+              "mae": 0.0235
+            },
+            "ecmwf_ifs025": {
+              "n": 2,
+              "mae": 0.0635
+            },
+            "persistence_1d": {
+              "n": 2,
+              "mae": 0.0635
+            },
+            "paired_days": 2
+          },
+          "quiet": {
+            "gfs_seamless": {
+              "n": 29,
+              "mae": 0.0164
+            },
+            "icon_seamless": {
+              "n": 29,
+              "mae": 0.0095
+            },
+            "ecmwf_ifs025": {
+              "n": 29,
+              "mae": 0.0061
+            },
+            "persistence_1d": {
+              "n": 29,
+              "mae": 0.0044
+            },
+            "paired_days": 29
+          }
+        }
+      },
+      "error_correlations": {
+        "ecmwf_ifs025 vs gfs_seamless": {
+          "n": 32,
+          "pearson": 0.495
+        },
+        "ecmwf_ifs025 vs icon_seamless": {
+          "n": 32,
+          "pearson": 0.582
+        },
+        "ecmwf_ifs025 vs persistence_1d": {
+          "n": 31,
+          "pearson": 0.55
+        },
+        "gfs_seamless vs icon_seamless": {
+          "n": 32,
+          "pearson": 0.457
+        },
+        "gfs_seamless vs persistence_1d": {
+          "n": 31,
+          "pearson": 0.303
+        },
+        "icon_seamless vs persistence_1d": {
+          "n": 31,
+          "pearson": 0.376
+        }
+      }
+    },
+    "park_city": {
+      "station": "Mill Creek Canyon",
+      "window": [
+        "2026-10-24",
+        "2026-11-24"
+      ],
+      "lead_h": 8,
+      "actual_days": 32,
+      "decomposition": {
+        "threshold_0.01": {
+          "change": {
+            "gfs_seamless": {
+              "n": 7,
+              "mae": 0.1087
+            },
+            "icon_seamless": {
+              "n": 7,
+              "mae": 0.1816
+            },
+            "ecmwf_ifs025": {
+              "n": 7,
+              "mae": 0.1223
+            },
+            "persistence_1d": {
+              "n": 7,
+              "mae": 0.0689
+            },
+            "paired_days": 7
+          },
+          "quiet": {
+            "gfs_seamless": {
+              "n": 24,
+              "mae": 0.0
+            },
+            "icon_seamless": {
+              "n": 24,
+              "mae": 0.0
+            },
+            "ecmwf_ifs025": {
+              "n": 24,
+              "mae": 0.0
+            },
+            "persistence_1d": {
+              "n": 24,
+              "mae": 0.0
+            },
+            "paired_days": 24
+          }
+        },
+        "threshold_0.02": {
+          "change": {
+            "gfs_seamless": {
+              "n": 7,
+              "mae": 0.1087
+            },
+            "icon_seamless": {
+              "n": 7,
+              "mae": 0.1816
+            },
+            "ecmwf_ifs025": {
+              "n": 7,
+              "mae": 0.1223
+            },
+            "persistence_1d": {
+              "n": 7,
+              "mae": 0.0689
+            },
+            "paired_days": 7
+          },
+          "quiet": {
+            "gfs_seamless": {
+              "n": 24,
+              "mae": 0.0
+            },
+            "icon_seamless": {
+              "n": 24,
+              "mae": 0.0
+            },
+            "ecmwf_ifs025": {
+              "n": 24,
+              "mae": 0.0
+            },
+            "persistence_1d": {
+              "n": 24,
+              "mae": 0.0
+            },
+            "paired_days": 24
+          }
+        },
+        "threshold_0.03": {
+          "change": {
+            "gfs_seamless": {
+              "n": 3,
+              "mae": 0.0783
+            },
+            "icon_seamless": {
+              "n": 3,
+              "mae": 0.1417
+            },
+            "ecmwf_ifs025": {
+              "n": 3,
+              "mae": 0.1134
+            },
+            "persistence_1d": {
+              "n": 3,
+              "mae": 0.127
+            },
+            "paired_days": 3
+          },
+          "quiet": {
+            "gfs_seamless": {
+              "n": 28,
+              "mae": 0.0188
+            },
+            "icon_seamless": {
+              "n": 28,
+              "mae": 0.0302
+            },
+            "ecmwf_ifs025": {
+              "n": 28,
+              "mae": 0.0184
+            },
+            "persistence_1d": {
+              "n": 28,
+              "mae": 0.0036
+            },
+            "paired_days": 28
+          }
+        }
+      },
+      "error_correlations": {
+        "ecmwf_ifs025 vs gfs_seamless": {
+          "n": 32,
+          "pearson": 0.968
+        },
+        "ecmwf_ifs025 vs icon_seamless": {
+          "n": 32,
+          "pearson": 0.897
+        },
+        "ecmwf_ifs025 vs persistence_1d": {
+          "n": 31,
+          "pearson": 0.39
+        },
+        "gfs_seamless vs icon_seamless": {
+          "n": 32,
+          "pearson": 0.976
+        },
+        "gfs_seamless vs persistence_1d": {
+          "n": 31,
+          "pearson": 0.307
+        },
+        "icon_seamless vs persistence_1d": {
+          "n": 31,
+          "pearson": 0.3
+        }
+      }
+    },
+    "palisades": {
+      "station": "Truckee #2",
+      "window": [
+        "2026-10-24",
+        "2026-11-24"
+      ],
+      "lead_h": 8,
+      "actual_days": 32,
+      "decomposition": {
+        "threshold_0.01": {
+          "change": {
+            "gfs_seamless": {
+              "n": 12,
+              "mae": 0.0297
+            },
+            "icon_seamless": {
+              "n": 12,
+              "mae": 0.1295
+            },
+            "ecmwf_ifs025": {
+              "n": 12,
+              "mae": 0.0989
+            },
+            "persistence_1d": {
+              "n": 12,
+              "mae": 0.0804
+            },
+            "paired_days": 12
+          },
+          "quiet": {
+            "gfs_seamless": {
+              "n": 19,
+              "mae": 0.0036
+            },
+            "icon_seamless": {
+              "n": 19,
+              "mae": 0.0078
+            },
+            "ecmwf_ifs025": {
+              "n": 19,
+              "mae": 0.0044
+            },
+            "persistence_1d": {
+              "n": 19,
+              "mae": 0.0
+            },
+            "paired_days": 19
+          }
+        },
+        "threshold_0.02": {
+          "change": {
+            "gfs_seamless": {
+              "n": 12,
+              "mae": 0.0297
+            },
+            "icon_seamless": {
+              "n": 12,
+              "mae": 0.1295
+            },
+            "ecmwf_ifs025": {
+              "n": 12,
+              "mae": 0.0989
+            },
+            "persistence_1d": {
+              "n": 12,
+              "mae": 0.0804
+            },
+            "paired_days": 12
+          },
+          "quiet": {
+            "gfs_seamless": {
+              "n": 19,
+              "mae": 0.0036
+            },
+            "icon_seamless": {
+              "n": 19,
+              "mae": 0.0078
+            },
+            "ecmwf_ifs025": {
+              "n": 19,
+              "mae": 0.0044
+            },
+            "persistence_1d": {
+              "n": 19,
+              "mae": 0.0
+            },
+            "paired_days": 19
+          }
+        },
+        "threshold_0.03": {
+          "change": {
+            "gfs_seamless": {
+              "n": 6,
+              "mae": 0.0382
+            },
+            "icon_seamless": {
+              "n": 6,
+              "mae": 0.1497
+            },
+            "ecmwf_ifs025": {
+              "n": 6,
+              "mae": 0.1086
+            },
+            "persistence_1d": {
+              "n": 6,
+              "mae": 0.1355
+            },
+            "paired_days": 6
+          },
+          "quiet": {
+            "gfs_seamless": {
+              "n": 25,
+              "mae": 0.0078
+            },
+            "icon_seamless": {
+              "n": 25,
+              "mae": 0.0322
+            },
+            "ecmwf_ifs025": {
+              "n": 25,
+              "mae": 0.0247
+            },
+            "persistence_1d": {
+              "n": 25,
+              "mae": 0.0061
+            },
+            "paired_days": 25
+          }
+        }
+      },
+      "error_correlations": {
+        "ecmwf_ifs025 vs gfs_seamless": {
+          "n": 32,
+          "pearson": 0.575
+        },
+        "ecmwf_ifs025 vs icon_seamless": {
+          "n": 32,
+          "pearson": -0.835
+        },
+        "ecmwf_ifs025 vs persistence_1d": {
+          "n": 31,
+          "pearson": -0.047
+        },
+        "gfs_seamless vs icon_seamless": {
+          "n": 32,
+          "pearson": -0.597
+        },
+        "gfs_seamless vs persistence_1d": {
+          "n": 31,
+          "pearson": 0.31
+        },
+        "icon_seamless vs persistence_1d": {
+          "n": 31,
+          "pearson": 0.083
+        }
+      }
+    },
+    "stowe": {
+      "station": "MT. MANSFIELD",
+      "window": [
+        "2026-10-26",
+        "2026-11-24"
+      ],
+      "lead_h": 21,
+      "actual_days": 26,
+      "decomposition": {
+        "threshold_0.01": {
+          "change": {
+            "gfs_seamless": {
+              "n": 4,
+              "mae": 0.1047
+            },
+            "icon_seamless": {
+              "n": 4,
+              "mae": 0.1247
+            },
+            "ecmwf_ifs025": {
+              "n": 4,
+              "mae": 0.1397
+            },
+            "persistence_1d": {
+              "n": 4,
+              "mae": 0.0571
+            },
+            "paired_days": 4
+          },
+          "quiet": {
+            "gfs_seamless": {
+              "n": 19,
+              "mae": 0.0099
+            },
+            "icon_seamless": {
+              "n": 19,
+              "mae": 0.0083
+            },
+            "ecmwf_ifs025": {
+              "n": 19,
+              "mae": 0.0094
+            },
+            "persistence_1d": {
+              "n": 19,
+              "mae": 0.0
+            },
+            "paired_days": 19
+          }
+        },
+        "threshold_0.02": {
+          "change": {
+            "gfs_seamless": {
+              "n": 4,
+              "mae": 0.1047
+            },
+            "icon_seamless": {
+              "n": 4,
+              "mae": 0.1247
+            },
+            "ecmwf_ifs025": {
+              "n": 4,
+              "mae": 0.1397
+            },
+            "persistence_1d": {
+              "n": 4,
+              "mae": 0.0571
+            },
+            "paired_days": 4
+          },
+          "quiet": {
+            "gfs_seamless": {
+              "n": 19,
+              "mae": 0.0099
+            },
+            "icon_seamless": {
+              "n": 19,
+              "mae": 0.0083
+            },
+            "ecmwf_ifs025": {
+              "n": 19,
+              "mae": 0.0094
+            },
+            "persistence_1d": {
+              "n": 19,
+              "mae": 0.0
+            },
+            "paired_days": 19
+          }
+        },
+        "threshold_0.03": {
+          "change": {
+            "gfs_seamless": {
+              "n": 2,
+              "mae": 0.0697
+            },
+            "icon_seamless": {
+              "n": 2,
+              "mae": 0.1147
+            },
+            "ecmwf_ifs025": {
+              "n": 2,
+              "mae": 0.1397
+            },
+            "persistence_1d": {
+              "n": 2,
+              "mae": 0.0889
+            },
+            "paired_days": 2
+          },
+          "quiet": {
+            "gfs_seamless": {
+              "n": 21,
+              "mae": 0.0222
+            },
+            "icon_seamless": {
+              "n": 21,
+              "mae": 0.0203
+            },
+            "ecmwf_ifs025": {
+              "n": 21,
+              "mae": 0.0218
+            },
+            "persistence_1d": {
+              "n": 21,
+              "mae": 0.0024
+            },
+            "paired_days": 21
+          }
+        }
+      },
+      "error_correlations": {
+        "ecmwf_ifs025 vs gfs_seamless": {
+          "n": 26,
+          "pearson": 0.953
+        },
+        "ecmwf_ifs025 vs icon_seamless": {
+          "n": 26,
+          "pearson": 0.996
+        },
+        "ecmwf_ifs025 vs persistence_1d": {
+          "n": 23,
+          "pearson": 0.329
+        },
+        "gfs_seamless vs icon_seamless": {
+          "n": 26,
+          "pearson": 0.97
+        },
+        "gfs_seamless vs persistence_1d": {
+          "n": 23,
+          "pearson": 0.04
+        },
+        "icon_seamless vs persistence_1d": {
+          "n": 23,
+          "pearson": 0.264
+        }
+      }
+    }
+  }
+}
