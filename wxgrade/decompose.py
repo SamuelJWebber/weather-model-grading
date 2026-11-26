@@ -8,7 +8,7 @@ actuals (no model reruns):
    threshold) vs quiet days, at several thresholds.
 2. Do the models make the SAME errors? Pearson correlation of per-day
    signed errors between model pairs (and each model vs persistence) on
-   common dates. High correlations mean an ensemble adds little.
+   common dates. Correlation alone does not establish ensemble benefit or harm.
 
 Small-n descriptive analysis, not a skill claim; n is reported per cell.
 """
@@ -18,8 +18,8 @@ from __future__ import annotations
 from datetime import date, timedelta
 
 
-def classify_days(actual: dict[str, float], threshold_m: float
-                  ) -> dict[str, str]:
+def classify_days(actual: dict[str, float], threshold_m: float,
+                  tolerance_m: float = 0.0) -> dict[str, str]:
     """'change' if |actual[d] - actual[d-1]| >= threshold (both present),
     else 'quiet'. Days without a prior present day are omitted."""
     from datetime import date, timedelta
@@ -28,7 +28,7 @@ def classify_days(actual: dict[str, float], threshold_m: float
         prev = (date.fromisoformat(d) - timedelta(days=1)).isoformat()
         if prev in actual:
             out[d] = ("change" if abs(actual[d] - actual[prev])
-                      >= threshold_m else "quiet")
+                      >= threshold_m - tolerance_m else "quiet")
     return out
 
 
@@ -43,6 +43,18 @@ def delta_persistence_baseline(actual: dict[str, float]) -> dict[str, float]:
         d2 = (date.fromisoformat(d) - timedelta(days=2)).isoformat()
         if d1 in actual and d2 in actual:
             out[d] = actual[d1] + (actual[d1] - actual[d2])
+    return out
+
+
+def model_delta_persistence(actual, pred):
+    """Yesterday's observed depth plus the model's day-to-day depth change.
+    Uses consecutive valid-day forecasts, not a future actual.
+    """
+    out = {}
+    for d in pred:
+        prev = (date.fromisoformat(d) - timedelta(days=1)).isoformat()
+        if prev in actual and prev in pred:
+            out[d] = actual[prev] + pred[d] - pred[prev]
     return out
 
 
@@ -121,13 +133,16 @@ def supplementary_cells(actual: dict[str, float],
     since its error is |delta actual| by construction)."""
     supp: dict = {"inch_thresholds": {}, "ex_ante_ref_model": ref_model,
                   "ex_ante": {}}
+    common = set(actual)
+    for pred in series.values():
+        common &= set(pred)
     for inches in (1, 2, 3):
         thr = inches * INCH_M
-        kinds = classify_days(actual, thr)
+        kinds = classify_days(actual, thr, tolerance_m=1e-9)
         days_by_kind = {"change": [d for d, k in kinds.items()
-                                   if k == "change"],
+                                   if k == "change" and d in common],
                         "quiet": [d for d, k in kinds.items()
-                                  if k == "quiet"]}
+                                  if k == "quiet" and d in common]}
         cell = {kind: {name: (None if sc is None or sc["mae"] is None else
                               {"n": sc["n"],
                                "mae_in": round(sc["mae"] / INCH_M, 2)})
@@ -141,9 +156,9 @@ def supplementary_cells(actual: dict[str, float],
         ref = series.get(ref_model, {})
         kinds = classify_days_exante(ref, actual, thr)
         days_by_kind = {"predicted_change": [d for d, k in kinds.items()
-                                             if k == "change"],
+                                             if k == "change" and d in common],
                         "predicted_quiet": [d for d, k in kinds.items()
-                                            if k == "quiet"]}
+                                            if k == "quiet" and d in common]}
         supp["ex_ante"][f"{inches}in"] = {
             kind: {name: (None if sc is None or sc["mae"] is None else
                           {"n": sc["n"],
@@ -273,13 +288,14 @@ def run_decomposition_live(output_dir: str = "results",
             for d in dates:
                 init = (date.fromisoformat(d)
                         - timedelta(hours=lead_h - valid_h)).isoformat()
-                run = _singlerun_cached(lat, lon, model, init, cache)
+                run = _singlerun_cached(lat, lon, model, init, cache,
+                                        allow_fetch=allow_fetch)
                 valid = f"{d}T{valid_h:02d}:00"
                 if valid in run:
                     pred[d] = run[valid]
             series[model] = pred
         series["persistence_1d"] = persistence_baseline(actual, 1)
-        series["delta_persistence"] = delta_persistence_baseline(actual)
+        delta = delta_persistence_baseline(actual)
         series["const_zero_depth"] = {d: 0.0 for d in dates}
         model_names = ("gfs_seamless", "icon_seamless", "ecmwf_ifs025")
         ensemble = {d: sum(series[m][d] for m in model_names) / 3
@@ -294,6 +310,12 @@ def run_decomposition_live(output_dir: str = "results",
             "actuals_saved_to": actuals_meta.get("path"),
             "actual_days": len(actual),
             "overall_paired": overall_paired_scores(actual, dec_series),
+            "delta_baseline_separate_common_dates": overall_paired_scores(
+                actual, {**dec_series, "observed_linear_extrapolation": delta}),
+            "model_delta_persistence_separate_common_dates": overall_paired_scores(
+                actual, {**dec_series, **{
+                    f"{m}_delta_persistence": model_delta_persistence(actual, series[m])
+                    for m in model_names}}),
             "decomposition": decomposition(actual, dec_series),
             "supplementary_inch_exante": supplementary_cells(
                 actual, dec_series),

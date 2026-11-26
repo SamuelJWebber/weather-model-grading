@@ -9,6 +9,8 @@ revises its data (NRCS CSVs carry a 'subject to revision' warning).
 
 from __future__ import annotations
 
+import csv
+import hashlib
 import json
 from datetime import datetime, timezone
 from pathlib import Path
@@ -30,12 +32,23 @@ def load_actuals(kind: str, key: str, start: str, end: str,
     fetches and saves it. allow_fetch=False = offline replay (raises if
     the saved file is missing)."""
     path = actuals_path(output_dir, kind, key, start, end)
+    def evidence(payload):
+        csv_path = path.with_suffix('.csv')
+        if not csv_path.exists():
+            with csv_path.open('w', newline='') as handle:
+                writer = csv.writer(handle)
+                writer.writerow(['date', 'snow_depth_m'])
+                writer.writerows(sorted(payload['values'].items()))
+        return {"path": str(path), "csv_path": str(csv_path),
+                "sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+                "csv_sha256": hashlib.sha256(csv_path.read_bytes()).hexdigest(),
+                "source": payload.get("source", f"{kind}:{key}"),
+                "fetched_utc": payload.get("fetched_utc"),
+                "window": payload.get("window")}
     if path.exists():
         payload = json.loads(path.read_text())
         return ({k: float(v) for k, v in payload["values"].items()},
-                {"source": payload.get("source"), "saved": True,
-                 "fetched_utc": payload.get("fetched_utc"),
-                 "path": str(path)})
+                {**evidence(payload), "saved": True})
     if not allow_fetch:
         raise FileNotFoundError(f"replay requested but no saved actuals: {path}")
     values = fetcher()
@@ -44,5 +57,5 @@ def load_actuals(kind: str, key: str, start: str, end: str,
     payload = {**meta, "values": values}
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(payload))
-    meta.update({"saved": False, "path": str(path)})
+    meta.update({**evidence(payload), "saved": False})
     return values, meta

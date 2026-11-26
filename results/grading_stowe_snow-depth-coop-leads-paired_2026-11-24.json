@@ -6,6 +6,19 @@
     "2026-10-26",
     "2026-11-24"
   ],
+  "actuals_provenance": {
+    "path": "results/raw/actuals/coop_MMNV1_2026-10-26_2026-11-24.json",
+    "csv_path": "results/raw/actuals/coop_MMNV1_2026-10-26_2026-11-24.csv",
+    "sha256": "6565a84e77b3560b442de6304ece5d966a9967ac38ea6a96cbafbe84a4217a41",
+    "csv_sha256": "dc825da541ddfacc528db2866cfb2ff9e6a2e16c82298f5c011e52ef3b80aeae",
+    "source": "coop:MMNV1",
+    "fetched_utc": "2026-11-26T07:49:27.610967+00:00",
+    "window": [
+      "2026-10-26",
+      "2026-11-24"
+    ],
+    "saved": true
+  },
   "common_dates": [
     "2026-10-27",
     "2026-10-28",
@@ -194,5 +207,85 @@
       "bias": -0.0264
     }
   },
-  "pull_utc": "2026-11-26T07:49:29.650593+00:00"
+  "supplementary_baselines": {
+    "constant_zero_depth": {
+      "n": 23,
+      "mae": 0.032026528695652166,
+      "rmse": 0.07006301512266325,
+      "bias": -0.032026528695652166
+    },
+    "observed_linear_extrapolation": {
+      "n": 22,
+      "mae": 0.010390909090909093,
+      "rmse": 0.028138193766582557,
+      "bias": 0.0011545454545454548
+    },
+    "model_delta_persistence": {
+      "gfs_seamless lead_21h": {
+        "n": 23,
+        "mae": 0.01080869565217391,
+        "rmse": 0.02357145352078967,
+        "bias": -0.005521739130434784
+      },
+      "gfs_seamless lead_45h": {
+        "n": 23,
+        "mae": 0.009469565217391302,
+        "rmse": 0.018797732847691564,
+        "bias": -0.005521739130434781
+      },
+      "icon_seamless lead_21h": {
+        "n": 23,
+        "mae": 0.008199999999999999,
+        "rmse": 0.02247211362217549,
+        "bias": -0.005521739130434783
+      },
+      "icon_seamless lead_45h": {
+        "n": 23,
+        "mae": 0.008199999999999999,
+        "rmse": 0.02236744167690405,
+        "bias": -0.005521739130434783
+      },
+      "ecmwf_ifs025 lead_21h": {
+        "n": 23,
+        "mae": 0.009939130434782607,
+        "rmse": 0.027519798315823775,
+        "bias": -0.005521739130434783
+      },
+      "ecmwf_ifs025 lead_45h": {
+        "n": 23,
+        "mae": 0.009939130434782607,
+        "rmse": 0.027519798315823775,
+        "bias": -0.005521739130434783
+      },
+      "ensemble_mean_3 lead_21h": {
+        "n": 23,
+        "mae": 0.00964927536231884,
+        "rmse": 0.022739700558037725,
+        "bias": -0.005521739130434783
+      },
+      "ensemble_mean_3 lead_45h": {
+        "n": 23,
+        "mae": 0.008020289855072462,
+        "rmse": 0.020139460503993806,
+        "bias": -0.005521739130434784
+      }
+    },
+    "delta_missing_common_dates": [
+      "2026-10-27"
+    ],
+    "history_actuals": {
+      "path": "results/raw/actuals/coop_MMNV1_2026-10-26_2026-11-24.json",
+      "csv_path": "results/raw/actuals/coop_MMNV1_2026-10-26_2026-11-24.csv",
+      "sha256": "6565a84e77b3560b442de6304ece5d966a9967ac38ea6a96cbafbe84a4217a41",
+      "csv_sha256": "dc825da541ddfacc528db2866cfb2ff9e6a2e16c82298f5c011e52ef3b80aeae",
+      "source": "coop:MMNV1",
+      "fetched_utc": "2026-11-26T07:49:27.610967+00:00",
+      "window": [
+        "2026-10-26",
+        "2026-11-24"
+      ],
+      "saved": true
+    }
+  },
+  "pull_utc": "2026-11-26T08:05:07.845022+00:00"
 }

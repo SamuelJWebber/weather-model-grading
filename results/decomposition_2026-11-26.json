@@ -1,6 +1,6 @@
 {
   "basis": "short-lead (8h SNOTEL / 21h COOP) grid-cell snow_depth at the station's valid instant vs station actual; models from cached Single Runs payloads (results/raw/singleruns/), actuals pulled once per station; change day = |depth delta vs prior present day| >= threshold; descriptive, small n",
-  "pull_utc": "2026-11-26T07:49:03.695540+00:00",
+  "pull_utc": "2026-11-26T08:05:07.845431+00:00",
   "resorts": {
     "vail": {
       "station": "Vail Mountain",
@@ -17,16 +17,48 @@
       "actual_days": 33,
       "overall_paired": {
         "const_zero_depth": {
+          "n": 32,
+          "mae": 0.0174625,
+          "rmse": 0.03478038240157805,
+          "bias": -0.0174625
+        },
+        "ecmwf_ifs025": {
+          "n": 32,
+          "mae": 0.018050000000000004,
+          "rmse": 0.036516092342965725,
+          "bias": 0.005350000000000001
+        },
+        "ensemble_mean_3": {
+          "n": 32,
+          "mae": 0.006658333333333332,
+          "rmse": 0.012493109211792626,
+          "bias": -0.006212499999999999
+        },
+        "gfs_seamless": {
+          "n": 32,
+          "mae": 0.0143375,
+          "rmse": 0.0282630500831032,
+          "bias": -0.0143375
+        },
+        "icon_seamless": {
+          "n": 32,
+          "mae": 0.011812499999999998,
+          "rmse": 0.02403487050100333,
+          "bias": -0.009649999999999999
+        },
+        "persistence_1d": {
+          "n": 32,
+          "mae": 0.009524999999999999,
+          "rmse": 0.01905,
+          "bias": -0.003175
+        }
+      },
+      "delta_baseline_separate_common_dates": {
+        "const_zero_depth": {
           "n": 31,
           "mae": 0.0180258064516129,
           "rmse": 0.03533690385692482,
           "bias": -0.0180258064516129
-        },
-        "delta_persistence": {
-          "n": 31,
-          "mae": 0.017206451612903226,
-          "rmse": 0.027749408595848575,
-          "bias": -0.0008193548387096776
         },
         "ecmwf_ifs025": {
           "n": 31,
@@ -51,6 +83,68 @@
           "mae": 0.012193548387096773,
           "rmse": 0.02441945284848444,
           "bias": -0.009961290322580644
+        },
+        "observed_linear_extrapolation": {
+          "n": 31,
+          "mae": 0.017206451612903226,
+          "rmse": 0.027749408595848575,
+          "bias": -0.0008193548387096776
+        },
+        "persistence_1d": {
+          "n": 31,
+          "mae": 0.009832258064516129,
+          "rmse": 0.019354819354829033,
+          "bias": -0.0032774193548387094
+        }
+      },
+      "model_delta_persistence_separate_common_dates": {
+        "const_zero_depth": {
+          "n": 31,
+          "mae": 0.0180258064516129,
+          "rmse": 0.03533690385692482,
+          "bias": -0.0180258064516129
+        },
+        "ecmwf_ifs025": {
+          "n": 31,
+          "mae": 0.018632258064516134,
+          "rmse": 0.03710038692085865,
+          "bias": 0.005522580645161291
+        },
+        "ecmwf_ifs025_delta_persistence": {
+          "n": 31,
+          "mae": 0.011045161290322578,
+          "rmse": 0.024728773889227024,
+          "bias": 0.0022064516129032255
+        },
+        "ensemble_mean_3": {
+          "n": 31,
+          "mae": 0.006873118279569891,
+          "rmse": 0.012693011652199306,
+          "bias": -0.006412903225806451
+        },
+        "gfs_seamless": {
+          "n": 31,
+          "mae": 0.014799999999999999,
+          "rmse": 0.02871528759973481,
+          "bias": -0.014799999999999999
+        },
+        "gfs_seamless_delta_persistence": {
+          "n": 31,
+          "mae": 0.006580645161290323,
+          "rmse": 0.014001013788178846,
+          "bias": -0.0023096774193548386
+        },
+        "icon_seamless": {
+          "n": 31,
+          "mae": 0.012193548387096773,
+          "rmse": 0.02441945284848444,
+          "bias": -0.009961290322580644
+        },
+        "icon_seamless_delta_persistence": {
+          "n": 31,
+          "mae": 0.00687741935483871,
+          "rmse": 0.016049198552997853,
+          "bias": -0.0023096774193548377
         },
         "persistence_1d": {
           "n": 31,
@@ -78,10 +172,6 @@
               "n": 10,
               "mae": 0.0305
             },
-            "delta_persistence": {
-              "n": 10,
-              "mae": 0.0432
-            },
             "const_zero_depth": {
               "n": 10,
               "mae": 0.0483
@@ -94,34 +184,30 @@
           },
           "quiet": {
             "gfs_seamless": {
-              "n": 21,
-              "mae": 0.0036
+              "n": 22,
+              "mae": 0.0035
             },
             "icon_seamless": {
-              "n": 21,
-              "mae": 0.0027
+              "n": 22,
+              "mae": 0.0026
             },
             "ecmwf_ifs025": {
-              "n": 21,
-              "mae": 0.0036
+              "n": 22,
+              "mae": 0.0035
             },
             "persistence_1d": {
-              "n": 21,
+              "n": 22,
               "mae": 0.0
             },
-            "delta_persistence": {
-              "n": 21,
-              "mae": 0.0048
-            },
             "const_zero_depth": {
-              "n": 21,
-              "mae": 0.0036
+              "n": 22,
+              "mae": 0.0035
             },
             "ensemble_mean_3": {
-              "n": 21,
-              "mae": 0.0033
+              "n": 22,
+              "mae": 0.0032
             },
-            "paired_days": 21
+            "paired_days": 22
           }
         },
         "threshold_0.02": {
@@ -142,10 +228,6 @@
               "n": 10,
               "mae": 0.0305
             },
-            "delta_persistence": {
-              "n": 10,
-              "mae": 0.0432
-            },
             "const_zero_depth": {
               "n": 10,
               "mae": 0.0483
@@ -158,34 +240,30 @@
           },
           "quiet": {
             "gfs_seamless": {
-              "n": 21,
-              "mae": 0.0036
+              "n": 22,
+              "mae": 0.0035
             },
             "icon_seamless": {
-              "n": 21,
-              "mae": 0.0027
+              "n": 22,
+              "mae": 0.0026
             },
             "ecmwf_ifs025": {
-              "n": 21,
-              "mae": 0.0036
+              "n": 22,
+              "mae": 0.0035
             },
             "persistence_1d": {
-              "n": 21,
+              "n": 22,
               "mae": 0.0
             },
-            "delta_persistence": {
-              "n": 21,
-              "mae": 0.0048
-            },
             "const_zero_depth": {
-              "n": 21,
-              "mae": 0.0036
+              "n": 22,
+              "mae": 0.0035
             },
             "ensemble_mean_3": {
-              "n": 21,
-              "mae": 0.0033
+              "n": 22,
+              "mae": 0.0032
             },
-            "paired_days": 21
+            "paired_days": 22
           }
         },
         "threshold_0.03": {
@@ -206,10 +284,6 @@
               "n": 1,
               "mae": 0.0762
             },
-            "delta_persistence": {
-              "n": 1,
-              "mae": 0.0762
-            },
             "const_zero_depth": {
               "n": 1,
               "mae": 0.0762
@@ -222,34 +296,30 @@
           },
           "quiet": {
             "gfs_seamless": {
-              "n": 30,
-              "mae": 0.0138
+              "n": 31,
+              "mae": 0.0133
             },
             "icon_seamless": {
-              "n": 30,
-              "mae": 0.0104
+              "n": 31,
+              "mae": 0.0101
             },
             "ecmwf_ifs025": {
-              "n": 30,
-              "mae": 0.0155
+              "n": 31,
+              "mae": 0.015
             },
             "persistence_1d": {
-              "n": 30,
-              "mae": 0.0076
-            },
-            "delta_persistence": {
-              "n": 30,
-              "mae": 0.0152
+              "n": 31,
+              "mae": 0.0074
             },
             "const_zero_depth": {
-              "n": 30,
-              "mae": 0.0161
+              "n": 31,
+              "mae": 0.0156
             },
             "ensemble_mean_3": {
-              "n": 30,
-              "mae": 0.0071
+              "n": 31,
+              "mae": 0.0069
             },
-            "paired_days": 30
+            "paired_days": 31
           }
         }
       },
@@ -272,10 +342,6 @@
               "persistence_1d": {
                 "n": 10,
                 "mae_in": 1.2
-              },
-              "delta_persistence": {
-                "n": 10,
-                "mae_in": 1.7
               },
               "const_zero_depth": {
                 "n": 10,
@@ -302,10 +368,6 @@
               "persistence_1d": {
                 "n": 22,
                 "mae_in": 0.0
-              },
-              "delta_persistence": {
-                "n": 21,
-                "mae_in": 0.19
               },
               "const_zero_depth": {
                 "n": 22,
@@ -336,10 +398,6 @@
                 "n": 1,
                 "mae_in": 3.0
               },
-              "delta_persistence": {
-                "n": 1,
-                "mae_in": 3.0
-              },
               "const_zero_depth": {
                 "n": 1,
                 "mae_in": 3.0
@@ -365,10 +423,6 @@
               "persistence_1d": {
                 "n": 31,
                 "mae_in": 0.29
-              },
-              "delta_persistence": {
-                "n": 30,
-                "mae_in": 0.6
               },
               "const_zero_depth": {
                 "n": 31,
@@ -399,10 +453,6 @@
                 "n": 1,
                 "mae_in": 3.0
               },
-              "delta_persistence": {
-                "n": 1,
-                "mae_in": 3.0
-              },
               "const_zero_depth": {
                 "n": 1,
                 "mae_in": 3.0
@@ -428,10 +478,6 @@
               "persistence_1d": {
                 "n": 31,
                 "mae_in": 0.29
-              },
-              "delta_persistence": {
-                "n": 30,
-                "mae_in": 0.6
               },
               "const_zero_depth": {
                 "n": 31,
@@ -465,10 +511,6 @@
                 "n": 11,
                 "mae_in": 0.91
               },
-              "delta_persistence": {
-                "n": 11,
-                "mae_in": 1.55
-              },
               "const_zero_depth": {
                 "n": 11,
                 "mae_in": 1.82
@@ -494,10 +536,6 @@
               "persistence_1d": {
                 "n": 21,
                 "mae_in": 0.1
-              },
-              "delta_persistence": {
-                "n": 20,
-                "mae_in": 0.2
               },
               "const_zero_depth": {
                 "n": 21,
@@ -527,10 +565,6 @@
                 "n": 3,
                 "mae_in": 1.0
               },
-              "delta_persistence": {
-                "n": 3,
-                "mae_in": 2.0
-              },
               "const_zero_depth": {
                 "n": 3,
                 "mae_in": 2.67
@@ -556,10 +590,6 @@
               "persistence_1d": {
                 "n": 29,
                 "mae_in": 0.31
-              },
-              "delta_persistence": {
-                "n": 28,
-                "mae_in": 0.54
               },
               "const_zero_depth": {
                 "n": 29,
@@ -589,10 +619,6 @@
                 "n": 1,
                 "mae_in": 1.0
               },
-              "delta_persistence": {
-                "n": 1,
-                "mae_in": 2.0
-              },
               "const_zero_depth": {
                 "n": 1,
                 "mae_in": 3.0
@@ -618,10 +644,6 @@
               "persistence_1d": {
                 "n": 31,
                 "mae_in": 0.35
-              },
-              "delta_persistence": {
-                "n": 30,
-                "mae_in": 0.63
               },
               "const_zero_depth": {
                 "n": 31,
@@ -677,16 +699,48 @@
       "actual_days": 33,
       "overall_paired": {
         "const_zero_depth": {
+          "n": 32,
+          "mae": 0.009525,
+          "rmse": 0.02199704525612474,
+          "bias": -0.009525
+        },
+        "ecmwf_ifs025": {
+          "n": 32,
+          "mae": 0.009525,
+          "rmse": 0.02199704525612474,
+          "bias": -0.009525
+        },
+        "ensemble_mean_3": {
+          "n": 32,
+          "mae": 0.0110875,
+          "rmse": 0.017079324732943435,
+          "bias": 0.000995833333333334
+        },
+        "gfs_seamless": {
+          "n": 32,
+          "mae": 0.0166625,
+          "rmse": 0.02787463004238801,
+          "bias": 0.0095375
+        },
+        "icon_seamless": {
+          "n": 32,
+          "mae": 0.0101,
+          "rmse": 0.016446732198221018,
+          "bias": 0.002975000000000001
+        },
+        "persistence_1d": {
+          "n": 32,
+          "mae": 0.0079375,
+          "rmse": 0.019049999999999997,
+          "bias": -0.0015875
+        }
+      },
+      "delta_baseline_separate_common_dates": {
+        "const_zero_depth": {
           "n": 31,
           "mae": 0.00983225806451613,
           "rmse": 0.02234902032925424,
           "bias": -0.00983225806451613
-        },
-        "delta_persistence": {
-          "n": 31,
-          "mae": 0.01638709677419355,
-          "rmse": 0.03225803225804839,
-          "bias": 0.0
         },
         "ecmwf_ifs025": {
           "n": 31,
@@ -711,6 +765,68 @@
           "mae": 0.010425806451612903,
           "rmse": 0.016709896623297534,
           "bias": 0.003070967741935485
+        },
+        "observed_linear_extrapolation": {
+          "n": 31,
+          "mae": 0.01638709677419355,
+          "rmse": 0.03225803225804839,
+          "bias": 0.0
+        },
+        "persistence_1d": {
+          "n": 31,
+          "mae": 0.008193548387096775,
+          "rmse": 0.01935481935482903,
+          "bias": -0.0016387096774193547
+        }
+      },
+      "model_delta_persistence_separate_common_dates": {
+        "const_zero_depth": {
+          "n": 31,
+          "mae": 0.00983225806451613,
+          "rmse": 0.02234902032925424,
+          "bias": -0.00983225806451613
+        },
+        "ecmwf_ifs025": {
+          "n": 31,
+          "mae": 0.00983225806451613,
+          "rmse": 0.02234902032925424,
+          "bias": -0.00983225806451613
+        },
+        "ecmwf_ifs025_delta_persistence": {
+          "n": 31,
+          "mae": 0.008193548387096775,
+          "rmse": 0.01935481935482903,
+          "bias": -0.0016387096774193547
+        },
+        "ensemble_mean_3": {
+          "n": 31,
+          "mae": 0.01144516129032258,
+          "rmse": 0.017352611281290488,
+          "bias": 0.0010279569892473125
+        },
+        "gfs_seamless": {
+          "n": 31,
+          "mae": 0.0172,
+          "rmse": 0.028320652443732823,
+          "bias": 0.009845161290322582
+        },
+        "gfs_seamless_delta_persistence": {
+          "n": 31,
+          "mae": 0.023974193548387097,
+          "rmse": 0.034952908411913494,
+          "bias": -0.00034838709677419323
+        },
+        "icon_seamless": {
+          "n": 31,
+          "mae": 0.010425806451612903,
+          "rmse": 0.016709896623297534,
+          "bias": 0.003070967741935485
+        },
+        "icon_seamless_delta_persistence": {
+          "n": 31,
+          "mae": 0.01270967741935484,
+          "rmse": 0.021130073355291504,
+          "bias": 0.0002967741935483871
         },
         "persistence_1d": {
           "n": 31,
@@ -738,10 +854,6 @@
               "n": 7,
               "mae": 0.0363
             },
-            "delta_persistence": {
-              "n": 7,
-              "mae": 0.0617
-            },
             "const_zero_depth": {
               "n": 7,
               "mae": 0.0327
@@ -754,34 +866,30 @@
           },
           "quiet": {
             "gfs_seamless": {
-              "n": 24,
-              "mae": 0.0177
+              "n": 25,
+              "mae": 0.017
             },
             "icon_seamless": {
-              "n": 24,
-              "mae": 0.0089
+              "n": 25,
+              "mae": 0.0086
             },
             "ecmwf_ifs025": {
-              "n": 24,
-              "mae": 0.0032
+              "n": 25,
+              "mae": 0.003
             },
             "persistence_1d": {
-              "n": 24,
+              "n": 25,
               "mae": 0.0
             },
-            "delta_persistence": {
-              "n": 24,
-              "mae": 0.0032
-            },
             "const_zero_depth": {
-              "n": 24,
-              "mae": 0.0032
+              "n": 25,
+              "mae": 0.003
             },
             "ensemble_mean_3": {
-              "n": 24,
-              "mae": 0.0087
+              "n": 25,
+              "mae": 0.0084
             },
-            "paired_days": 24
+            "paired_days": 25
           }
         },
         "threshold_0.02": {
@@ -802,10 +910,6 @@
               "n": 7,
               "mae": 0.0363
             },
-            "delta_persistence": {
-              "n": 7,
-              "mae": 0.0617
-            },
             "const_zero_depth": {
               "n": 7,
               "mae": 0.0327
@@ -818,34 +922,30 @@
           },
           "quiet": {
             "gfs_seamless": {
-              "n": 24,
-              "mae": 0.0177
+              "n": 25,
+              "mae": 0.017
             },
             "icon_seamless": {
-              "n": 24,
-              "mae": 0.0089
+              "n": 25,
+              "mae": 0.0086
             },
             "ecmwf_ifs025": {
-              "n": 24,
-              "mae": 0.0032
+              "n": 25,
+              "mae": 0.003
             },
             "persistence_1d": {
-              "n": 24,
+              "n": 25,
               "mae": 0.0
             },
-            "delta_persistence": {
-              "n": 24,
-              "mae": 0.0032
-            },
             "const_zero_depth": {
-              "n": 24,
-              "mae": 0.0032
+              "n": 25,
+              "mae": 0.003
             },
             "ensemble_mean_3": {
-              "n": 24,
-              "mae": 0.0087
+              "n": 25,
+              "mae": 0.0084
             },
-            "paired_days": 24
+            "paired_days": 25
           }
         },
         "threshold_0.03": {
@@ -866,10 +966,6 @@
               "n": 2,
               "mae": 0.0635
             },
-            "delta_persistence": {
-              "n": 2,
-              "mae": 0.0635
-            },
             "const_zero_depth": {
               "n": 2,
               "mae": 0.0635
@@ -882,34 +978,30 @@
           },
           "quiet": {
             "gfs_seamless": {
-              "n": 29,
-              "mae": 0.0164
+              "n": 30,
+              "mae": 0.0159
             },
             "icon_seamless": {
-              "n": 29,
-              "mae": 0.0095
+              "n": 30,
+              "mae": 0.0092
             },
             "ecmwf_ifs025": {
-              "n": 29,
-              "mae": 0.0061
+              "n": 30,
+              "mae": 0.0059
             },
             "persistence_1d": {
-              "n": 29,
-              "mae": 0.0044
-            },
-            "delta_persistence": {
-              "n": 29,
-              "mae": 0.0131
+              "n": 30,
+              "mae": 0.0042
             },
             "const_zero_depth": {
-              "n": 29,
-              "mae": 0.0061
+              "n": 30,
+              "mae": 0.0059
             },
             "ensemble_mean_3": {
-              "n": 29,
-              "mae": 0.0096
+              "n": 30,
+              "mae": 0.0093
             },
-            "paired_days": 29
+            "paired_days": 30
           }
         }
       },
@@ -918,65 +1010,57 @@
           "1in": {
             "change": {
               "gfs_seamless": {
-                "n": 6,
-                "mae_in": 0.57
+                "n": 7,
+                "mae_in": 0.61
               },
               "icon_seamless": {
-                "n": 6,
-                "mae_in": 0.58
+                "n": 7,
+                "mae_in": 0.61
               },
               "ecmwf_ifs025": {
-                "n": 6,
-                "mae_in": 1.17
+                "n": 7,
+                "mae_in": 1.29
               },
               "persistence_1d": {
-                "n": 6,
-                "mae_in": 1.5
-              },
-              "delta_persistence": {
-                "n": 6,
-                "mae_in": 2.17
+                "n": 7,
+                "mae_in": 1.43
               },
               "const_zero_depth": {
-                "n": 6,
-                "mae_in": 1.17
+                "n": 7,
+                "mae_in": 1.29
               },
               "ensemble_mean_3": {
-                "n": 6,
-                "mae_in": 0.75
+                "n": 7,
+                "mae_in": 0.82
               }
             },
             "quiet": {
               "gfs_seamless": {
-                "n": 26,
-                "mae_in": 0.68
+                "n": 25,
+                "mae_in": 0.67
               },
               "icon_seamless": {
-                "n": 26,
-                "mae_in": 0.36
+                "n": 25,
+                "mae_in": 0.34
               },
               "ecmwf_ifs025": {
-                "n": 26,
-                "mae_in": 0.19
+                "n": 25,
+                "mae_in": 0.12
               },
               "persistence_1d": {
-                "n": 26,
-                "mae_in": 0.04
-              },
-              "delta_persistence": {
                 "n": 25,
-                "mae_in": 0.28
+                "mae_in": 0.0
               },
               "const_zero_depth": {
-                "n": 26,
-                "mae_in": 0.19
+                "n": 25,
+                "mae_in": 0.12
               },
               "ensemble_mean_3": {
-                "n": 26,
-                "mae_in": 0.36
+                "n": 25,
+                "mae_in": 0.33
               }
             },
-            "change_day_count": 6
+            "change_day_count": 7
           },
           "2in": {
             "change": {
@@ -993,10 +1077,6 @@
                 "mae_in": 2.5
               },
               "persistence_1d": {
-                "n": 2,
-                "mae_in": 2.5
-              },
-              "delta_persistence": {
                 "n": 2,
                 "mae_in": 2.5
               },
@@ -1025,10 +1105,6 @@
               "persistence_1d": {
                 "n": 30,
                 "mae_in": 0.17
-              },
-              "delta_persistence": {
-                "n": 29,
-                "mae_in": 0.52
               },
               "const_zero_depth": {
                 "n": 30,
@@ -1059,10 +1135,6 @@
                 "n": 1,
                 "mae_in": 3.0
               },
-              "delta_persistence": {
-                "n": 1,
-                "mae_in": 3.0
-              },
               "const_zero_depth": {
                 "n": 1,
                 "mae_in": 3.0
@@ -1088,10 +1160,6 @@
               "persistence_1d": {
                 "n": 31,
                 "mae_in": 0.23
-              },
-              "delta_persistence": {
-                "n": 30,
-                "mae_in": 0.57
               },
               "const_zero_depth": {
                 "n": 31,
@@ -1125,10 +1193,6 @@
                 "n": 13,
                 "mae_in": 0.62
               },
-              "delta_persistence": {
-                "n": 13,
-                "mae_in": 1.08
-              },
               "const_zero_depth": {
                 "n": 13,
                 "mae_in": 0.62
@@ -1154,10 +1218,6 @@
               "persistence_1d": {
                 "n": 19,
                 "mae_in": 0.11
-              },
-              "delta_persistence": {
-                "n": 18,
-                "mae_in": 0.33
               },
               "const_zero_depth": {
                 "n": 19,
@@ -1187,10 +1247,6 @@
                 "n": 1,
                 "mae_in": 0.0
               },
-              "delta_persistence": {
-                "n": 1,
-                "mae_in": 0.0
-              },
               "const_zero_depth": {
                 "n": 1,
                 "mae_in": 0.0
@@ -1216,10 +1272,6 @@
               "persistence_1d": {
                 "n": 31,
                 "mae_in": 0.32
-              },
-              "delta_persistence": {
-                "n": 30,
-                "mae_in": 0.67
               },
               "const_zero_depth": {
                 "n": 31,
@@ -1249,10 +1301,6 @@
                 "n": 1,
                 "mae_in": 0.0
               },
-              "delta_persistence": {
-                "n": 1,
-                "mae_in": 0.0
-              },
               "const_zero_depth": {
                 "n": 1,
                 "mae_in": 0.0
@@ -1278,10 +1326,6 @@
               "persistence_1d": {
                 "n": 31,
                 "mae_in": 0.32
-              },
-              "delta_persistence": {
-                "n": 30,
-                "mae_in": 0.67
               },
               "const_zero_depth": {
                 "n": 31,
@@ -1337,16 +1381,48 @@
       "actual_days": 33,
       "overall_paired": {
         "const_zero_depth": {
+          "n": 32,
+          "mae": 0.051593749999999994,
+          "rmse": 0.1193901325487161,
+          "bias": -0.051593749999999994
+        },
+        "ecmwf_ifs025": {
+          "n": 32,
+          "mae": 0.026756249999999995,
+          "rmse": 0.060413191854097555,
+          "bias": -0.024406249999999994
+        },
+        "ensemble_mean_3": {
+          "n": 32,
+          "mae": 0.02930208333333333,
+          "rmse": 0.06976789595190294,
+          "bias": -0.02930208333333333
+        },
+        "gfs_seamless": {
+          "n": 32,
+          "mae": 0.023781249999999997,
+          "rmse": 0.05718394661091519,
+          "bias": -0.023781249999999997
+        },
+        "icon_seamless": {
+          "n": 32,
+          "mae": 0.03971875,
+          "rmse": 0.09498686093349963,
+          "bias": -0.03971875
+        },
+        "persistence_1d": {
+          "n": 32,
+          "mae": 0.01508125,
+          "rmse": 0.04422263278005958,
+          "bias": -0.00873125
+        }
+      },
+      "delta_baseline_separate_common_dates": {
+        "const_zero_depth": {
           "n": 31,
           "mae": 0.05325806451612903,
           "rmse": 0.12130049597005217,
           "bias": -0.05325806451612903
-        },
-        "delta_persistence": {
-          "n": 31,
-          "mae": 0.023761290322580644,
-          "rmse": 0.062384065376530455,
-          "bias": 0.0008193548387096767
         },
         "ecmwf_ifs025": {
           "n": 31,
@@ -1371,6 +1447,68 @@
           "mae": 0.040999999999999995,
           "rmse": 0.0965067472152311,
           "bias": -0.040999999999999995
+        },
+        "observed_linear_extrapolation": {
+          "n": 31,
+          "mae": 0.023761290322580644,
+          "rmse": 0.062384065376530455,
+          "bias": 0.0008193548387096767
+        },
+        "persistence_1d": {
+          "n": 31,
+          "mae": 0.01556774193548387,
+          "rmse": 0.04493023983480283,
+          "bias": -0.00901290322580645
+        }
+      },
+      "model_delta_persistence_separate_common_dates": {
+        "const_zero_depth": {
+          "n": 31,
+          "mae": 0.05325806451612903,
+          "rmse": 0.12130049597005217,
+          "bias": -0.05325806451612903
+        },
+        "ecmwf_ifs025": {
+          "n": 31,
+          "mae": 0.027619354838709673,
+          "rmse": 0.06137986430365811,
+          "bias": -0.025193548387096767
+        },
+        "ecmwf_ifs025_delta_persistence": {
+          "n": 31,
+          "mae": 0.01809677419354838,
+          "rmse": 0.051657844546843086,
+          "bias": -0.003851612903225809
+        },
+        "ensemble_mean_3": {
+          "n": 31,
+          "mae": 0.030247311827956987,
+          "rmse": 0.070884253171422,
+          "bias": -0.030247311827956987
+        },
+        "gfs_seamless": {
+          "n": 31,
+          "mae": 0.02454838709677419,
+          "rmse": 0.058098947855666744,
+          "bias": -0.02454838709677419
+        },
+        "gfs_seamless_delta_persistence": {
+          "n": 31,
+          "mae": 0.011296774193548385,
+          "rmse": 0.0349675056532905,
+          "bias": -0.004496774193548389
+        },
+        "icon_seamless": {
+          "n": 31,
+          "mae": 0.040999999999999995,
+          "rmse": 0.0965067472152311,
+          "bias": -0.040999999999999995
+        },
+        "icon_seamless_delta_persistence": {
+          "n": 31,
+          "mae": 0.00973548387096774,
+          "rmse": 0.036950062202575434,
+          "bias": -0.008045161290322579
         },
         "persistence_1d": {
           "n": 31,
@@ -1398,10 +1536,6 @@
               "n": 7,
               "mae": 0.0689
             },
-            "delta_persistence": {
-              "n": 7,
-              "mae": 0.1052
-            },
             "const_zero_depth": {
               "n": 7,
               "mae": 0.2359
@@ -1414,34 +1548,30 @@
           },
           "quiet": {
             "gfs_seamless": {
-              "n": 24,
+              "n": 25,
               "mae": 0.0
             },
             "icon_seamless": {
-              "n": 24,
+              "n": 25,
               "mae": 0.0
             },
             "ecmwf_ifs025": {
-              "n": 24,
+              "n": 25,
               "mae": 0.0
             },
             "persistence_1d": {
-              "n": 24,
-              "mae": 0.0
-            },
-            "delta_persistence": {
-              "n": 24,
+              "n": 25,
               "mae": 0.0
             },
             "const_zero_depth": {
-              "n": 24,
+              "n": 25,
               "mae": 0.0
             },
             "ensemble_mean_3": {
-              "n": 24,
+              "n": 25,
               "mae": 0.0
             },
-            "paired_days": 24
+            "paired_days": 25
           }
         },
         "threshold_0.02": {
@@ -1462,10 +1592,6 @@
               "n": 7,
               "mae": 0.0689
             },
-            "delta_persistence": {
-              "n": 7,
-              "mae": 0.1052
-            },
             "const_zero_depth": {
               "n": 7,
               "mae": 0.2359
@@ -1478,34 +1604,30 @@
           },
           "quiet": {
             "gfs_seamless": {
-              "n": 24,
+              "n": 25,
               "mae": 0.0
             },
             "icon_seamless": {
-              "n": 24,
+              "n": 25,
               "mae": 0.0
             },
             "ecmwf_ifs025": {
-              "n": 24,
+              "n": 25,
               "mae": 0.0
             },
             "persistence_1d": {
-              "n": 24,
-              "mae": 0.0
-            },
-            "delta_persistence": {
-              "n": 24,
+              "n": 25,
               "mae": 0.0
             },
             "const_zero_depth": {
-              "n": 24,
+              "n": 25,
               "mae": 0.0
             },
             "ensemble_mean_3": {
-              "n": 24,
+              "n": 25,
               "mae": 0.0
             },
-            "paired_days": 24
+            "paired_days": 25
           }
         },
         "threshold_0.03": {
@@ -1526,10 +1648,6 @@
               "n": 3,
               "mae": 0.127
             },
-            "delta_persistence": {
-              "n": 3,
-              "mae": 0.1185
-            },
             "const_zero_depth": {
               "n": 3,
               "mae": 0.2117
@@ -1542,34 +1660,30 @@
           },
           "quiet": {
             "gfs_seamless": {
-              "n": 28,
-              "mae": 0.0188
+              "n": 29,
+              "mae": 0.0181
             },
             "icon_seamless": {
-              "n": 28,
-              "mae": 0.0302
+              "n": 29,
+              "mae": 0.0292
             },
             "ecmwf_ifs025": {
-              "n": 28,
-              "mae": 0.0184
+              "n": 29,
+              "mae": 0.0178
             },
             "persistence_1d": {
-              "n": 28,
-              "mae": 0.0036
-            },
-            "delta_persistence": {
-              "n": 28,
-              "mae": 0.0136
+              "n": 29,
+              "mae": 0.0035
             },
             "const_zero_depth": {
-              "n": 28,
-              "mae": 0.0363
+              "n": 29,
+              "mae": 0.035
             },
             "ensemble_mean_3": {
-              "n": 28,
-              "mae": 0.0225
+              "n": 29,
+              "mae": 0.0217
             },
-            "paired_days": 28
+            "paired_days": 29
           }
         }
       },
@@ -1578,128 +1692,112 @@
           "1in": {
             "change": {
               "gfs_seamless": {
-                "n": 5,
-                "mae_in": 3.63
+                "n": 7,
+                "mae_in": 4.28
               },
               "icon_seamless": {
-                "n": 5,
-                "mae_in": 6.0
+                "n": 7,
+                "mae_in": 7.15
               },
               "ecmwf_ifs025": {
-                "n": 5,
-                "mae_in": 4.54
+                "n": 7,
+                "mae_in": 4.82
               },
               "persistence_1d": {
-                "n": 5,
-                "mae_in": 3.4
-              },
-              "delta_persistence": {
-                "n": 5,
-                "mae_in": 4.0
+                "n": 7,
+                "mae_in": 2.71
               },
               "const_zero_depth": {
-                "n": 5,
-                "mae_in": 8.2
+                "n": 7,
+                "mae_in": 9.29
               },
               "ensemble_mean_3": {
-                "n": 5,
-                "mae_in": 4.53
+                "n": 7,
+                "mae_in": 5.27
               }
             },
             "quiet": {
               "gfs_seamless": {
-                "n": 27,
-                "mae_in": 0.44
+                "n": 25,
+                "mae_in": 0.0
               },
               "icon_seamless": {
-                "n": 27,
-                "mae_in": 0.74
+                "n": 25,
+                "mae_in": 0.0
               },
               "ecmwf_ifs025": {
-                "n": 27,
-                "mae_in": 0.41
+                "n": 25,
+                "mae_in": 0.0
               },
               "persistence_1d": {
-                "n": 27,
-                "mae_in": 0.07
-              },
-              "delta_persistence": {
-                "n": 26,
-                "mae_in": 0.35
+                "n": 25,
+                "mae_in": 0.0
               },
               "const_zero_depth": {
-                "n": 27,
-                "mae_in": 0.89
+                "n": 25,
+                "mae_in": 0.0
               },
               "ensemble_mean_3": {
-                "n": 27,
-                "mae_in": 0.53
+                "n": 25,
+                "mae_in": 0.0
               }
             },
-            "change_day_count": 5
+            "change_day_count": 7
           },
           "2in": {
             "change": {
               "gfs_seamless": {
-                "n": 2,
-                "mae_in": 4.58
+                "n": 3,
+                "mae_in": 3.08
               },
               "icon_seamless": {
-                "n": 2,
-                "mae_in": 6.74
+                "n": 3,
+                "mae_in": 5.58
               },
               "ecmwf_ifs025": {
-                "n": 2,
-                "mae_in": 5.96
+                "n": 3,
+                "mae_in": 4.46
               },
               "persistence_1d": {
-                "n": 2,
-                "mae_in": 6.5
-              },
-              "delta_persistence": {
-                "n": 2,
-                "mae_in": 5.5
+                "n": 3,
+                "mae_in": 5.0
               },
               "const_zero_depth": {
-                "n": 2,
-                "mae_in": 9.5
+                "n": 3,
+                "mae_in": 8.33
               },
               "ensemble_mean_3": {
-                "n": 2,
-                "mae_in": 5.76
+                "n": 3,
+                "mae_in": 4.05
               }
             },
             "quiet": {
               "gfs_seamless": {
-                "n": 30,
-                "mae_in": 0.69
+                "n": 29,
+                "mae_in": 0.71
               },
               "icon_seamless": {
-                "n": 30,
-                "mae_in": 1.22
+                "n": 29,
+                "mae_in": 1.15
               },
               "ecmwf_ifs025": {
-                "n": 30,
-                "mae_in": 0.73
+                "n": 29,
+                "mae_in": 0.7
               },
               "persistence_1d": {
-                "n": 30,
-                "mae_in": 0.2
-              },
-              "delta_persistence": {
                 "n": 29,
-                "mae_in": 0.62
+                "mae_in": 0.14
               },
               "const_zero_depth": {
-                "n": 30,
-                "mae_in": 1.53
+                "n": 29,
+                "mae_in": 1.38
               },
               "ensemble_mean_3": {
-                "n": 30,
+                "n": 29,
                 "mae_in": 0.85
               }
             },
-            "change_day_count": 2
+            "change_day_count": 3
           },
           "3in": {
             "change": {
@@ -1719,10 +1817,6 @@
                 "n": 2,
                 "mae_in": 6.5
               },
-              "delta_persistence": {
-                "n": 2,
-                "mae_in": 5.5
-              },
               "const_zero_depth": {
                 "n": 2,
                 "mae_in": 9.5
@@ -1748,10 +1842,6 @@
               "persistence_1d": {
                 "n": 30,
                 "mae_in": 0.2
-              },
-              "delta_persistence": {
-                "n": 29,
-                "mae_in": 0.62
               },
               "const_zero_depth": {
                 "n": 30,
@@ -1785,10 +1875,6 @@
                 "n": 7,
                 "mae_in": 2.71
               },
-              "delta_persistence": {
-                "n": 7,
-                "mae_in": 4.14
-              },
               "const_zero_depth": {
                 "n": 7,
                 "mae_in": 9.29
@@ -1813,10 +1899,6 @@
               },
               "persistence_1d": {
                 "n": 25,
-                "mae_in": 0.0
-              },
-              "delta_persistence": {
-                "n": 24,
                 "mae_in": 0.0
               },
               "const_zero_depth": {
@@ -1847,10 +1929,6 @@
                 "n": 5,
                 "mae_in": 1.8
               },
-              "delta_persistence": {
-                "n": 5,
-                "mae_in": 4.0
-              },
               "const_zero_depth": {
                 "n": 5,
                 "mae_in": 9.0
@@ -1876,10 +1954,6 @@
               "persistence_1d": {
                 "n": 27,
                 "mae_in": 0.37
-              },
-              "delta_persistence": {
-                "n": 26,
-                "mae_in": 0.35
               },
               "const_zero_depth": {
                 "n": 27,
@@ -1909,10 +1983,6 @@
                 "n": 4,
                 "mae_in": 1.0
               },
-              "delta_persistence": {
-                "n": 4,
-                "mae_in": 3.75
-              },
               "const_zero_depth": {
                 "n": 4,
                 "mae_in": 10.0
@@ -1938,10 +2008,6 @@
               "persistence_1d": {
                 "n": 28,
                 "mae_in": 0.54
-              },
-              "delta_persistence": {
-                "n": 27,
-                "mae_in": 0.52
               },
               "const_zero_depth": {
                 "n": 28,
@@ -1997,16 +2063,48 @@
       "actual_days": 33,
       "overall_paired": {
         "const_zero_depth": {
+          "n": 32,
+          "mae": 0.123825,
+          "rmse": 0.24716105579156275,
+          "bias": -0.123825
+        },
+        "ecmwf_ifs025": {
+          "n": 32,
+          "mae": 0.03968750000000001,
+          "rmse": 0.07454419829872745,
+          "bias": 0.034925000000000005
+        },
+        "ensemble_mean_3": {
+          "n": 32,
+          "mae": 0.008316666666666661,
+          "rmse": 0.016145733870661375,
+          "bias": -0.004866666666666663
+        },
+        "gfs_seamless": {
+          "n": 32,
+          "mae": 0.013250000000000003,
+          "rmse": 0.023999218737283935,
+          "bias": 0.0036750000000000055
+        },
+        "icon_seamless": {
+          "n": 32,
+          "mae": 0.053200000000000004,
+          "rmse": 0.09950546467405696,
+          "bias": -0.053200000000000004
+        },
+        "persistence_1d": {
+          "n": 32,
+          "mae": 0.0301625,
+          "rmse": 0.07295594561103297,
+          "bias": -0.015875
+        }
+      },
+      "delta_baseline_separate_common_dates": {
+        "const_zero_depth": {
           "n": 31,
           "mae": 0.12781935483870968,
           "rmse": 0.25111588380023714,
           "bias": -0.12781935483870968
-        },
-        "delta_persistence": {
-          "n": 31,
-          "mae": 0.03687096774193549,
-          "rmse": 0.08198872463785453,
-          "bias": 0.0008193548387096767
         },
         "ecmwf_ifs025": {
           "n": 31,
@@ -2031,6 +2129,68 @@
           "mae": 0.05491612903225807,
           "rmse": 0.10109765320654562,
           "bias": -0.05491612903225807
+        },
+        "observed_linear_extrapolation": {
+          "n": 31,
+          "mae": 0.03687096774193549,
+          "rmse": 0.08198872463785453,
+          "bias": 0.0008193548387096767
+        },
+        "persistence_1d": {
+          "n": 31,
+          "mae": 0.03113548387096774,
+          "rmse": 0.07412331486416142,
+          "bias": -0.01638709677419355
+        }
+      },
+      "model_delta_persistence_separate_common_dates": {
+        "const_zero_depth": {
+          "n": 31,
+          "mae": 0.12781935483870968,
+          "rmse": 0.25111588380023714,
+          "bias": -0.12781935483870968
+        },
+        "ecmwf_ifs025": {
+          "n": 31,
+          "mae": 0.04096774193548388,
+          "rmse": 0.07573698120852618,
+          "bias": 0.03605161290322581
+        },
+        "ecmwf_ifs025_delta_persistence": {
+          "n": 31,
+          "mae": 0.01905806451612904,
+          "rmse": 0.04193475731380526,
+          "bias": 0.006193548387096788
+        },
+        "ensemble_mean_3": {
+          "n": 31,
+          "mae": 0.008584946236559135,
+          "rmse": 0.016404082016682173,
+          "bias": -0.005023655913978491
+        },
+        "gfs_seamless": {
+          "n": 31,
+          "mae": 0.013677419354838714,
+          "rmse": 0.024383230620323288,
+          "bias": 0.00379354838709678
+        },
+        "gfs_seamless_delta_persistence": {
+          "n": 31,
+          "mae": 0.013522580645161287,
+          "rmse": 0.02180724946049496,
+          "bias": 0.001354838709677428
+        },
+        "icon_seamless": {
+          "n": 31,
+          "mae": 0.05491612903225807,
+          "rmse": 0.10109765320654562,
+          "bias": -0.05491612903225807
+        },
+        "icon_seamless_delta_persistence": {
+          "n": 31,
+          "mae": 0.015935483870967736,
+          "rmse": 0.04035896990277257,
+          "bias": -0.007354838709677417
         },
         "persistence_1d": {
           "n": 31,
@@ -2058,10 +2218,6 @@
               "n": 12,
               "mae": 0.0804
             },
-            "delta_persistence": {
-              "n": 12,
-              "mae": 0.0868
-            },
             "const_zero_depth": {
               "n": 12,
               "mae": 0.3154
@@ -2074,34 +2230,30 @@
           },
           "quiet": {
             "gfs_seamless": {
-              "n": 19,
-              "mae": 0.0036
+              "n": 20,
+              "mae": 0.0034
             },
             "icon_seamless": {
-              "n": 19,
-              "mae": 0.0078
+              "n": 20,
+              "mae": 0.0074
             },
             "ecmwf_ifs025": {
-              "n": 19,
-              "mae": 0.0044
+              "n": 20,
+              "mae": 0.0042
             },
             "persistence_1d": {
-              "n": 19,
+              "n": 20,
               "mae": 0.0
             },
-            "delta_persistence": {
-              "n": 19,
-              "mae": 0.0053
-            },
             "const_zero_depth": {
-              "n": 19,
-              "mae": 0.0094
+              "n": 20,
+              "mae": 0.0089
             },
             "ensemble_mean_3": {
-              "n": 19,
-              "mae": 0.0041
+              "n": 20,
+              "mae": 0.0039
             },
-            "paired_days": 19
+            "paired_days": 20
           }
         },
         "threshold_0.02": {
@@ -2122,10 +2274,6 @@
               "n": 12,
               "mae": 0.0804
             },
-            "delta_persistence": {
-              "n": 12,
-              "mae": 0.0868
-            },
             "const_zero_depth": {
               "n": 12,
               "mae": 0.3154
@@ -2138,34 +2286,30 @@
           },
           "quiet": {
             "gfs_seamless": {
-              "n": 19,
-              "mae": 0.0036
+              "n": 20,
+              "mae": 0.0034
             },
             "icon_seamless": {
-              "n": 19,
-              "mae": 0.0078
+              "n": 20,
+              "mae": 0.0074
             },
             "ecmwf_ifs025": {
-              "n": 19,
-              "mae": 0.0044
+              "n": 20,
+              "mae": 0.0042
             },
             "persistence_1d": {
-              "n": 19,
+              "n": 20,
               "mae": 0.0
             },
-            "delta_persistence": {
-              "n": 19,
-              "mae": 0.0053
-            },
             "const_zero_depth": {
-              "n": 19,
-              "mae": 0.0094
+              "n": 20,
+              "mae": 0.0089
             },
             "ensemble_mean_3": {
-              "n": 19,
-              "mae": 0.0041
+              "n": 20,
+              "mae": 0.0039
             },
-            "paired_days": 19
+            "paired_days": 20
           }
         },
         "threshold_0.03": {
@@ -2186,10 +2330,6 @@
               "n": 6,
               "mae": 0.1355
             },
-            "delta_persistence": {
-              "n": 6,
-              "mae": 0.0889
-            },
             "const_zero_depth": {
               "n": 6,
               "mae": 0.4064
@@ -2202,34 +2342,30 @@
           },
           "quiet": {
             "gfs_seamless": {
-              "n": 25,
-              "mae": 0.0078
+              "n": 26,
+              "mae": 0.0075
             },
             "icon_seamless": {
-              "n": 25,
-              "mae": 0.0322
+              "n": 26,
+              "mae": 0.0309
             },
             "ecmwf_ifs025": {
-              "n": 25,
-              "mae": 0.0247
+              "n": 26,
+              "mae": 0.0238
             },
             "persistence_1d": {
-              "n": 25,
-              "mae": 0.0061
-            },
-            "delta_persistence": {
-              "n": 25,
-              "mae": 0.0244
+              "n": 26,
+              "mae": 0.0059
             },
             "const_zero_depth": {
-              "n": 25,
-              "mae": 0.061
+              "n": 26,
+              "mae": 0.0586
             },
             "ensemble_mean_3": {
-              "n": 25,
-              "mae": 0.005
+              "n": 26,
+              "mae": 0.0048
             },
-            "paired_days": 25
+            "paired_days": 26
           }
         }
       },
@@ -2238,128 +2374,112 @@
           "1in": {
             "change": {
               "gfs_seamless": {
-                "n": 10,
-                "mae_in": 1.1
+                "n": 12,
+                "mae_in": 1.17
               },
               "icon_seamless": {
-                "n": 10,
-                "mae_in": 4.22
+                "n": 12,
+                "mae_in": 5.1
               },
               "ecmwf_ifs025": {
-                "n": 10,
-                "mae_in": 3.23
+                "n": 12,
+                "mae_in": 3.89
               },
               "persistence_1d": {
-                "n": 10,
-                "mae_in": 3.6
-              },
-              "delta_persistence": {
-                "n": 10,
-                "mae_in": 2.9
+                "n": 12,
+                "mae_in": 3.17
               },
               "const_zero_depth": {
-                "n": 10,
-                "mae_in": 10.4
+                "n": 12,
+                "mae_in": 12.42
               },
               "ensemble_mean_3": {
-                "n": 10,
-                "mae_in": 0.67
+                "n": 12,
+                "mae_in": 0.62
               }
             },
             "quiet": {
               "gfs_seamless": {
-                "n": 22,
-                "mae_in": 0.26
+                "n": 20,
+                "mae_in": 0.13
               },
               "icon_seamless": {
-                "n": 22,
-                "mae_in": 1.13
+                "n": 20,
+                "mae_in": 0.29
               },
               "ecmwf_ifs025": {
-                "n": 22,
-                "mae_in": 0.81
+                "n": 20,
+                "mae_in": 0.16
               },
               "persistence_1d": {
-                "n": 22,
-                "mae_in": 0.09
-              },
-              "delta_persistence": {
-                "n": 21,
-                "mae_in": 0.76
+                "n": 20,
+                "mae_in": 0.0
               },
               "const_zero_depth": {
-                "n": 22,
-                "mae_in": 2.36
+                "n": 20,
+                "mae_in": 0.35
               },
               "ensemble_mean_3": {
-                "n": 22,
-                "mae_in": 0.17
+                "n": 20,
+                "mae_in": 0.15
               }
             },
-            "change_day_count": 10
+            "change_day_count": 12
           },
           "2in": {
             "change": {
               "gfs_seamless": {
-                "n": 5,
-                "mae_in": 1.2
+                "n": 6,
+                "mae_in": 1.5
               },
               "icon_seamless": {
-                "n": 5,
-                "mae_in": 5.31
+                "n": 6,
+                "mae_in": 5.9
               },
               "ecmwf_ifs025": {
-                "n": 5,
-                "mae_in": 3.58
+                "n": 6,
+                "mae_in": 4.28
               },
               "persistence_1d": {
-                "n": 5,
-                "mae_in": 6.0
-              },
-              "delta_persistence": {
-                "n": 5,
-                "mae_in": 4.2
+                "n": 6,
+                "mae_in": 5.33
               },
               "const_zero_depth": {
-                "n": 5,
-                "mae_in": 15.0
+                "n": 6,
+                "mae_in": 16.0
               },
               "ensemble_mean_3": {
-                "n": 5,
-                "mae_in": 0.98
+                "n": 6,
+                "mae_in": 0.93
               }
             },
             "quiet": {
               "gfs_seamless": {
-                "n": 27,
-                "mae_in": 0.4
+                "n": 26,
+                "mae_in": 0.29
               },
               "icon_seamless": {
-                "n": 27,
-                "mae_in": 1.5
+                "n": 26,
+                "mae_in": 1.22
               },
               "ecmwf_ifs025": {
-                "n": 27,
-                "mae_in": 1.19
+                "n": 26,
+                "mae_in": 0.94
               },
               "persistence_1d": {
-                "n": 27,
-                "mae_in": 0.3
-              },
-              "delta_persistence": {
                 "n": 26,
-                "mae_in": 0.92
+                "mae_in": 0.23
               },
               "const_zero_depth": {
-                "n": 27,
-                "mae_in": 3.0
+                "n": 26,
+                "mae_in": 2.31
               },
               "ensemble_mean_3": {
-                "n": 27,
-                "mae_in": 0.21
+                "n": 26,
+                "mae_in": 0.19
               }
             },
-            "change_day_count": 5
+            "change_day_count": 6
           },
           "3in": {
             "change": {
@@ -2378,10 +2498,6 @@
               "persistence_1d": {
                 "n": 3,
                 "mae_in": 8.67
-              },
-              "delta_persistence": {
-                "n": 3,
-                "mae_in": 5.67
               },
               "const_zero_depth": {
                 "n": 3,
@@ -2408,10 +2524,6 @@
               "persistence_1d": {
                 "n": 29,
                 "mae_in": 0.41
-              },
-              "delta_persistence": {
-                "n": 28,
-                "mae_in": 1.0
               },
               "const_zero_depth": {
                 "n": 29,
@@ -2445,10 +2557,6 @@
                 "n": 8,
                 "mae_in": 3.88
               },
-              "delta_persistence": {
-                "n": 8,
-                "mae_in": 2.63
-              },
               "const_zero_depth": {
                 "n": 8,
                 "mae_in": 9.75
@@ -2474,10 +2582,6 @@
               "persistence_1d": {
                 "n": 24,
                 "mae_in": 0.29
-              },
-              "delta_persistence": {
-                "n": 23,
-                "mae_in": 1.04
               },
               "const_zero_depth": {
                 "n": 24,
@@ -2507,10 +2611,6 @@
                 "n": 4,
                 "mae_in": 6.75
               },
-              "delta_persistence": {
-                "n": 4,
-                "mae_in": 4.25
-              },
               "const_zero_depth": {
                 "n": 4,
                 "mae_in": 12.5
@@ -2536,10 +2636,6 @@
               "persistence_1d": {
                 "n": 28,
                 "mae_in": 0.39
-              },
-              "delta_persistence": {
-                "n": 27,
-                "mae_in": 1.04
               },
               "const_zero_depth": {
                 "n": 28,
@@ -2569,10 +2665,6 @@
                 "n": 3,
                 "mae_in": 8.67
               },
-              "delta_persistence": {
-                "n": 3,
-                "mae_in": 5.67
-              },
               "const_zero_depth": {
                 "n": 3,
                 "mae_in": 15.67
@@ -2598,10 +2690,6 @@
               "persistence_1d": {
                 "n": 29,
                 "mae_in": 0.41
-              },
-              "delta_persistence": {
-                "n": 28,
-                "mae_in": 1.0
               },
               "const_zero_depth": {
                 "n": 29,
@@ -2657,16 +2745,48 @@
       "actual_days": 27,
       "overall_paired": {
         "const_zero_depth": {
+          "n": 24,
+          "mae": 0.030692089999999995,
+          "rmse": 0.06858783906598846,
+          "bias": -0.030692089999999995
+        },
+        "ecmwf_ifs025": {
+          "n": 24,
+          "mae": 0.030692089999999995,
+          "rmse": 0.06858783906598846,
+          "bias": -0.030692089999999995
+        },
+        "ensemble_mean_3": {
+          "n": 24,
+          "mae": 0.027775211666666664,
+          "rmse": 0.062310113315942835,
+          "bias": -0.027497645555555558
+        },
+        "gfs_seamless": {
+          "n": 24,
+          "mae": 0.02527521166666666,
+          "rmse": 0.05858147788401438,
+          "bias": -0.02444209
+        },
+        "icon_seamless": {
+          "n": 24,
+          "mae": 0.027358756666666664,
+          "rmse": 0.06117291068009815,
+          "bias": -0.027358756666666664
+        },
+        "persistence_1d": {
+          "n": 24,
+          "mae": 0.009524999999999999,
+          "rmse": 0.02694036924773489,
+          "bias": -0.005291666666666667
+        }
+      },
+      "delta_baseline_separate_common_dates": {
+        "const_zero_depth": {
           "n": 23,
           "mae": 0.032026528695652166,
           "rmse": 0.07006301512266325,
           "bias": -0.032026528695652166
-        },
-        "delta_persistence": {
-          "n": 23,
-          "mae": 0.009939130434782612,
-          "rmse": 0.02751969639762891,
-          "bias": 0.0011043478260869568
         },
         "ecmwf_ifs025": {
           "n": 23,
@@ -2691,6 +2811,68 @@
           "mae": 0.028548267826086954,
           "rmse": 0.06248860766634618,
           "bias": -0.028548267826086954
+        },
+        "observed_linear_extrapolation": {
+          "n": 23,
+          "mae": 0.009939130434782612,
+          "rmse": 0.02751969639762891,
+          "bias": 0.0011043478260869568
+        },
+        "persistence_1d": {
+          "n": 23,
+          "mae": 0.009939130434782607,
+          "rmse": 0.027519798315823775,
+          "bias": -0.005521739130434783
+        }
+      },
+      "model_delta_persistence_separate_common_dates": {
+        "const_zero_depth": {
+          "n": 23,
+          "mae": 0.032026528695652166,
+          "rmse": 0.07006301512266325,
+          "bias": -0.032026528695652166
+        },
+        "ecmwf_ifs025": {
+          "n": 23,
+          "mae": 0.032026528695652166,
+          "rmse": 0.07006301512266325,
+          "bias": -0.032026528695652166
+        },
+        "ecmwf_ifs025_delta_persistence": {
+          "n": 23,
+          "mae": 0.009939130434782607,
+          "rmse": 0.027519798315823775,
+          "bias": -0.005521739130434783
+        },
+        "ensemble_mean_3": {
+          "n": 23,
+          "mae": 0.02898282956521739,
+          "rmse": 0.06365026907101681,
+          "bias": -0.028693195362318843
+        },
+        "gfs_seamless": {
+          "n": 23,
+          "mae": 0.026374133913043475,
+          "rmse": 0.059841438756319726,
+          "bias": -0.02550478956521739
+        },
+        "gfs_seamless_delta_persistence": {
+          "n": 23,
+          "mae": 0.01080869565217391,
+          "rmse": 0.02357145352078967,
+          "bias": -0.005521739130434784
+        },
+        "icon_seamless": {
+          "n": 23,
+          "mae": 0.028548267826086954,
+          "rmse": 0.06248860766634618,
+          "bias": -0.028548267826086954
+        },
+        "icon_seamless_delta_persistence": {
+          "n": 23,
+          "mae": 0.008199999999999999,
+          "rmse": 0.02247211362217549,
+          "bias": -0.005521739130434783
         },
         "persistence_1d": {
           "n": 23,
@@ -2718,10 +2900,6 @@
               "n": 4,
               "mae": 0.0571
             },
-            "delta_persistence": {
-              "n": 4,
-              "mae": 0.0381
-            },
             "const_zero_depth": {
               "n": 4,
               "mae": 0.1397
@@ -2734,34 +2912,30 @@
           },
           "quiet": {
             "gfs_seamless": {
-              "n": 19,
-              "mae": 0.0099
+              "n": 20,
+              "mae": 0.0094
             },
             "icon_seamless": {
-              "n": 19,
-              "mae": 0.0083
+              "n": 20,
+              "mae": 0.0079
             },
             "ecmwf_ifs025": {
-              "n": 19,
-              "mae": 0.0094
+              "n": 20,
+              "mae": 0.0089
             },
             "persistence_1d": {
-              "n": 19,
+              "n": 20,
               "mae": 0.0
             },
-            "delta_persistence": {
-              "n": 19,
-              "mae": 0.004
-            },
             "const_zero_depth": {
-              "n": 19,
-              "mae": 0.0094
+              "n": 20,
+              "mae": 0.0089
             },
             "ensemble_mean_3": {
-              "n": 19,
-              "mae": 0.0092
+              "n": 20,
+              "mae": 0.0087
             },
-            "paired_days": 19
+            "paired_days": 20
           }
         },
         "threshold_0.02": {
@@ -2782,10 +2956,6 @@
               "n": 4,
               "mae": 0.0571
             },
-            "delta_persistence": {
-              "n": 4,
-              "mae": 0.0381
-            },
             "const_zero_depth": {
               "n": 4,
               "mae": 0.1397
@@ -2798,34 +2968,30 @@
           },
           "quiet": {
             "gfs_seamless": {
-              "n": 19,
-              "mae": 0.0099
+              "n": 20,
+              "mae": 0.0094
             },
             "icon_seamless": {
-              "n": 19,
-              "mae": 0.0083
+              "n": 20,
+              "mae": 0.0079
             },
             "ecmwf_ifs025": {
-              "n": 19,
-              "mae": 0.0094
+              "n": 20,
+              "mae": 0.0089
             },
             "persistence_1d": {
-              "n": 19,
+              "n": 20,
               "mae": 0.0
             },
-            "delta_persistence": {
-              "n": 19,
-              "mae": 0.004
-            },
             "const_zero_depth": {
-              "n": 19,
-              "mae": 0.0094
+              "n": 20,
+              "mae": 0.0089
             },
             "ensemble_mean_3": {
-              "n": 19,
-              "mae": 0.0092
+              "n": 20,
+              "mae": 0.0087
             },
-            "paired_days": 19
+            "paired_days": 20
           }
         },
         "threshold_0.03": {
@@ -2846,10 +3012,6 @@
               "n": 2,
               "mae": 0.0889
             },
-            "delta_persistence": {
-              "n": 2,
-              "mae": 0.0635
-            },
             "const_zero_depth": {
               "n": 2,
               "mae": 0.1397
@@ -2862,34 +3024,30 @@
           },
           "quiet": {
             "gfs_seamless": {
-              "n": 21,
-              "mae": 0.0222
+              "n": 22,
+              "mae": 0.0212
             },
             "icon_seamless": {
-              "n": 21,
-              "mae": 0.0203
+              "n": 22,
+              "mae": 0.0194
             },
             "ecmwf_ifs025": {
-              "n": 21,
-              "mae": 0.0218
+              "n": 22,
+              "mae": 0.0208
             },
             "persistence_1d": {
-              "n": 21,
-              "mae": 0.0024
-            },
-            "delta_persistence": {
-              "n": 21,
-              "mae": 0.0048
+              "n": 22,
+              "mae": 0.0023
             },
             "const_zero_depth": {
-              "n": 21,
-              "mae": 0.0218
+              "n": 22,
+              "mae": 0.0208
             },
             "ensemble_mean_3": {
-              "n": 21,
-              "mae": 0.0215
+              "n": 22,
+              "mae": 0.0205
             },
-            "paired_days": 21
+            "paired_days": 22
           }
         }
       },
@@ -2898,65 +3056,57 @@
           "1in": {
             "change": {
               "gfs_seamless": {
-                "n": 3,
-                "mae_in": 3.83
+                "n": 4,
+                "mae_in": 4.12
               },
               "icon_seamless": {
-                "n": 3,
-                "mae_in": 4.88
+                "n": 4,
+                "mae_in": 4.91
               },
               "ecmwf_ifs025": {
-                "n": 3,
-                "mae_in": 5.67
+                "n": 4,
+                "mae_in": 5.5
               },
               "persistence_1d": {
-                "n": 3,
-                "mae_in": 2.67
-              },
-              "delta_persistence": {
-                "n": 3,
-                "mae_in": 2.0
+                "n": 4,
+                "mae_in": 2.25
               },
               "const_zero_depth": {
-                "n": 3,
-                "mae_in": 5.67
+                "n": 4,
+                "mae_in": 5.5
               },
               "ensemble_mean_3": {
-                "n": 3,
-                "mae_in": 4.79
+                "n": 4,
+                "mae_in": 4.84
               }
             },
             "quiet": {
               "gfs_seamless": {
-                "n": 21,
-                "mae_in": 0.59
+                "n": 20,
+                "mae_in": 0.37
               },
               "icon_seamless": {
-                "n": 21,
-                "mae_in": 0.53
+                "n": 20,
+                "mae_in": 0.31
               },
               "ecmwf_ifs025": {
-                "n": 21,
-                "mae_in": 0.57
+                "n": 20,
+                "mae_in": 0.35
               },
               "persistence_1d": {
-                "n": 21,
-                "mae_in": 0.05
-              },
-              "delta_persistence": {
                 "n": 20,
-                "mae_in": 0.15
+                "mae_in": 0.0
               },
               "const_zero_depth": {
-                "n": 21,
-                "mae_in": 0.57
+                "n": 20,
+                "mae_in": 0.35
               },
               "ensemble_mean_3": {
-                "n": 21,
-                "mae_in": 0.57
+                "n": 20,
+                "mae_in": 0.34
               }
             },
-            "change_day_count": 3
+            "change_day_count": 4
           },
           "2in": {
             "change": {
@@ -2975,10 +3125,6 @@
               "persistence_1d": {
                 "n": 2,
                 "mae_in": 3.5
-              },
-              "delta_persistence": {
-                "n": 2,
-                "mae_in": 2.5
               },
               "const_zero_depth": {
                 "n": 2,
@@ -3005,10 +3151,6 @@
               "persistence_1d": {
                 "n": 22,
                 "mae_in": 0.09
-              },
-              "delta_persistence": {
-                "n": 21,
-                "mae_in": 0.19
               },
               "const_zero_depth": {
                 "n": 22,
@@ -3039,10 +3181,6 @@
                 "n": 2,
                 "mae_in": 3.5
               },
-              "delta_persistence": {
-                "n": 2,
-                "mae_in": 2.5
-              },
               "const_zero_depth": {
                 "n": 2,
                 "mae_in": 5.5
@@ -3068,10 +3206,6 @@
               "persistence_1d": {
                 "n": 22,
                 "mae_in": 0.09
-              },
-              "delta_persistence": {
-                "n": 21,
-                "mae_in": 0.19
               },
               "const_zero_depth": {
                 "n": 22,
@@ -3105,10 +3239,6 @@
                 "n": 4,
                 "mae_in": 1.5
               },
-              "delta_persistence": {
-                "n": 4,
-                "mae_in": 2.0
-              },
               "const_zero_depth": {
                 "n": 4,
                 "mae_in": 5.5
@@ -3134,10 +3264,6 @@
               "persistence_1d": {
                 "n": 20,
                 "mae_in": 0.15
-              },
-              "delta_persistence": {
-                "n": 19,
-                "mae_in": 0.05
               },
               "const_zero_depth": {
                 "n": 20,
@@ -3167,10 +3293,6 @@
                 "n": 4,
                 "mae_in": 1.5
               },
-              "delta_persistence": {
-                "n": 4,
-                "mae_in": 2.0
-              },
               "const_zero_depth": {
                 "n": 4,
                 "mae_in": 5.5
@@ -3196,10 +3318,6 @@
               "persistence_1d": {
                 "n": 20,
                 "mae_in": 0.15
-              },
-              "delta_persistence": {
-                "n": 19,
-                "mae_in": 0.05
               },
               "const_zero_depth": {
                 "n": 20,
@@ -3229,10 +3347,6 @@
                 "n": 3,
                 "mae_in": 0.67
               },
-              "delta_persistence": {
-                "n": 3,
-                "mae_in": 1.33
-              },
               "const_zero_depth": {
                 "n": 3,
                 "mae_in": 6.0
@@ -3258,10 +3372,6 @@
               "persistence_1d": {
                 "n": 21,
                 "mae_in": 0.33
-              },
-              "delta_persistence": {
-                "n": 20,
-                "mae_in": 0.25
               },
               "const_zero_depth": {
                 "n": 21,

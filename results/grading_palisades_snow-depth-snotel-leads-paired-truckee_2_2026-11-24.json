@@ -11,6 +11,19 @@
     "2026-10-23",
     "2026-11-24"
   ],
+  "actuals_provenance": {
+    "path": "results/raw/actuals/snotel_834-CA-SNTL_2026-10-23_2026-11-24.json",
+    "csv_path": "results/raw/actuals/snotel_834-CA-SNTL_2026-10-23_2026-11-24.csv",
+    "sha256": "6dc45c4fd60b78967a134bd658384f50a91e34ffc0e148643d13661b16e84575",
+    "csv_sha256": "85044660d5f3ad572c47114ca4e9b5f7949e72a28e817770f4cc66ca15c7226a",
+    "source": "snotel:834:CA:SNTL",
+    "fetched_utc": "2026-11-26T07:49:05.796130+00:00",
+    "window": [
+      "2026-10-23",
+      "2026-11-24"
+    ],
+    "saved": true
+  },
   "common_dates": [
     "2026-10-24",
     "2026-10-25",
@@ -208,5 +221,85 @@
       "bias": -0.0022
     }
   },
-  "pull_utc": "2026-11-26T07:49:25.380219+00:00"
+  "supplementary_baselines": {
+    "constant_zero_depth": {
+      "n": 32,
+      "mae": 0.123825,
+      "rmse": 0.24716105579156275,
+      "bias": -0.123825
+    },
+    "observed_linear_extrapolation": {
+      "n": 31,
+      "mae": 0.03687096774193549,
+      "rmse": 0.08198872463785453,
+      "bias": 0.0008193548387096767
+    },
+    "model_delta_persistence": {
+      "gfs_seamless lead_8h": {
+        "n": 32,
+        "mae": 0.013099999999999997,
+        "rmse": 0.02146380674530964,
+        "bias": 0.0013125000000000085
+      },
+      "gfs_seamless lead_32h": {
+        "n": 32,
+        "mae": 0.02183749999999999,
+        "rmse": 0.04172762873684531,
+        "bias": 0.0013125000000000098
+      },
+      "icon_seamless lead_8h": {
+        "n": 32,
+        "mae": 0.015437499999999995,
+        "rmse": 0.039723355850179616,
+        "bias": -0.007124999999999998
+      },
+      "icon_seamless lead_32h": {
+        "n": 32,
+        "mae": 0.0163625,
+        "rmse": 0.03366296184235724,
+        "bias": -0.007124999999999998
+      },
+      "ecmwf_ifs025 lead_8h": {
+        "n": 32,
+        "mae": 0.018462500000000007,
+        "rmse": 0.04127432616045963,
+        "bias": 0.006000000000000013
+      },
+      "ecmwf_ifs025 lead_32h": {
+        "n": 32,
+        "mae": 0.016924999999999996,
+        "rmse": 0.037221566329212946,
+        "bias": 0.006000000000000003
+      },
+      "ensemble_mean_3 lead_8h": {
+        "n": 32,
+        "mae": 0.010858333333333326,
+        "rmse": 0.021973165452433108,
+        "bias": 6.250000000000309e-05
+      },
+      "ensemble_mean_3 lead_32h": {
+        "n": 32,
+        "mae": 0.012345833333333325,
+        "rmse": 0.021948816723357887,
+        "bias": 6.250000000000743e-05
+      }
+    },
+    "delta_missing_common_dates": [
+      "2026-10-24"
+    ],
+    "history_actuals": {
+      "path": "results/raw/actuals/snotel_834-CA-SNTL_2026-10-23_2026-11-24.json",
+      "csv_path": "results/raw/actuals/snotel_834-CA-SNTL_2026-10-23_2026-11-24.csv",
+      "sha256": "6dc45c4fd60b78967a134bd658384f50a91e34ffc0e148643d13661b16e84575",
+      "csv_sha256": "85044660d5f3ad572c47114ca4e9b5f7949e72a28e817770f4cc66ca15c7226a",
+      "source": "snotel:834:CA:SNTL",
+      "fetched_utc": "2026-11-26T07:49:05.796130+00:00",
+      "window": [
+        "2026-10-23",
+        "2026-11-24"
+      ],
+      "saved": true
+    }
+  },
+  "pull_utc": "2026-11-26T08:05:07.840112+00:00"
 }

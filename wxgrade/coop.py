@@ -253,7 +253,8 @@ def paired_leads_check(resort: str = "stowe",
                 if (model, init) not in runs:
                     runs[(model, init)] = _singlerun_cached(
                         st["lat"], st["lon"], model, init,
-                        Path(output_dir) / "raw" / "singleruns")
+                        Path(output_dir) / "raw" / "singleruns",
+                        allow_fetch=allow_fetch)
                 valid = f"{d}T{SAMPLE_UTC_HOUR:02d}:00"
                 if valid in runs[(model, init)]:
                     pred[d] = runs[(model, init)][valid]
@@ -301,6 +302,20 @@ def paired_leads_check(resort: str = "stowe",
             "rmse": round((sum(e * e for e in errs) / n) ** 0.5, 4),
             "bias": round(sum(errs) / n, 4)}
 
+    from .decompose import (delta_persistence_baseline, model_delta_persistence,
+                            subset_scores)
+    from .actuals import load_actuals
+    history, history_meta = actual, actuals_meta
+    delta = delta_persistence_baseline(history)
+    supplements = {
+        "constant_zero_depth": subset_scores(
+            {d: 0.0 for d in common_dates}, actual, common_dates),
+        "observed_linear_extrapolation": subset_scores(delta, actual, common_dates),
+        "model_delta_persistence": {
+            name: subset_scores(model_delta_persistence(history, pred), actual, common_dates)
+            for name, pred in series.items() if "lead_" in name},
+        "delta_missing_common_dates": sorted(set(common_dates) - set(delta)),
+        "history_actuals": history_meta}
     out = {
         "check": "paired same-day comparison on the intersection of dates "
                  "where every model/lead, persistence AND the actual all "
@@ -308,9 +323,11 @@ def paired_leads_check(resort: str = "stowe",
                  "the preserved artifact (which is not modified)",
         "resort": resort, "station": st["station"],
         "actual_window": [start, end],
+        "actuals_provenance": actuals_meta,
         "common_dates": common_dates,
         "identity_check_vs_preserved_artifact": identity,
         "paired_scores": paired,
+        "supplementary_baselines": supplements,
         "pull_utc": __import__("datetime").datetime.now(
             __import__("datetime").timezone.utc).isoformat()}
     out_path = (Path(output_dir)

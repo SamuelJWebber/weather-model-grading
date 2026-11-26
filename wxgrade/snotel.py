@@ -365,7 +365,7 @@ def run_snotel_live(resort: str, past_days: int, output_dir,
 
 
 def _singlerun_cached(lat: float, lon: float, model: str, init: str,
-                      cache_dir) -> dict[str, float]:
+                      cache_dir, allow_fetch: bool = True) -> dict[str, float]:
     """fetch_singlerun_hourly with a disk cache: raw parsed hourly values
     saved per (grid, model, init) so a long paired run resumes after a
     timeout and the inputs it scored are preserved as evidence."""
@@ -375,7 +375,11 @@ def _singlerun_cached(lat: float, lon: float, model: str, init: str,
     cache.mkdir(parents=True, exist_ok=True)
     path = cache / f"{lat:.4f}_{lon:.4f}_{model}_{init}.json"
     if path.exists():
-        return {k: float(v) for k, v in json.loads(path.read_text()).items()}
+        cached = json.loads(path.read_text())
+        if cached and all(v is not None for v in cached.values()):
+            return {k: float(v) for k, v in cached.items()}
+    if not allow_fetch:
+        raise FileNotFoundError(f"offline forecast cache missing/empty: {path}")
     vals = fetch_singlerun_hourly(lat, lon, model, init)
     if not vals:  # W9: never cache an all-null (vendor gap) run; retry next time
         raise RuntimeError(
@@ -385,14 +389,14 @@ def _singlerun_cached(lat: float, lon: float, model: str, init: str,
 
 
 def _prefetch_singleruns(lat: float, lon: float, needed: set[tuple[str, str]],
-                         cache_dir, workers: int = 8
+                         cache_dir, workers: int = 8, allow_fetch: bool = True
                          ) -> dict[tuple[str, str], dict[str, float]]:
     """Fetch all (model, init) pairs concurrently (archive reads are
     independent; 8 workers keeps us polite to the free API)."""
     from concurrent.futures import ThreadPoolExecutor
     out: dict[tuple[str, str], dict[str, float]] = {}
     with ThreadPoolExecutor(max_workers=workers) as ex:
-        futs = {ex.submit(_singlerun_cached, lat, lon, m, i, cache_dir): (m, i)
+        futs = {ex.submit(_singlerun_cached, lat, lon, m, i, cache_dir, allow_fetch): (m, i)
                 for (m, i) in sorted(needed)}
         for fut, key in futs.items():
             out[key] = fut.result()
@@ -450,7 +454,8 @@ def paired_snotel_leads_check(resort: str,
                         ).isoformat()
                 needed.add((model, init))
     runs = _prefetch_singleruns(loc["lat"], loc["lon"], needed,
-                                Path(output_dir) / "raw" / "singleruns")
+                                Path(output_dir) / "raw" / "singleruns",
+                                allow_fetch=allow_fetch)
 
     series: dict[str, dict[str, float]] = {}
     for model in ("gfs_seamless", "icon_seamless", "ecmwf_ifs025"):
@@ -505,6 +510,20 @@ def paired_snotel_leads_check(resort: str,
             "rmse": round((sum(e * e for e in errs) / n) ** 0.5, 4),
             "bias": round(sum(errs) / n, 4)}
 
+    from .decompose import (delta_persistence_baseline, model_delta_persistence,
+                            subset_scores)
+    from .actuals import load_actuals
+    history, history_meta = actual, actuals_meta
+    delta = delta_persistence_baseline(history)
+    supplements = {
+        "constant_zero_depth": subset_scores(
+            {d: 0.0 for d in common_dates}, actual, common_dates),
+        "observed_linear_extrapolation": subset_scores(delta, actual, common_dates),
+        "model_delta_persistence": {
+            name: subset_scores(model_delta_persistence(history, pred), actual, common_dates)
+            for name, pred in series.items() if "lead_" in name},
+        "delta_missing_common_dates": sorted(set(common_dates) - set(delta)),
+        "history_actuals": history_meta}
     out = {
         "check": "paired same-day comparison on the intersection of dates "
                  "where every model/lead, persistence AND the actual all "
@@ -512,9 +531,11 @@ def paired_snotel_leads_check(resort: str,
                  "the preserved artifact (which is not modified)",
         "resort": resort, "station": st,
         "actual_window": [start, end],
+        "actuals_provenance": actuals_meta,
         "common_dates": common_dates,
         "identity_check_vs_preserved_artifact": identity,
         "paired_scores": paired,
+        "supplementary_baselines": supplements,
         "pull_utc": datetime.now(timezone.utc).isoformat()}
     out_path = (Path(output_dir)
                 / f"grading_{resort}_snow-depth-snotel-leads-paired{tag}_"
