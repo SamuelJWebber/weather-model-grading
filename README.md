@@ -443,8 +443,21 @@ validated operational rule. Inch threshold comparisons use a tiny float
 roundoff tolerance; original frozen centimeter comparisons are unchanged.
 The artifact, not a prose significance claim, contains the full cells.
 
-Unresolved audit checks: no smoothed/deadband-actual sensitivity, no
-bootstrap interval for error correlations, no same-lead hourly
-persistence benchmark. Nominal lead is not measured operational lead.
+Separate post-audit sensitivity now lives in scripts/audit_sensitivity.py
+and results/audit_sensitivity_2026-11-26.json. It includes Spearman,
+IID-day bootstrap intervals (serial dependence ignored, descriptive only),
+a one-inch deadband and trailing-three-day-median targets. Original
+thresholds and artifacts remain separate. No same-lead hourly
+persistence benchmark exists yet. Nominal lead is not measured operational lead.
 Original historical artifacts remain historical evidence, not retroactive
 claims of saved inputs or an operational forecast-skill ranking.
+
+
+Sensitivity on identical dates across targets: Vail n=30 ensemble versus
+persistence MAE in inches is raw 0.28/0.40, deadband 0.32/0.23, trailing
+median 0.37/0.20. Truckee n=30 is raw 0.35/1.27, deadband 0.36/1.17,
+trailing median 1.19/1.03. Thus the raw ensemble advantage reverses for
+Vail under both alternate targets and Truckee under the median target.
+These targets differ from raw depth and do not identify sensor truth.
+The result limits any claim of a stable advantage; it is not evidence
+that one transformed target should replace the original target.
