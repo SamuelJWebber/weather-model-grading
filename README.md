@@ -61,6 +61,42 @@ reanalysis-era worry is confirmed in reverse: ECMWF's apparent second place
 against the ECMWF-containing archive disappears against the station (GFS beats
 it at 1 day). UKMO is worst on both verification bases. Still one station, one month, one variable: a sample
 
+## Eastern actuals: Mount Mansfield COOP via IEM (integrated 2026-11-25, wxgrade/coop.py)
+
+SNOTEL has no Northeast coverage; the verified eastern alternative is the
+NWS COOP station MMNV1 "MT. MANSFIELD" (VT_COOP, on Stowe's own mountain),
+served by the Iowa State IEM daily service (free, no key). Measurement
+contract verified against raw reports, not assumed: the station is
+automated (SHEF/DCP) and files snow depth exactly once daily at 21:00 UTC
+(api/1/obhistory.json: SDIRZZZ 7.0in at 2026-11-15T21:00Z, 5.0in at
+2026-11-18T21:00Z, matching the daily values). Forecast series are sampled
+at that exact instant. Elevation: stake 1202m, Open-Meteo grid cell at the
+station coordinate 1199m - a ~3m gap, a near-zero-gap head-to-head like
+Vail. Coverage is patchy (26 of 30 days had values; missing days are
+skipped and n is reported).
+
+Controlled-lead result (Stowe / Mt Mansfield, valid instant 21:00 UTC,
+00:00 UTC inits, leads 21h/45h, n=26 days of the 30 ending 2026-11-24,
+snow depth in meters):
+
+| series | lead | MAE (m) | bias (m) |
+|---|---|---|---|
+| persistence (yesterday's depth) | baseline | 0.010 | -0.006 |
+| gfs_seamless | 21h | 0.028 | -0.027 |
+| gfs_seamless | 45h | 0.024 | -0.022 |
+| icon_seamless | 21h | 0.030 | -0.030 |
+| icon_seamless | 45h | 0.030 | -0.030 |
+| ecmwf_ifs025 | 21h | 0.033 | -0.033 |
+| ecmwf_ifs025 | 45h | 0.033 | -0.033 |
+
+Reading: same pattern as Vail's quiet window - no model separates from
+persistence, small uniform negative biases. Because this station sits at
+the model grid elevation (~3m gap), the -2..-3cm under-read here is NOT
+explained by the elevation-gap confound that dominates the other mountain
+diagnostics; quiet-weather depth drift or stake/grid representativeness
+are candidates, and one station with 2 storm days cannot separate them.
+Storm subset n=2: too few to read; scored automatically every run.
+
 Construction note (2026-11-24): both sides are maxima of hourly values, hourly model forecasts on one side and hourly METAR observations on the other, over New York local calendar days (both requests specify America/New_York); coverage was verified complete, 24-25 obs/day, zero missing hours. An hourly sampled high can still miss the true peak between observations, so small MAE differences between models are noise. KNYC sits ~7 km from the queried grid point. A sample
 ranking, not a general model winner.
 

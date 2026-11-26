@@ -1,0 +1,199 @@
+"""Independent eastern mountain snow actuals: NWS COOP via Iowa State IEM.
+
+SNOTEL covers the 11 western US states + Alaska ONLY - no stations in the
+Northeast. The verified eastern alternative for Stowe is the NWS COOP
+station MMNV1 "MT. MANSFIELD" (VT_COOP network, on the resort's own
+mountain), served by the Iowa State IEM daily service (free, no key) -
+the same IEM service family already used for METAR actuals.
+
+Measured variable: snowd_in = snow DEPTH (inches), matching Open-Meteo's
+snow_depth (meters). NOT snowfall; SNWD-style depth deltas are net of
+settling/compaction, so snowfall grading stays on the archive basis.
+
+Measurement contract (verified 2026-11-25, not assumed):
+- The station is automated (SHEF/DCP sub-hourly feed), not a human 7am
+  COOP observer. Its snow depth reports EXACTLY ONCE DAILY at 21:00 UTC
+  (16:00 local EST): api/1/obhistory.json full=1 shows SDIRZZZ=7.0 at
+  2026-11-15T21:00Z and SDIRZZZ=5.0 at 2026-11-18T21:00Z, and the
+  daily.py snowd_in values for those dates are 7.0 and 5.0 respectively.
+- Consequence: daily snowd_in[D] = snow depth at 21:00 UTC of date D,
+  and forecast series must be sampled at that exact instant
+  (timezone="UTC", hour 21). 21:00Z = 16:00 EST; the snow season sits
+  entirely in standard time, so no DST ambiguity arises for grading.
+  Summer behaviour (EDT) is unverified and irrelevant to snow grading.
+- Coverage is PATCHY: the station files intermittently (e.g. 2026-11-20,
+  11-22, 11-24 have no snowd value). Scores cover only days with values
+  and report n explicitly; a thin n is a coverage fact, not a skill fact.
+
+Elevation: stake at 1202m (IEM site metadata); Open-Meteo grid cell at
+the station coordinate (44.5248, -72.8154) is 1199m (api.open-meteo.com
+/v1/elevation, checked 2026-11-25) - a ~3m gap, so Stowe/Mt Mansfield is
+a near-zero-elevation-gap head-to-head like Vail, unlike the other
+SNOTEL diagnostics.
+
+Source (verified live 2026-11-25):
+https://mesonet.agron.iastate.edu/cgi-bin/request/daily.py?network=VT_COOP&stations=MMNV1&sts=<start>T00:00Z&ets=<end>T00:00Z&var=snowd_in
+Network access is MANUAL ONLY; tests run offline on a CSV fixture.
+"""
+
+from __future__ import annotations
+
+import csv
+import io
+from typing import Mapping
+
+from urllib.parse import urlencode
+from urllib.request import Request, urlopen
+
+USER_AGENT = "weather-model-grading/0.1.0 (personal research)"
+DAILY_URL = "https://mesonet.agron.iastate.edu/cgi-bin/request/daily.py"
+HIST_FORECAST_URL = "https://historical-forecast-api.open-meteo.com/v1/forecast"
+INCHES_TO_M = 0.0254
+
+# Verified 2026-11-25 against IEM site metadata AND a live daily.py pull
+# AND the obhistory SDIRZZZ 21:00Z check described in the module docstring.
+COOP_STATIONS = {
+    "stowe": {"station": "MMNV1", "network": "VT_COOP",
+              "name": "MT. MANSFIELD", "lat": 44.5248, "lon": -72.8154,
+              "elev_m": 1202,
+              "note": "on the resort's mountain (Stowe covers Mt Mansfield's "
+                      "flanks); grid cell at the station coordinate is "
+                      "1199m (gap ~3m). ~12km west of the village "
+                      "coordinate in grade.py:LOCATIONS."},
+}
+SAMPLE_UTC_HOUR = 21  # measurement contract: snowd_in[D] = depth at D 21:00 UTC
+
+
+def parse_daily_csv(text: str) -> dict[str, float]:
+    """Parse the IEM daily.py CSV. Returns {date: snowd_inches}; rows with
+    missing/None snow depth are skipped (patchy coverage is explicit)."""
+    out: dict[str, float] = {}
+    for row in csv.DictReader(io.StringIO(text)):
+        date = (row.get("day") or "").strip()
+        raw = (row.get("snowd_in") or "").strip()
+        if not date or raw in ("", "None", "M"):
+            continue
+        out[date] = float(raw)
+    return out
+
+
+def fetch_snowd_daily(station: str, network: str, start: str, end: str
+                      ) -> dict[str, float]:
+    """MANUAL ONLY: daily snow depth (meters) for a COOP station."""
+    qs = urlencode({"network": network, "stations": station,
+                    "sts": f"{start}T00:00Z", "ets": f"{end}T00:00Z",
+                    "var": "snowd_in"})
+    req = Request(f"{DAILY_URL}?{qs}", headers={"User-Agent": USER_AGENT})
+    with urlopen(req, timeout=60) as resp:
+        text = resp.read().decode("utf-8", errors="replace")
+    return {d: v * INCHES_TO_M for d, v in parse_daily_csv(text).items()}
+
+
+def fetch_histforecast_at_hour(lat: float, lon: float, model: str,
+                               start: str, end: str) -> dict[str, float]:
+    """MANUAL ONLY: daily snow depth (m) at 21:00 UTC from consecutive
+    recent runs (Historical Forecast API; short mixed lead, "recent_run")."""
+    import json as _json
+    qs = urlencode({"latitude": lat, "longitude": lon, "start_date": start,
+                    "end_date": end, "hourly": "snow_depth", "models": model,
+                    "timezone": "UTC"})
+    req = Request(f"{HIST_FORECAST_URL}?{qs}", headers={"User-Agent": USER_AGENT})
+    with urlopen(req, timeout=60) as resp:
+        payload = _json.load(resp)
+    hourly = payload.get("hourly", {})
+    values = hourly.get("snow_depth", hourly.get(f"snow_depth_{model}", []))
+    out: dict[str, float] = {}
+    for t, v in zip(hourly.get("time", []), values):
+        if v is not None and t.endswith(f"T{SAMPLE_UTC_HOUR:02d}:00"):
+            out[t[:10]] = float(v)
+    return out
+
+
+def run_coop_leads_live(resort: str, past_days: int, output_dir,
+                        leads_h: tuple = (21, 45),
+                        station: dict | None = None) -> list:
+    """MANUAL ONLY: controlled-lead snow-depth grading vs COOP actuals.
+
+    Valid instant = 21:00 UTC (the station's daily report instant); each
+    (model, lead) series uses only archived Single Runs API runs
+    initialised at 00:00 UTC exactly lead hours before the valid instant
+    (21h = same-day run, 45h = prior-day run). Per-date init/valid
+    provenance recorded per row, as in the SNOTEL leads route.
+    """
+    import json
+    from datetime import date, datetime, timedelta, timezone
+    from pathlib import Path
+    from .grade import score_series, persistence_baseline
+    from .snotel import fetch_singlerun_hourly, storm_dates
+
+    st = station or COOP_STATIONS[resort]
+    end = date.today() - timedelta(days=1)
+    dates = [(end - timedelta(days=k)).isoformat()
+             for k in range(past_days - 1, -1, -1)]
+    actual = fetch_snowd_daily(st["station"], st["network"],
+                               dates[0], dates[-1])
+    storms = storm_dates(actual)
+    rows = []
+    for model in ("gfs_seamless", "icon_seamless", "ecmwf_ifs025"):
+        runs: dict[str, dict[str, float]] = {}
+        for lead in leads_h:
+            pred: dict[str, float] = {}
+            provenance: dict[str, dict[str, str]] = {}
+            for d in dates:
+                init = (date.fromisoformat(d)
+                        - timedelta(hours=lead - SAMPLE_UTC_HOUR)
+                        ).isoformat()
+                if init not in runs:
+                    runs[init] = fetch_singlerun_hourly(
+                        st["lat"], st["lon"], model, init)
+                valid = f"{d}T{SAMPLE_UTC_HOUR:02d}:00"
+                if valid in runs[init]:
+                    pred[d] = runs[init][valid]
+                    provenance[d] = {"init": f"{init}T00:00Z",
+                                     "valid": valid + "Z"}
+            row = {"model": model, "lead": f"lead_{lead}h",
+                   **score_series(pred, actual)}
+            row["storm_subset"] = {
+                "threshold_m": 0.05,
+                "definition": "dates where the daily depth rose >= "
+                              "threshold vs prior present day (undercounts "
+                              "events: depth deltas are net of "
+                              "settling/compaction)",
+                **score_series({d: v for d, v in pred.items() if d in storms},
+                               {d: v for d, v in actual.items() if d in storms})}
+            row["provenance"] = provenance
+            rows.append(row)
+    base = persistence_baseline(actual, 1)
+    base_row = {"model": "persistence_1d", "lead": "baseline",
+                **score_series(base, actual)}
+    base_row["storm_subset"] = {
+        "threshold_m": 0.05,
+        "definition": "dates where the daily depth rose >= threshold vs "
+                      "prior present day (undercounts events: depth deltas "
+                      "are net of settling/compaction)",
+        **score_series({d: v for d, v in base.items() if d in storms},
+                       {d: v for d, v in actual.items() if d in storms})}
+    rows.append(base_row)
+    out_dir = Path(output_dir)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    out_path = out_dir / f"grading_{resort}_snow-depth-coop-leads_{end.isoformat()}.json"
+    out_path.write_text(json.dumps({
+        "resort": resort, "station": st, "variable": "snow_depth",
+        "basis": "forecast: model grid-cell snow_depth at 21:00 UTC from "
+                 "archived Single Runs API runs initialised exactly lead "
+                 "hours earlier (00:00 UTC inits; per-date init/valid "
+                 "provenance recorded per row); actual: NWS COOP daily "
+                 "snowd_in via IEM, the same instant (verified 2026-11-25: "
+                 "snow depth reports once daily at 21:00 UTC). Same "
+                 "variable/instant/units; grid cell (1199m) vs stake "
+                 "(1202m) elevation gap ~3m.",
+        "coverage": "COOP station files intermittently; scores cover only "
+                    "days with a snowd value and n is reported per row.",
+        "archive_limits": "Single Runs API archive reach measured "
+                          "2026-11-25 (results/singleruns_availability_"
+                          "2026-11-25.json): runs served from 2026-04-02 "
+                          "onward for gfs/icon/ecmwf.",
+        "actual_window": [dates[0], dates[-1]],
+        "pull_utc": datetime.now(timezone.utc).isoformat(),
+        "rows": rows}, indent=2))
+    return rows
