@@ -49,7 +49,21 @@ def test_all_saved_paired_artifacts_replay_without_network(monkeypatch):
                 got = snotel.paired_snotel_leads_check(
                     r, station=snotel.ELEVATION_MATCHED_STATIONS.get(r), allow_fetch=False)
             assert got['common_dates'] == expected['common_dates']
-            assert got['paired_scores'] == expected['paired_scores']
+            # paired_scores are recomputed from the preserved raw series and
+            # compared to the preserved artifact's 4-dp rounded values. Python
+            # 3.12 changed float sum() to Neumaier summation, so a value
+            # sitting exactly on a 4-dp rounding boundary (e.g. rmse
+            # 0.01905) can land one last digit away from the artifact
+            # (0.019 vs 0.0191). n must match exactly; the rounded metrics
+            # may differ by at most one 4-dp unit (1e-4), far below the
+            # project's 1e-3 rounding-level flag.
+            for sname, want_scores in expected['paired_scores'].items():
+                got_scores = got['paired_scores'][sname]
+                assert got_scores['n'] == want_scores['n'], sname
+                for k in ('mae', 'rmse', 'bias'):
+                    assert abs(got_scores[k] - want_scores[k]) <= 1e-4, (
+                        f'{sname}.{k}: recomputed {got_scores[k]} vs artifact '
+                        f'{want_scores[k]} exceeds one 4-dp unit')
             assert all(v['matches'] for v in got['identity_check_vs_preserved_artifact'].values())
         finally:
             files[0].write_bytes(original_bytes)
