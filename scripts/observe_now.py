@@ -25,11 +25,14 @@ Timestamp conventions:
   Standard Time (UTC-8, year-round), with "a few stations in Alaska and
   elsewhere" recorded in station local time
   (https://opencdss.state.co.us/tstool/latest/doc-user/datastore-ref/NRCS-AWDB/NRCS-AWDB/
-   mirroring NRCS AWDB docs). None of these four stations are in Alaska,
-  and the +8h conversion is anchored in-repo: hourly row "D 00:00" equals
-  daily SNWD[D] (33/33 match within 0.5in across all four stations,
-  scripts/hourly_persistence_snotel_check.py). Doc + per-station anchor
-  together; do not trust the constant alone.
+   mirroring NRCS AWDB docs). PROVISIONAL for these four stations: the
+  doc's "elsewhere" exception cannot be excluded from documentation
+  alone, and the in-repo 33/33 daily-vs-hourly anchor
+  (scripts/hourly_persistence_snotel_check.py) verifies date-boundary
+  assignment only, not whole-hours offsets within a day. Every
+  availability_lag value this script writes inherits that caveat pending
+  station-specific metadata (e.g., AWDB station timeZone field) or
+  varying-value sub-daily evidence.
   COOP snowd_in[D] = depth at D 21:00 UTC (measurement contract).
   IEM daily.py `ets` is an inclusive end DATE (date-only form in the
   service docs: https://mesonet.agron.iastate.edu/cgi-bin/request/daily.py?help=).
@@ -65,7 +68,8 @@ DAILY_URL = "https://mesonet.agron.iastate.edu/cgi-bin/request/daily.py"
 
 SNOTEL = ["842:CO:SNTL", "415:CO:SNTL", "1321:UT:SNTL", "834:CA:SNTL"]
 COOP = {"station": "MMNV1", "network": "VT_COOP"}
-SNOTEL_CSV_TO_UTC_H = 8      # PST per NRCS AWDB docs; anchored 33/33 in-repo
+SNOTEL_CSV_TO_UTC_H = 8      # PROVISIONAL: PST per NRCS AWDB docs ("Alaska/elsewhere"
+                       # exception unresolved); date-boundary anchored 33/33 in-repo
 COOP_VALID_UTC_H = 21        # contract: snowd_in[D] = depth at D 21:00 UTC
 
 

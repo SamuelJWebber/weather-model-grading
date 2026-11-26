@@ -27,7 +27,7 @@ skill, and any model-ranking question are out of scope).
   UTC (pre-fix schema, `fetch_utc` = request start), including one
   transient fetch failure and one parser-fix pair. A fourth run at ~20:03
   UTC with the corrected collector logged 403s on all four SNOTEL fetches
-  while the COOP fetch succeeded - see Rate limiting below.
+  while the COOP fetch succeeded - see Access refusal below.
 
 ## Sources (actual URLs in use)
 
@@ -52,11 +52,15 @@ AWDB documentation states SNOTEL (SNTL network) hourly measurements are
 recorded in Pacific Standard Time (UTC-8, year-round), except "a few
 stations in Alaska and elsewhere" in station local time
 (https://opencdss.state.co.us/tstool/latest/doc-user/datastore-ref/NRCS-AWDB/NRCS-AWDB/,
-mirroring NRCS AWDB docs). None of these four stations is in Alaska, and
-the +8h conversion is additionally anchored per station in-repo: hourly
-row "D 00:00" equals daily SNWD[D] (33/33 match within 0.5in,
-`scripts/hourly_persistence_snotel_check.py`). Doc plus empirical anchor
-together; neither alone. COOP `snowd_in[D]` = depth at D 21:00 UTC
+mirroring NRCS AWDB docs). PROVISIONAL: the "elsewhere" exception means
+being outside Alaska does not settle these four stations, and the
+in-repo 33/33 daily-vs-hourly anchor
+(`scripts/hourly_persistence_snotel_check.py`) verifies date-boundary
+assignment only - a whole-hours offset error within a day would not show
+in a daily comparison. The +8h conversion is therefore provisional
+pending station-specific metadata (e.g., AWDB station timeZone field) or
+varying-value sub-daily evidence. All lag numbers in this handoff and in
+`index.jsonl` inherit that provisionality. COOP `snowd_in[D]` = depth at D 21:00 UTC
 (measurement contract). IEM daily.py pre-posts recent dates with value
 `None` until data arrives; the parser skips value-less rows and rejects
 non-finite numerics.
@@ -78,12 +82,15 @@ non-finite numerics.
   its most optimistic case.) If 1h-precision availability is ever needed,
   the cadence must be hourly; that is a separate, larger collection
   decision.
-- Rate limiting (observed): at ~20:03 UTC on 2026-11-26, after several
-  rapid successive pulls during development, all four SNOTEL fetches
-  returned HTTP 403 while the COOP fetch succeeded (rows preserved in
-  `index.jsonl`). The 3h cadence is far below any plausible threshold,
-  but an hourly cadence should be adopted only with backoff/retry
-  handling and an explicit rate check.
+- Access refusal (observed, cause unknown): at ~20:03 UTC on 2026-11-26,
+  after several rapid successive pulls during development, all four
+  SNOTEL fetches returned HTTP 403 while the COOP fetch succeeded (rows
+  preserved in `index.jsonl`); a single probe ~90s later returned 200.
+  A 403 is an access refusal, not proof of a rate limit, and the later
+  200 does NOT establish any safe polling threshold. No request-rate
+  claim is made for this endpoint: any cadence decision needs documented
+  NRCS access guidance (not yet located; see Open blockers) or explicit
+  NRCS permission.
 - End-of-pilot analysis: per-station availability-lag distribution
   (response_complete_utc - newest data instant), revision incidence (see
   below), COOP gap pattern; then a decision on whether an operational
@@ -120,6 +127,28 @@ non-finite numerics.
    minute offset arbitrary) for 2026-11-27..2026-12-10, then stop.
 4. Analysis: read `results/raw/obslog/index.jsonl`; group by station;
    availability lag is the `availability_lag_hours` column.
+
+## Open blockers (pilot on hold until both resolve)
+
+1. NRCS access guidance undocumented so far: one observed HTTP 403 burst
+   (cause unknown; recovered on a single later probe) plus no located
+   written usage policy means there is NO established safe request rate
+   for the report-generator endpoint. The official AWDB Web Service User
+   Guide (nrcs-prod.azureedge.us, 2023-03 PDF, searched 2026-11-26)
+   contains no rate, throttle, or fair-use language. (IEM daily.py does
+   document a per-IP 2-second sequential throttle on its help page.) Any
+   cadence - 3h or hourly - needs documented NRCS guidance or explicit
+   permission first.
+2. SNOTEL hourly timezone provisional: the NRCS AWDB "Alaska and
+   elsewhere" station-local exception cannot be ruled out for these
+   stations from documentation alone. Resolution path located: the AWDB
+   Web Service's StationMetaData carries a `stationDataTimeZone` field
+   per station (AWDB Web Service User Guide, same PDF); pulling it for
+   the four triplets would settle the offset authoritatively - but that
+   is another NRCS endpoint, so it waits on the same access-guidance
+   blocker (or an explicit go-ahead for a one-off metadata pull).
+   Until then every availability-lag number this collector produces
+   carries an assumed-timezone caveat of up to a few hours.
 
 ## Limitations (stated, not resolved by the pilot)
 
