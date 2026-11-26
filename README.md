@@ -462,9 +462,14 @@ values flicker by one inch; event cells at that scale may be sensor noise.
 Separately labeled supplementary cells report MAE in inches and realized
 >=2in / >=3in counts, plus a forecast-predicted-change split using GFS
 versus yesterday's actual. These supplements were defined after seeing
-this sample. Prior-day actual reporting latency has not been verified,
-so even the forecast-based split is only a candidate selector, not a
-validated operational rule. Inch threshold comparisons use a tiny float
+this sample. Prior-day actual reporting latency is now verified
+ADVERSELY (2026-11-26 PM, saved actuals metadata): the COOP MMNV1 daily
+value for 11-24 was still missing ~35h after its valid instant; SNOTEL
+daily values through 11-24 appeared only in a pull ~32h later (latency
+<32h, not tighter); the hourly archive lagged >38h. So prior-day
+actuals from these sources are NOT available at operational
+decision time on a sub-daily horizon, so the forecast-based split
+remains only a candidate selector, not a validated operational rule. Inch threshold comparisons use a tiny float
 roundoff tolerance; original frozen centimeter comparisons are unchanged.
 The artifact, not a prose significance claim, contains the full cells.
 
@@ -492,11 +497,20 @@ results/hourly_persistence_vail_2026-11-26.json): hourly SNWD pulled
 from NRCS (raw CSV + sha256 preserved; timestamp convention verified
 33/33 against the saved daily series, so "D 00:00" = D 08:00 UTC).
 Scored gfs/icon at leads 8h/32h against persistence anchored lead-hours
-before the SAME valid instant (symmetric upper-bound benchmark, not an
-operational selector; hourly 842 values flicker ~1 inch). On 30 common
-dates: hourly persistence MAE 0.0059 at BOTH leads vs daily persistence
-0.0098, gfs 0.0153/0.0159, icon 0.0126/0.0139. The models'
-persistence shortfall is therefore NOT an artifact of the daily anchor -
-it widens under the honest same-lead benchmark in this quiet window.
+before the SAME valid instant. "Same-lead" makes the anchor coincide
+with the init instant at every lead (anchor = valid - lead = init), so
+the anchor observation could NOT have been available at issue time -
+an observation is not transmitted before it exists, and the observed
+archive latency is >38h for hourly values. The benchmark is therefore
+retrospective, symmetric (same horizon as the model), and an UPPER
+BOUND on operational persistence skill (a real-time anchor must sit
+earlier and cannot do better in expectation); it uses observations
+unavailable at issue and is not an operational selector. Hourly 842
+values flicker ~1 inch. On 30 common dates: hourly persistence MAE
+0.0059 at BOTH leads vs daily persistence 0.0098, gfs 0.0153/0.0159,
+icon 0.0126/0.0139. Because the benchmark is favorable to persistence
+and the models still lose, the models' persistence shortfall is NOT an
+artifact of the daily anchor - it widens under the honest same-lead
+benchmark, and that retrospective conclusion is conservative.
 Label map: this row's "Vail" = resort grid 39.64,-106.37 vs on-mountain
 SNOTEL 842:CO:SNTL (gap ~0).

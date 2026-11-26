@@ -68,5 +68,12 @@
    },
    "contrast_note": "daily persistence is anchored on the prior daily actual (zero-lag); hourly persistence is anchored lead-hours before the valid instant - the honest same-lead benchmark"
   }
- }
+ },
+ "anchor_availability": {
+  "question": "was the hourly persistence anchor observation available at forecast initialization?",
+  "answer": "NO - by construction and by observed latency. Construction: for the 8h lead the anchor is the observation AT the init instant itself (valid 08:00 UTC minus 8h = 00:00 UTC = init), and an observation taken at an instant cannot be transmitted before that instant. The same-lead construction makes the anchor coincide with the init instant at EVERY lead (anchor = valid - lead = init). Observed: the NRCS hourly archive behind this pull (fetched 2026-11-26 ~14:48 UTC) ended at 2026-11-24 23:00 - archive availability lag >38h; daily SNOTEL values through 11-24 appeared in a 11-26 07:49 UTC pull (<32h, not tighter); the COOP MMNV1 daily value for 11-24 was STILL MISSING in a pull ~35h after its valid instant.",
+  "why_symmetric_upper_bound": "the benchmark is SYMMETRIC because the persistence anchor sits exactly lead-hours before the valid instant, the same horizon the model forecast covers. It is an UPPER BOUND on operational persistence skill because it grants the anchor at zero lag; any real-time persistence must anchor earlier (reporting latency), which cannot do better in expectation. It therefore USES OBSERVATIONS THAT WOULD NOT HAVE BEEN AVAILABLE AT ISSUE TIME - it is a retrospective benchmark.",
+  "consequence": "because the benchmark is favorable to persistence and the models still lose (MAE 0.0059 vs gfs 0.0153/0.0159, icon 0.0126/0.0139), 'models track quiet-window depth worse than persistence at these leads' is a CONSERVATIVE retrospective conclusion. No operational selector claim is made or supported."
+ },
+ "retrospective_vs_operational": "Retrospective: all scores in this artifact. Operational: would require anchors/actuals available by issue time; the observed NRCS/COOP latencies above rule that out for these sources on a sub-daily horizon."
 }
