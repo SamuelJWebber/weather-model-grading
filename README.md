@@ -118,9 +118,12 @@ exactly (n/MAE/RMSE/bias all match the preserved artifact), then
 reports paired scores at 4 decimals. Paired on the same 23 days:
 persistence MAE 0.0099m; gfs_seamless 0.0264 (21h) / 0.0216 (45h);
 icon_seamless 0.0285 / 0.0281; ecmwf_ifs025 0.0320 / 0.0320. The
-unpaired conclusion stands on identical dates: no model beats
+unpaired conclusion stands on identical dates: no SINGLE model beats
 persistence in this quiet window (best model MAE 2.2x persistence),
 model ranking unchanged (gfs < icon < ecmwf), biases still -2..-3cm.
+(2026-11-26 audit repair: ensemble_mean_3 rows added - 0.0290 at 21h /
+0.0272 at 45h, also far worse than persistence 0.0099 here; and the
+check now replays fully offline from saved actuals + cached raw runs.)
 Note: the check's first live run had a cache-key bug (runs cached by
 init only, shared across models) that made all model series identical;
 caught because per-model identity checks failed and fixed by keying the
@@ -205,7 +208,11 @@ lead provenance, which breaks this measurement contract.
 
 Controlled-lead result (Vail, valid instant = station midnight 08:00
 UTC, runs initialised at 00:00 UTC exactly 8h or 32h earlier, per-date
-init/valid provenance in the results JSON; rolling window, n=33):
+init/valid provenance in the results JSON; rolling window, n=33).
+Leads are NOMINAL (init-to-valid): the 00:00 UTC run's output posts
+~4-5h later for GFS and ~7-8h later for ECMWF, so the decision-useful
+lead at the 08:00 UTC valid instant is ~3-4h for GFS and ~0-1h for
+ECMWF, not 8h:
 
 | series | lead | MAE (m) | bias (m) |
 |---|---|---|---|
@@ -315,14 +322,24 @@ check re-derives each window's inputs (raw Single Runs payloads cached
 under results/raw/singleruns/ as evidence), verifies every series'
 unrestricted scores reproduce the preserved artifacts exactly, then
 scores all series on the 32 common dates (2026-10-24..2026-11-24) at 4
-decimals. Pairing moves MAEs by <=0.002 and changes no ranking: Vail
-persistence 0.0095 vs best model icon 0.0118; Copper 0.0079 vs ecmwf
-0.0095; Mill Creek 0.0151 vs gfs 0.0227. The one case of a model
-beating persistence SURVIVES pairing: gfs at Truckee #2, 0.0133 (8h)
-and 0.0231 (32h) vs persistence 0.0302 - same quiet-window and
-single-station caveats apply, and icon (0.0532) and ecmwf (0.0397) are
-both far worse than persistence there, so it is one model at one
-station, not a pattern.
+decimals. At the SNOTEL stations pairing moves MAEs by <=0.0013 and
+changes no ranking: Vail persistence 0.0095 vs best SINGLE model icon
+0.0118; Copper 0.0079 vs ecmwf 0.0095; Mill Creek 0.0151 vs gfs
+0.0227. The one case of a single model beating persistence SURVIVES
+pairing: gfs at Truckee #2, 0.0133 (8h) and 0.0231 (32h) vs persistence
+0.0302 - same quiet-window and single-station caveats apply, and icon
+(0.0532) and ecmwf (0.0397) are both far worse than persistence there,
+so it is one model at one station, not a pattern. (2026-11-26 audit
+repair: ensemble_mean_3 rows added to every paired artifact. The
+ensemble beats persistence overall at two of five stations - Vail
+0.0067 vs 0.0095 at 8h, Truckee 0.0083 vs 0.0302 at 8h - and loses at
+the other three: Copper 0.0111 vs 0.0079, Mill Creek 0.0293 vs 0.0151,
+Stowe 0.0290 vs 0.0099. So "persistence wins overall" holds for single
+models everywhere, with a 2/5-station ensemble exception - a
+retrospective diagnostic from this quiet window, not a selector; any
+ensemble use would need a prospective test. The Stowe pairing move is
+larger than the SNOTEL ones: gfs 45h 0.0240 -> 0.0216. Checks now
+replay fully offline from saved actuals + cached raw runs.)
 
 Daily max temp, vs archive actuals (MAE F):
 
@@ -370,27 +387,65 @@ edge comes from, using the cached raw runs (results/raw/singleruns/) plus
 one actuals pull per station (results/decomposition_2026-11-26.json;
 short-lead series: 8h SNOTEL / 21h COOP). Descriptive, small n.
 
-1. **Quiet days stack the deck for persistence.** On days where the
+2026-11-26 audit-repair state: station actuals are now SAVED next to the
+artifact (results/raw/actuals/*.json, fetch provenance inside) and the
+whole decomposition replays offline from cache + saved actuals
+(verified: replay output identical to live); actuals are fetched from
+one day BEFORE the window so the persistence baseline is defined on the
+first window day (an earlier version silently dropped that day from the
+baseline, n=31 vs the models' 32); two extra baselines are scored on
+every artifact - delta-persistence (linear extrapolation of the last
+observed change) and constant-zero-depth - and an overall same-date
+paired score row exists for EVERY series including the ensemble.
+
+0. **Overall paired scores (n=31 per station except Stowe n=23).** No
+   SINGLE model beats persistence anywhere: Vail 0.0098 vs best single
+   icon 0.0122; Copper 0.0082 vs ecmwf 0.0098; Mill Creek 0.0156 vs gfs
+   0.0245; Truckee 0.0311 vs gfs 0.0137 - the one single-model exception,
+   already in the paired section; Stowe 0.0099 vs gfs 0.0264. The
+   3-model ENSEMBLE beats persistence overall at 2 of 5 stations (Vail
+   0.0069 vs 0.0098; Truckee 0.0086 vs 0.0311) and loses at three
+   (Copper 0.0114 vs 0.0082; Mill Creek 0.0302 vs 0.0156; Stowe 0.0290
+   vs 0.0099) - retrospective, and it works exactly where member errors
+   disagree (item 4). Delta-persistence never beats plain persistence;
+   constant-zero-depth is far worse everywhere except where the model
+   itself is a zero predictor (next item).
+1. **Some "models" are zero-depth predictors at these grid cells.** The
+   const_zero_depth baseline ties ecmwf EXACTLY at Copper (both 0.0098)
+   and Stowe (both 0.0320): ECMWF's snow_depth is literally zero for
+   every cached run at those cells, including the init issued ahead of
+   the confirmed +3in storm day at Copper and the +4in/+3in days at
+   Stowe (evidence: results/ecmwf_zero_check_2026-11-26.json - 0 of 34
+   Copper and 0 of 31 Stowe cached ECMWF payloads have any nonzero hour,
+   vs 21/34 and 8/31 for gfs). Real model behavior or vendor gap is
+   indistinguishable from the data; scored honestly as a zero predictor,
+   and the ensemble_mean_3 inherits that drag at those cells.
+2. **Quiet days stack the deck for persistence.** On days where the
    start-of-day depth is unchanged from the prior day, persistence's
-   error is zero BY CONSTRUCTION (it predicts yesterday's depth), while
-   models carry 0.3-0.9cm of noise. Most days in these windows are
-   quiet (19-24 of ~31 paired days per station), so the whole-window
-   "no model beats persistence" is substantially this composition
-   effect.
-2. **On change days the picture flips at some stations.** At a >=1in
+   error is zero BY CONSTRUCTION (it predicts yesterday's depth; its
+   change/quiet split is near-tautological since its error is |delta
+   actual|), while models carry 0.3-0.9cm of noise. Most days in these
+   windows are quiet (19-24 of ~31 paired days per station), so the
+   whole-window "no single model beats persistence" is substantially
+   this composition effect.
+3. **On change days the picture flips at some stations.** At a >=1in
    (2.54cm) day-over-day depth change (SNWD is integer inches, so the
-   1cm and 2cm thresholds select the same days), paired MAE on change
-   days: Vail n=10 persistence 0.0305 best; Copper Mountain n=7 ALL
-   THREE models beat persistence (gfs 0.0154 / icon 0.0155 / ecmwf
-   0.0327 vs 0.0363); Mill Creek n=7 persistence 0.0689 best; Truckee
-   n=12 gfs 0.0297 beats persistence 0.0804 (icon/ecmwf worse); Stowe
-   n=4 persistence 0.0571 best.
-3. **On the biggest days (>=2in change, n=1-6 per station) gfs beats
-   persistence at ALL FIVE stations** (e.g. Truckee 0.0382 vs 0.1355,
-   Copper 0.0285 vs 0.0635; Vail n=1 so barely a data point). Consistent
-   direction but 18 station-days total: a pattern to test as real
-   storms arrive, NOT a finding.
-4. **Model errors are often the same errors - and where they are not,
+   frozen 1cm and 2cm thresholds select the SAME days; the frozen 3cm
+   threshold is really >=2in), paired MAE on change days: Vail n=10
+   persistence 0.0305 best among singles (ensemble 0.0144 beats all);
+   Copper Mountain n=7 ALL THREE models beat persistence (gfs 0.0154 /
+   icon 0.0155 / ecmwf 0.0327 vs 0.0363); Mill Creek n=7 persistence
+   0.0689 best; Truckee n=12 gfs 0.0297 beats persistence 0.0804
+   (icon/ecmwf worse, ensemble 0.0157 best); Stowe n=4 delta-persistence
+   0.0381 and persistence 0.0571 both beat every model.
+4. **On the biggest days (realized >=2in change, 12 station-days total)
+   gfs beats persistence at ALL FIVE stations** (Vail n=1 1.82in vs
+   3.0in; Copper n=2 1.12 vs 2.5; Mill Creek n=2 4.58 vs 6.5; Truckee
+   n=5 1.20 vs 6.0; Stowe n=2 2.74 vs 3.5). At >=3in (9 station-days)
+   the same direction holds (Truckee n=3 1.31 vs 8.67). Consistent
+   direction but 9-12 station-days: a pattern to test as real storms
+   arrive, NOT a finding.
+5. **Model errors are often the same errors - and where they are not,
    the actual ensemble score improves.** Per-day signed-error
    correlations between model pairs reach 0.90-0.996 at Park City and
    Stowe, but are NEGATIVE for some pairs at Vail (ecmwf/icon -0.773)
@@ -405,15 +460,27 @@ short-lead series: 8h SNOTEL / 21h COOP). Descriptive, small n.
    n=4-12 change days, not a selector. Any ensemble use would be a
    prospective decision tested forward, not adopted from this table.
 
+SUPPLEMENTARY (separately labeled; frozen definitions above unchanged):
+ex-ante stratification by FORECAST-predicted change (|gfs prediction -
+yesterday's observed depth| >= 1in, known before the day) - at Vail the
+ensemble scores 0.66in MAE on 10 predicted-change days vs persistence
+0.91in; at Truckee 0.92in vs 3.88in; at Mill Creek persistence wins
+predicted-change days 2.71in vs ensemble 5.27in. This split is a usable
+selector in principle, unlike the realized-change strata, but it is
+fitted on the same 31 days and would need a prospective test. Event
+reporting in inches at >=2in (>=3in preferred) is in the artifact's
+supplementary_inch_exante block; the 1in sensor-noise floor is real -
+the station 842 hourly CSV flipped 3<->4in 17 times in 3 days
+(results/contracts/snotel_842-CO-SNTL_*).
+
 Caveats: one quiet November window; change-day counts are 4-12 per
-station at >=1in and 1-6 at >=2in; depth deltas are net of
+station at >=1in and 1-5 at >=2in; depth deltas are net of
 settling/compaction (the storm subset undercounts events); SNWD's
-integer-inch quantization makes 1cm/2cm thresholds identical; the
-change/quiet strata are defined on REALIZED outcomes, so every split
-here is a retrospective diagnostic, not an actionable selector; the
-thresholds and definitions are now frozen for the forward test and
-will not be retuned to future results; nothing here is a storm-skill
-claim. The forward test is the next real storm
-window: predictions implied by this decomposition are (a) persistence
-wins quiet days trivially, (b) gfs should beat persistence on >=2in
-change days if the pattern is real.
+integer-inch quantization makes the frozen 1cm/2cm thresholds identical
+and puts 1in at the sensor noise floor; the realized change/quiet strata
+are retrospective diagnostics, not actionable selectors; the thresholds
+and definitions are frozen for the forward test and will not be retuned
+to future results; nothing here is a storm-skill claim. The forward test
+is the next real storm window: predictions implied by this decomposition
+are (a) persistence wins quiet days trivially, (b) gfs should beat
+persistence on >=2in change days if the pattern is real.

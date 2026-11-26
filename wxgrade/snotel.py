@@ -377,6 +377,9 @@ def _singlerun_cached(lat: float, lon: float, model: str, init: str,
     if path.exists():
         return {k: float(v) for k, v in json.loads(path.read_text()).items()}
     vals = fetch_singlerun_hourly(lat, lon, model, init)
+    if not vals:  # W9: never cache an all-null (vendor gap) run; retry next time
+        raise RuntimeError(
+            f"empty {model} run for init {init} at ({lat},{lon})")
     path.write_text(json.dumps(vals))
     return vals
 
@@ -400,7 +403,8 @@ def paired_snotel_leads_check(resort: str,
                               station: dict | None = None,
                               leads_h: tuple[int, ...] = (8, 32),
                               compare_to: str | None = None,
-                              output_dir: str = "results") -> dict:
+                              output_dir: str = "results",
+                              allow_fetch: bool = True) -> dict:
     """Paired same-day comparison for the SNOTEL leads route: every series
     scored on the dates where ALL series (models at both leads AND the
     persistence baseline) AND the actual have values. The preserved leads
@@ -430,7 +434,11 @@ def paired_snotel_leads_check(resort: str,
     dates = [(date.fromisoformat(start) + timedelta(days=k)).isoformat()
              for k in range((date.fromisoformat(end)
                              - date.fromisoformat(start)).days + 1)]
-    actual = fetch_snwd_daily(st["triplet"], start, end)
+    from .actuals import load_actuals
+    actual, actuals_meta = load_actuals(
+        "snotel", st["triplet"], start, end,
+        lambda: fetch_snwd_daily(st["triplet"], start, end),
+        output_dir=output_dir, allow_fetch=allow_fetch)
 
     needed: set[tuple[str, str]] = set()
     for model in ("gfs_seamless", "icon_seamless", "ecmwf_ifs025"):
@@ -458,10 +466,21 @@ def paired_snotel_leads_check(resort: str,
                     pred[d] = runs[(model, init)][valid]
             series[f"{model} lead_{lead}h"] = pred
     series["persistence_1d baseline"] = persistence_baseline(actual, 1)
+    for lead in leads_h:  # W1: ensemble of the 3 models at each lead
+        series[f"ensemble_mean_3 lead_{lead}h"] = {
+            d: sum(series[f"{m} lead_{lead}h"][d]
+                   for m in ("gfs_seamless", "icon_seamless",
+                             "ecmwf_ifs025")) / 3
+            for d in dates
+            if all(d in series[f"{m} lead_{lead}h"]
+                   for m in ("gfs_seamless", "icon_seamless",
+                             "ecmwf_ifs025"))}
 
     ref_rows = {(r["model"], r["lead"]): r for r in ref["rows"]}
     identity = {}
     for name, pred in series.items():
+        if name.startswith("ensemble_mean_3"):
+            continue  # no row in the preserved artifact to verify against
         model, lead = name.rsplit(" ", 1)
         got = score_series(pred, actual)
         want = ref_rows.get((model, lead))

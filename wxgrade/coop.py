@@ -124,7 +124,7 @@ def run_coop_leads_live(resort: str, past_days: int, output_dir,
     from datetime import date, datetime, timedelta, timezone
     from pathlib import Path
     from .grade import score_series, persistence_baseline
-    from .snotel import fetch_singlerun_hourly, storm_dates
+    from .snotel import _singlerun_cached, storm_dates
 
     st = station or COOP_STATIONS[resort]
     end = date.today() - timedelta(days=1)
@@ -204,7 +204,8 @@ def paired_leads_check(resort: str = "stowe",
                        compare_to: str | None =
                        "results/grading_{r}_snow-depth-coop-leads_"
                        "2026-11-24.json",
-                       output_dir: str = "results") -> dict:
+                       output_dir: str = "results",
+                       allow_fetch: bool = True) -> dict:
     """Paired same-day comparison: every series scored on the dates where
     ALL series (models at both leads AND the persistence baseline) AND the
     actual have values. The preserved leads artifact reports each series on
@@ -221,7 +222,7 @@ def paired_leads_check(resort: str = "stowe",
     from datetime import date, timedelta
     from pathlib import Path
     from .grade import score_series, persistence_baseline
-    from .snotel import fetch_singlerun_hourly
+    from .snotel import _singlerun_cached
 
     st = COOP_STATIONS[resort]
     ref_path = Path(compare_to.format(r=resort)) if compare_to else None
@@ -234,7 +235,11 @@ def paired_leads_check(resort: str = "stowe",
     dates = [(date.fromisoformat(start) + timedelta(days=k)).isoformat()
              for k in range((date.fromisoformat(end)
                              - date.fromisoformat(start)).days + 1)]
-    actual = fetch_snowd_daily(st["station"], st["network"], start, end)
+    from .actuals import load_actuals
+    actual, actuals_meta = load_actuals(
+        "coop", st["station"], start, end,
+        lambda: fetch_snowd_daily(st["station"], st["network"], start, end),
+        output_dir=output_dir, allow_fetch=allow_fetch)
 
     series: dict[str, dict[str, float]] = {}
     runs: dict[tuple[str, str], dict[str, float]] = {}
@@ -246,19 +251,31 @@ def paired_leads_check(resort: str = "stowe",
                         - timedelta(hours=lead - SAMPLE_UTC_HOUR)
                         ).isoformat()
                 if (model, init) not in runs:
-                    runs[(model, init)] = fetch_singlerun_hourly(
-                        st["lat"], st["lon"], model, init)
+                    runs[(model, init)] = _singlerun_cached(
+                        st["lat"], st["lon"], model, init,
+                        Path(output_dir) / "raw" / "singleruns")
                 valid = f"{d}T{SAMPLE_UTC_HOUR:02d}:00"
                 if valid in runs[(model, init)]:
                     pred[d] = runs[(model, init)][valid]
             series[f"{model} lead_{lead}h"] = pred
     series["persistence_1d baseline"] = persistence_baseline(actual, 1)
+    for lead in leads_h:  # W1: ensemble of the 3 models at each lead
+        series[f"ensemble_mean_3 lead_{lead}h"] = {
+            d: sum(series[f"{m} lead_{lead}h"][d]
+                   for m in ("gfs_seamless", "icon_seamless",
+                             "ecmwf_ifs025")) / 3
+            for d in dates
+            if all(d in series[f"{m} lead_{lead}h"]
+                   for m in ("gfs_seamless", "icon_seamless",
+                             "ecmwf_ifs025"))}
 
     # 1) identity check: unrestricted scores must reproduce the artifact
     identity = {}
     if ref:
         ref_rows = {(r["model"], r["lead"]): r for r in ref["rows"]}
         for name, pred in series.items():
+            if name.startswith("ensemble_mean_3"):
+                continue  # no row in the preserved artifact to verify
             model, lead = name.rsplit(" ", 1)
             got = score_series(pred, actual)
             want = ref_rows.get((model, lead))

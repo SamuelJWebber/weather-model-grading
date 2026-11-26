@@ -1,0 +1,29 @@
+{
+  "check": "W3: is ECMWF all-zero at Breck(Copper)/Stowe grids a real forecast or vendor fill?",
+  "method": "inspected every cached ECMWF Single Runs payload per grid; counted payloads with ANY nonzero hourly snow_depth; contrasted with GFS at the same grid; checked the init issued on a known >=2in snow day",
+  "result": {
+    "breck_copper_grid_39.48_-106.07": {
+      "ecmwf_payloads": 34,
+      "ecmwf_with_any_nonzero": 0,
+      "gfs_payloads": 34,
+      "gfs_with_any_nonzero": 21,
+      "known_snow_day": "2026-11-21 (+3.0in SNWD)",
+      "snowday_init_2026-11-20_hours": 48,
+      "snowday_init_nonzero_hours": 0
+    },
+    "stowe_grid_44.5248_-72.8154": {
+      "ecmwf_payloads": 31,
+      "ecmwf_with_any_nonzero": 0,
+      "gfs_payloads": 31,
+      "gfs_with_any_nonzero": 8,
+      "known_snow_days": [
+        "2026-11-14 (+4.0in)",
+        "2026-11-15 (+3.0in)"
+      ],
+      "snowday_init_2026-11-13_hours": 48,
+      "snowday_init_nonzero_hours": 0
+    }
+  },
+  "conclusion": "ECMWF IFS 0.25deg snow_depth via open-meteo Single Runs is exactly zero at these two grid cells for every cached run, including inits issued on confirmed snow days where GFS forecast nonzero. Treated as a zero-depth predictor at these cells (real model behavior or vendor gap; indistinguishable from the data). Scored honestly as such; const_zero_depth baseline now in every artifact so this is visible.",
+  "pull_utc": "2026-11-26T07:49:41.674478+00:00"
+}
