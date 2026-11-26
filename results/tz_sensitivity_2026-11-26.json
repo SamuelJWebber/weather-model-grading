@@ -1,0 +1,1023 @@
+{
+  "check": "OFFLINE diagnostic sensitivity of the same-lead hourly persistence benchmark to the assumed SNOTEL hourly timezone offset; does NOT resolve the true timezone",
+  "window": [
+    "2026-10-24",
+    "2026-11-24"
+  ],
+  "offsets_hours": [
+    6,
+    7,
+    8,
+    9,
+    10
+  ],
+  "common_support": "per station/lead/delay, only dates present under every offset are scored",
+  "limitations": [
+    "diagnostic range is within-day whole hours only; the daily anchor already excludes whole-day errors",
+    "a uniform per-station offset is assumed; a real station in a DST-observing local zone would have a MID-WINDOW offset shift, which no constant-offset variant represents",
+    "common support shrinks n vs the headline artifact; MAEs here are not comparable to it, only across offsets",
+    "archive-fed; says nothing about operational timeliness",
+    "quiet support is degenerate for persistence: where actuals are constant (e.g., vail pre-storm, 5 distinct values over 27 dates), persistence error is ~0 at ANY offset, so small MAE differences there carry little information"
+  ],
+  "stations": {
+    "vail": {
+      "lead_8h_delay_0h": {
+        "n_common": 28,
+        "dates_common": [
+          "2026-10-24",
+          "2026-10-25",
+          "2026-10-26",
+          "2026-10-27",
+          "2026-10-28",
+          "2026-10-29",
+          "2026-10-30",
+          "2026-10-31",
+          "2026-11-01",
+          "2026-11-03",
+          "2026-11-04",
+          "2026-11-06",
+          "2026-11-07",
+          "2026-11-08",
+          "2026-11-09",
+          "2026-11-10",
+          "2026-11-11",
+          "2026-11-12",
+          "2026-11-15",
+          "2026-11-16",
+          "2026-11-17",
+          "2026-11-18",
+          "2026-11-19",
+          "2026-11-20",
+          "2026-11-21",
+          "2026-11-22",
+          "2026-11-23",
+          "2026-11-24"
+        ],
+        "by_offset": {
+          "utc_minus_6": {
+            "persistence_mae": 0.0082,
+            "gfs_seamless_mae": 0.0182,
+            "icon_seamless_mae": 0.0153
+          },
+          "utc_minus_7": {
+            "persistence_mae": 0.0036,
+            "gfs_seamless_mae": 0.0146,
+            "icon_seamless_mae": 0.0128
+          },
+          "utc_minus_8": {
+            "persistence_mae": 0.0045,
+            "gfs_seamless_mae": 0.0146,
+            "icon_seamless_mae": 0.0128
+          },
+          "utc_minus_9": {
+            "persistence_mae": 0.0063,
+            "gfs_seamless_mae": 0.016,
+            "icon_seamless_mae": 0.0135
+          },
+          "utc_minus_10": {
+            "persistence_mae": 0.0,
+            "gfs_seamless_mae": 0.0142,
+            "icon_seamless_mae": 0.0117
+          }
+        }
+      },
+      "lead_8h_delay_3h": {
+        "n_common": 25,
+        "dates_common": [
+          "2026-10-24",
+          "2026-10-26",
+          "2026-10-27",
+          "2026-10-28",
+          "2026-10-29",
+          "2026-10-30",
+          "2026-10-31",
+          "2026-11-01",
+          "2026-11-03",
+          "2026-11-04",
+          "2026-11-05",
+          "2026-11-06",
+          "2026-11-07",
+          "2026-11-08",
+          "2026-11-09",
+          "2026-11-10",
+          "2026-11-12",
+          "2026-11-15",
+          "2026-11-18",
+          "2026-11-19",
+          "2026-11-20",
+          "2026-11-21",
+          "2026-11-22",
+          "2026-11-23",
+          "2026-11-24"
+        ],
+        "by_offset": {
+          "utc_minus_6": {
+            "persistence_mae": 0.0132,
+            "gfs_seamless_mae": 0.0224,
+            "icon_seamless_mae": 0.018
+          },
+          "utc_minus_7": {
+            "persistence_mae": 0.0051,
+            "gfs_seamless_mae": 0.0173,
+            "icon_seamless_mae": 0.0145
+          },
+          "utc_minus_8": {
+            "persistence_mae": 0.0051,
+            "gfs_seamless_mae": 0.0184,
+            "icon_seamless_mae": 0.0151
+          },
+          "utc_minus_9": {
+            "persistence_mae": 0.0071,
+            "gfs_seamless_mae": 0.02,
+            "icon_seamless_mae": 0.0159
+          },
+          "utc_minus_10": {
+            "persistence_mae": 0.0071,
+            "gfs_seamless_mae": 0.0179,
+            "icon_seamless_mae": 0.0139
+          }
+        }
+      },
+      "lead_32h_delay_0h": {
+        "n_common": 27,
+        "dates_common": [
+          "2026-10-24",
+          "2026-10-25",
+          "2026-10-26",
+          "2026-10-27",
+          "2026-10-28",
+          "2026-10-29",
+          "2026-10-30",
+          "2026-10-31",
+          "2026-11-01",
+          "2026-11-02",
+          "2026-11-04",
+          "2026-11-05",
+          "2026-11-07",
+          "2026-11-08",
+          "2026-11-09",
+          "2026-11-10",
+          "2026-11-11",
+          "2026-11-12",
+          "2026-11-16",
+          "2026-11-17",
+          "2026-11-18",
+          "2026-11-19",
+          "2026-11-20",
+          "2026-11-21",
+          "2026-11-22",
+          "2026-11-23",
+          "2026-11-24"
+        ],
+        "by_offset": {
+          "utc_minus_6": {
+            "persistence_mae": 0.0132,
+            "gfs_seamless_mae": 0.0173,
+            "icon_seamless_mae": 0.0163
+          },
+          "utc_minus_7": {
+            "persistence_mae": 0.0103,
+            "gfs_seamless_mae": 0.0169,
+            "icon_seamless_mae": 0.0136
+          },
+          "utc_minus_8": {
+            "persistence_mae": 0.0113,
+            "gfs_seamless_mae": 0.015,
+            "icon_seamless_mae": 0.0125
+          },
+          "utc_minus_9": {
+            "persistence_mae": 0.0113,
+            "gfs_seamless_mae": 0.0169,
+            "icon_seamless_mae": 0.0125
+          },
+          "utc_minus_10": {
+            "persistence_mae": 0.0085,
+            "gfs_seamless_mae": 0.015,
+            "icon_seamless_mae": 0.0106
+          }
+        }
+      },
+      "lead_32h_delay_3h": {
+        "n_common": 24,
+        "dates_common": [
+          "2026-10-24",
+          "2026-10-25",
+          "2026-10-27",
+          "2026-10-28",
+          "2026-10-29",
+          "2026-10-30",
+          "2026-10-31",
+          "2026-11-01",
+          "2026-11-02",
+          "2026-11-04",
+          "2026-11-05",
+          "2026-11-06",
+          "2026-11-07",
+          "2026-11-08",
+          "2026-11-09",
+          "2026-11-10",
+          "2026-11-11",
+          "2026-11-16",
+          "2026-11-19",
+          "2026-11-20",
+          "2026-11-21",
+          "2026-11-22",
+          "2026-11-23",
+          "2026-11-24"
+        ],
+        "by_offset": {
+          "utc_minus_6": {
+            "persistence_mae": 0.0159,
+            "gfs_seamless_mae": 0.0201,
+            "icon_seamless_mae": 0.0172
+          },
+          "utc_minus_7": {
+            "persistence_mae": 0.0116,
+            "gfs_seamless_mae": 0.0191,
+            "icon_seamless_mae": 0.0153
+          },
+          "utc_minus_8": {
+            "persistence_mae": 0.0106,
+            "gfs_seamless_mae": 0.0169,
+            "icon_seamless_mae": 0.014
+          },
+          "utc_minus_9": {
+            "persistence_mae": 0.0138,
+            "gfs_seamless_mae": 0.018,
+            "icon_seamless_mae": 0.0143
+          },
+          "utc_minus_10": {
+            "persistence_mae": 0.0169,
+            "gfs_seamless_mae": 0.0159,
+            "icon_seamless_mae": 0.0122
+          }
+        }
+      }
+    },
+    "breckenridge": {
+      "lead_8h_delay_0h": {
+        "n_common": 21,
+        "dates_common": [
+          "2026-10-24",
+          "2026-10-25",
+          "2026-10-26",
+          "2026-10-30",
+          "2026-10-31",
+          "2026-11-01",
+          "2026-11-03",
+          "2026-11-06",
+          "2026-11-07",
+          "2026-11-09",
+          "2026-11-11",
+          "2026-11-12",
+          "2026-11-15",
+          "2026-11-16",
+          "2026-11-17",
+          "2026-11-18",
+          "2026-11-19",
+          "2026-11-20",
+          "2026-11-21",
+          "2026-11-22",
+          "2026-11-23"
+        ],
+        "by_offset": {
+          "utc_minus_6": {
+            "persistence_mae": 0.0036,
+            "gfs_seamless_mae": 0.0186,
+            "icon_seamless_mae": 0.0106
+          },
+          "utc_minus_7": {
+            "persistence_mae": 0.0012,
+            "gfs_seamless_mae": 0.021,
+            "icon_seamless_mae": 0.0106
+          },
+          "utc_minus_8": {
+            "persistence_mae": 0.0012,
+            "gfs_seamless_mae": 0.0234,
+            "icon_seamless_mae": 0.013
+          },
+          "utc_minus_9": {
+            "persistence_mae": 0.0,
+            "gfs_seamless_mae": 0.0222,
+            "icon_seamless_mae": 0.0118
+          },
+          "utc_minus_10": {
+            "persistence_mae": 0.0012,
+            "gfs_seamless_mae": 0.0222,
+            "icon_seamless_mae": 0.0118
+          }
+        }
+      },
+      "lead_8h_delay_3h": {
+        "n_common": 10,
+        "dates_common": [
+          "2026-10-25",
+          "2026-10-30",
+          "2026-11-03",
+          "2026-11-06",
+          "2026-11-07",
+          "2026-11-15",
+          "2026-11-19",
+          "2026-11-20",
+          "2026-11-22",
+          "2026-11-23"
+        ],
+        "by_offset": {
+          "utc_minus_6": {
+            "persistence_mae": 0.0051,
+            "gfs_seamless_mae": 0.0135,
+            "icon_seamless_mae": 0.0178
+          },
+          "utc_minus_7": {
+            "persistence_mae": 0.0051,
+            "gfs_seamless_mae": 0.0161,
+            "icon_seamless_mae": 0.0152
+          },
+          "utc_minus_8": {
+            "persistence_mae": 0.0025,
+            "gfs_seamless_mae": 0.0186,
+            "icon_seamless_mae": 0.0178
+          },
+          "utc_minus_9": {
+            "persistence_mae": 0.0102,
+            "gfs_seamless_mae": 0.0186,
+            "icon_seamless_mae": 0.0178
+          },
+          "utc_minus_10": {
+            "persistence_mae": 0.0051,
+            "gfs_seamless_mae": 0.0186,
+            "icon_seamless_mae": 0.0178
+          }
+        }
+      },
+      "lead_32h_delay_0h": {
+        "n_common": 20,
+        "dates_common": [
+          "2026-10-24",
+          "2026-10-25",
+          "2026-10-26",
+          "2026-10-27",
+          "2026-10-31",
+          "2026-11-01",
+          "2026-11-03",
+          "2026-11-05",
+          "2026-11-07",
+          "2026-11-10",
+          "2026-11-12",
+          "2026-11-13",
+          "2026-11-16",
+          "2026-11-17",
+          "2026-11-18",
+          "2026-11-19",
+          "2026-11-20",
+          "2026-11-21",
+          "2026-11-22",
+          "2026-11-23"
+        ],
+        "by_offset": {
+          "utc_minus_6": {
+            "persistence_mae": 0.0076,
+            "gfs_seamless_mae": 0.0156,
+            "icon_seamless_mae": 0.0111
+          },
+          "utc_minus_7": {
+            "persistence_mae": 0.0076,
+            "gfs_seamless_mae": 0.014,
+            "icon_seamless_mae": 0.0112
+          },
+          "utc_minus_8": {
+            "persistence_mae": 0.0076,
+            "gfs_seamless_mae": 0.0166,
+            "icon_seamless_mae": 0.0121
+          },
+          "utc_minus_9": {
+            "persistence_mae": 0.0076,
+            "gfs_seamless_mae": 0.0166,
+            "icon_seamless_mae": 0.0121
+          },
+          "utc_minus_10": {
+            "persistence_mae": 0.0089,
+            "gfs_seamless_mae": 0.0166,
+            "icon_seamless_mae": 0.0121
+          }
+        }
+      },
+      "lead_32h_delay_3h": {
+        "n_common": 9,
+        "dates_common": [
+          "2026-10-24",
+          "2026-10-26",
+          "2026-10-31",
+          "2026-11-07",
+          "2026-11-09",
+          "2026-11-16",
+          "2026-11-20",
+          "2026-11-21",
+          "2026-11-23"
+        ],
+        "by_offset": {
+          "utc_minus_6": {
+            "persistence_mae": 0.0056,
+            "gfs_seamless_mae": 0.0102,
+            "icon_seamless_mae": 0.0091
+          },
+          "utc_minus_7": {
+            "persistence_mae": 0.0056,
+            "gfs_seamless_mae": 0.0096,
+            "icon_seamless_mae": 0.0085
+          },
+          "utc_minus_8": {
+            "persistence_mae": 0.0085,
+            "gfs_seamless_mae": 0.0124,
+            "icon_seamless_mae": 0.0113
+          },
+          "utc_minus_9": {
+            "persistence_mae": 0.0056,
+            "gfs_seamless_mae": 0.0096,
+            "icon_seamless_mae": 0.0085
+          },
+          "utc_minus_10": {
+            "persistence_mae": 0.0028,
+            "gfs_seamless_mae": 0.0096,
+            "icon_seamless_mae": 0.0085
+          }
+        }
+      }
+    },
+    "park_city": {
+      "lead_8h_delay_0h": {
+        "n_common": 21,
+        "dates_common": [
+          "2026-10-24",
+          "2026-10-25",
+          "2026-10-26",
+          "2026-10-28",
+          "2026-10-31",
+          "2026-11-01",
+          "2026-11-02",
+          "2026-11-03",
+          "2026-11-04",
+          "2026-11-05",
+          "2026-11-06",
+          "2026-11-07",
+          "2026-11-15",
+          "2026-11-16",
+          "2026-11-18",
+          "2026-11-19",
+          "2026-11-20",
+          "2026-11-21",
+          "2026-11-22",
+          "2026-11-23",
+          "2026-11-24"
+        ],
+        "by_offset": {
+          "utc_minus_6": {
+            "persistence_mae": 0.0085,
+            "gfs_seamless_mae": 0.0374,
+            "icon_seamless_mae": 0.0617
+          },
+          "utc_minus_7": {
+            "persistence_mae": 0.0073,
+            "gfs_seamless_mae": 0.0374,
+            "icon_seamless_mae": 0.0617
+          },
+          "utc_minus_8": {
+            "persistence_mae": 0.0073,
+            "gfs_seamless_mae": 0.0362,
+            "icon_seamless_mae": 0.0605
+          },
+          "utc_minus_9": {
+            "persistence_mae": 0.0073,
+            "gfs_seamless_mae": 0.0384,
+            "icon_seamless_mae": 0.0605
+          },
+          "utc_minus_10": {
+            "persistence_mae": 0.006,
+            "gfs_seamless_mae": 0.036,
+            "icon_seamless_mae": 0.0581
+          }
+        }
+      },
+      "lead_8h_delay_3h": {
+        "n_common": 19,
+        "dates_common": [
+          "2026-10-24",
+          "2026-10-25",
+          "2026-10-26",
+          "2026-10-28",
+          "2026-10-31",
+          "2026-11-01",
+          "2026-11-02",
+          "2026-11-03",
+          "2026-11-05",
+          "2026-11-06",
+          "2026-11-15",
+          "2026-11-16",
+          "2026-11-18",
+          "2026-11-19",
+          "2026-11-20",
+          "2026-11-21",
+          "2026-11-22",
+          "2026-11-23",
+          "2026-11-24"
+        ],
+        "by_offset": {
+          "utc_minus_6": {
+            "persistence_mae": 0.0094,
+            "gfs_seamless_mae": 0.0414,
+            "icon_seamless_mae": 0.0682
+          },
+          "utc_minus_7": {
+            "persistence_mae": 0.0107,
+            "gfs_seamless_mae": 0.0414,
+            "icon_seamless_mae": 0.0682
+          },
+          "utc_minus_8": {
+            "persistence_mae": 0.012,
+            "gfs_seamless_mae": 0.0401,
+            "icon_seamless_mae": 0.0669
+          },
+          "utc_minus_9": {
+            "persistence_mae": 0.012,
+            "gfs_seamless_mae": 0.0425,
+            "icon_seamless_mae": 0.0669
+          },
+          "utc_minus_10": {
+            "persistence_mae": 0.0107,
+            "gfs_seamless_mae": 0.0398,
+            "icon_seamless_mae": 0.0642
+          }
+        }
+      },
+      "lead_32h_delay_0h": {
+        "n_common": 21,
+        "dates_common": [
+          "2026-10-24",
+          "2026-10-25",
+          "2026-10-26",
+          "2026-10-27",
+          "2026-10-31",
+          "2026-11-01",
+          "2026-11-02",
+          "2026-11-03",
+          "2026-11-04",
+          "2026-11-05",
+          "2026-11-06",
+          "2026-11-07",
+          "2026-11-08",
+          "2026-11-15",
+          "2026-11-16",
+          "2026-11-19",
+          "2026-11-20",
+          "2026-11-21",
+          "2026-11-22",
+          "2026-11-23",
+          "2026-11-24"
+        ],
+        "by_offset": {
+          "utc_minus_6": {
+            "persistence_mae": 0.023,
+            "gfs_seamless_mae": 0.0321,
+            "icon_seamless_mae": 0.0595
+          },
+          "utc_minus_7": {
+            "persistence_mae": 0.0218,
+            "gfs_seamless_mae": 0.0321,
+            "icon_seamless_mae": 0.0595
+          },
+          "utc_minus_8": {
+            "persistence_mae": 0.0218,
+            "gfs_seamless_mae": 0.0309,
+            "icon_seamless_mae": 0.0583
+          },
+          "utc_minus_9": {
+            "persistence_mae": 0.0194,
+            "gfs_seamless_mae": 0.0333,
+            "icon_seamless_mae": 0.0583
+          },
+          "utc_minus_10": {
+            "persistence_mae": 0.0194,
+            "gfs_seamless_mae": 0.0321,
+            "icon_seamless_mae": 0.0571
+          }
+        }
+      },
+      "lead_32h_delay_3h": {
+        "n_common": 18,
+        "dates_common": [
+          "2026-10-24",
+          "2026-10-25",
+          "2026-10-26",
+          "2026-10-27",
+          "2026-10-31",
+          "2026-11-01",
+          "2026-11-02",
+          "2026-11-03",
+          "2026-11-04",
+          "2026-11-06",
+          "2026-11-07",
+          "2026-11-16",
+          "2026-11-19",
+          "2026-11-20",
+          "2026-11-21",
+          "2026-11-22",
+          "2026-11-23",
+          "2026-11-24"
+        ],
+        "by_offset": {
+          "utc_minus_6": {
+            "persistence_mae": 0.024,
+            "gfs_seamless_mae": 0.0375,
+            "icon_seamless_mae": 0.0694
+          },
+          "utc_minus_7": {
+            "persistence_mae": 0.0254,
+            "gfs_seamless_mae": 0.0375,
+            "icon_seamless_mae": 0.0694
+          },
+          "utc_minus_8": {
+            "persistence_mae": 0.024,
+            "gfs_seamless_mae": 0.0361,
+            "icon_seamless_mae": 0.068
+          },
+          "utc_minus_9": {
+            "persistence_mae": 0.0268,
+            "gfs_seamless_mae": 0.0389,
+            "icon_seamless_mae": 0.068
+          },
+          "utc_minus_10": {
+            "persistence_mae": 0.0268,
+            "gfs_seamless_mae": 0.0375,
+            "icon_seamless_mae": 0.0666
+          }
+        }
+      }
+    },
+    "palisades": {
+      "lead_8h_delay_0h": {
+        "n_common": 27,
+        "dates_common": [
+          "2026-10-27",
+          "2026-10-28",
+          "2026-10-29",
+          "2026-10-30",
+          "2026-10-31",
+          "2026-11-01",
+          "2026-11-02",
+          "2026-11-03",
+          "2026-11-04",
+          "2026-11-05",
+          "2026-11-06",
+          "2026-11-09",
+          "2026-11-10",
+          "2026-11-11",
+          "2026-11-12",
+          "2026-11-13",
+          "2026-11-14",
+          "2026-11-15",
+          "2026-11-16",
+          "2026-11-17",
+          "2026-11-18",
+          "2026-11-19",
+          "2026-11-20",
+          "2026-11-21",
+          "2026-11-22",
+          "2026-11-23",
+          "2026-11-24"
+        ],
+        "by_offset": {
+          "utc_minus_6": {
+            "persistence_mae": 0.0179,
+            "gfs_seamless_mae": 0.0206,
+            "icon_seamless_mae": 0.0649
+          },
+          "utc_minus_7": {
+            "persistence_mae": 0.0188,
+            "gfs_seamless_mae": 0.0188,
+            "icon_seamless_mae": 0.0631
+          },
+          "utc_minus_8": {
+            "persistence_mae": 0.016,
+            "gfs_seamless_mae": 0.0157,
+            "icon_seamless_mae": 0.0631
+          },
+          "utc_minus_9": {
+            "persistence_mae": 0.0179,
+            "gfs_seamless_mae": 0.0153,
+            "icon_seamless_mae": 0.0612
+          },
+          "utc_minus_10": {
+            "persistence_mae": 0.016,
+            "gfs_seamless_mae": 0.0175,
+            "icon_seamless_mae": 0.0585
+          }
+        }
+      },
+      "lead_8h_delay_3h": {
+        "n_common": 27,
+        "dates_common": [
+          "2026-10-27",
+          "2026-10-28",
+          "2026-10-29",
+          "2026-10-30",
+          "2026-10-31",
+          "2026-11-01",
+          "2026-11-02",
+          "2026-11-03",
+          "2026-11-04",
+          "2026-11-05",
+          "2026-11-06",
+          "2026-11-09",
+          "2026-11-10",
+          "2026-11-11",
+          "2026-11-12",
+          "2026-11-13",
+          "2026-11-14",
+          "2026-11-15",
+          "2026-11-16",
+          "2026-11-17",
+          "2026-11-18",
+          "2026-11-19",
+          "2026-11-20",
+          "2026-11-21",
+          "2026-11-22",
+          "2026-11-23",
+          "2026-11-24"
+        ],
+        "by_offset": {
+          "utc_minus_6": {
+            "persistence_mae": 0.0254,
+            "gfs_seamless_mae": 0.0206,
+            "icon_seamless_mae": 0.0649
+          },
+          "utc_minus_7": {
+            "persistence_mae": 0.0216,
+            "gfs_seamless_mae": 0.0188,
+            "icon_seamless_mae": 0.0631
+          },
+          "utc_minus_8": {
+            "persistence_mae": 0.0179,
+            "gfs_seamless_mae": 0.0157,
+            "icon_seamless_mae": 0.0631
+          },
+          "utc_minus_9": {
+            "persistence_mae": 0.0188,
+            "gfs_seamless_mae": 0.0153,
+            "icon_seamless_mae": 0.0612
+          },
+          "utc_minus_10": {
+            "persistence_mae": 0.0216,
+            "gfs_seamless_mae": 0.0175,
+            "icon_seamless_mae": 0.0585
+          }
+        }
+      },
+      "lead_32h_delay_0h": {
+        "n_common": 25,
+        "dates_common": [
+          "2026-10-28",
+          "2026-10-29",
+          "2026-10-30",
+          "2026-10-31",
+          "2026-11-01",
+          "2026-11-02",
+          "2026-11-03",
+          "2026-11-04",
+          "2026-11-05",
+          "2026-11-06",
+          "2026-11-10",
+          "2026-11-11",
+          "2026-11-12",
+          "2026-11-13",
+          "2026-11-14",
+          "2026-11-15",
+          "2026-11-16",
+          "2026-11-17",
+          "2026-11-18",
+          "2026-11-19",
+          "2026-11-20",
+          "2026-11-21",
+          "2026-11-22",
+          "2026-11-23",
+          "2026-11-24"
+        ],
+        "by_offset": {
+          "utc_minus_6": {
+            "persistence_mae": 0.0528,
+            "gfs_seamless_mae": 0.0316,
+            "icon_seamless_mae": 0.0729
+          },
+          "utc_minus_7": {
+            "persistence_mae": 0.0518,
+            "gfs_seamless_mae": 0.0296,
+            "icon_seamless_mae": 0.0709
+          },
+          "utc_minus_8": {
+            "persistence_mae": 0.0488,
+            "gfs_seamless_mae": 0.0296,
+            "icon_seamless_mae": 0.0709
+          },
+          "utc_minus_9": {
+            "persistence_mae": 0.0488,
+            "gfs_seamless_mae": 0.0312,
+            "icon_seamless_mae": 0.0689
+          },
+          "utc_minus_10": {
+            "persistence_mae": 0.0478,
+            "gfs_seamless_mae": 0.0353,
+            "icon_seamless_mae": 0.0648
+          }
+        }
+      },
+      "lead_32h_delay_3h": {
+        "n_common": 25,
+        "dates_common": [
+          "2026-10-28",
+          "2026-10-29",
+          "2026-10-30",
+          "2026-10-31",
+          "2026-11-01",
+          "2026-11-02",
+          "2026-11-03",
+          "2026-11-04",
+          "2026-11-05",
+          "2026-11-06",
+          "2026-11-10",
+          "2026-11-11",
+          "2026-11-12",
+          "2026-11-13",
+          "2026-11-14",
+          "2026-11-15",
+          "2026-11-16",
+          "2026-11-17",
+          "2026-11-18",
+          "2026-11-19",
+          "2026-11-20",
+          "2026-11-21",
+          "2026-11-22",
+          "2026-11-23",
+          "2026-11-24"
+        ],
+        "by_offset": {
+          "utc_minus_6": {
+            "persistence_mae": 0.0549,
+            "gfs_seamless_mae": 0.0316,
+            "icon_seamless_mae": 0.0729
+          },
+          "utc_minus_7": {
+            "persistence_mae": 0.0538,
+            "gfs_seamless_mae": 0.0296,
+            "icon_seamless_mae": 0.0709
+          },
+          "utc_minus_8": {
+            "persistence_mae": 0.0498,
+            "gfs_seamless_mae": 0.0296,
+            "icon_seamless_mae": 0.0709
+          },
+          "utc_minus_9": {
+            "persistence_mae": 0.0508,
+            "gfs_seamless_mae": 0.0312,
+            "icon_seamless_mae": 0.0689
+          },
+          "utc_minus_10": {
+            "persistence_mae": 0.0528,
+            "gfs_seamless_mae": 0.0353,
+            "icon_seamless_mae": 0.0648
+          }
+        }
+      }
+    }
+  },
+  "conclusion_stability": [
+    {
+      "station": "vail",
+      "series": "lead_8h_delay_0h",
+      "n_common": 28,
+      "winner_at_utc_minus_8": "persistence",
+      "winner_changes": []
+    },
+    {
+      "station": "vail",
+      "series": "lead_8h_delay_3h",
+      "n_common": 25,
+      "winner_at_utc_minus_8": "persistence",
+      "winner_changes": []
+    },
+    {
+      "station": "vail",
+      "series": "lead_32h_delay_0h",
+      "n_common": 27,
+      "winner_at_utc_minus_8": "persistence",
+      "winner_changes": []
+    },
+    {
+      "station": "vail",
+      "series": "lead_32h_delay_3h",
+      "n_common": 24,
+      "winner_at_utc_minus_8": "persistence",
+      "winner_changes": [
+        [
+          10,
+          "icon_seamless"
+        ]
+      ]
+    },
+    {
+      "station": "breckenridge",
+      "series": "lead_8h_delay_0h",
+      "n_common": 21,
+      "winner_at_utc_minus_8": "persistence",
+      "winner_changes": []
+    },
+    {
+      "station": "breckenridge",
+      "series": "lead_8h_delay_3h",
+      "n_common": 10,
+      "winner_at_utc_minus_8": "persistence",
+      "winner_changes": []
+    },
+    {
+      "station": "breckenridge",
+      "series": "lead_32h_delay_0h",
+      "n_common": 20,
+      "winner_at_utc_minus_8": "persistence",
+      "winner_changes": []
+    },
+    {
+      "station": "breckenridge",
+      "series": "lead_32h_delay_3h",
+      "n_common": 9,
+      "winner_at_utc_minus_8": "persistence",
+      "winner_changes": []
+    },
+    {
+      "station": "park_city",
+      "series": "lead_8h_delay_0h",
+      "n_common": 21,
+      "winner_at_utc_minus_8": "persistence",
+      "winner_changes": []
+    },
+    {
+      "station": "park_city",
+      "series": "lead_8h_delay_3h",
+      "n_common": 19,
+      "winner_at_utc_minus_8": "persistence",
+      "winner_changes": []
+    },
+    {
+      "station": "park_city",
+      "series": "lead_32h_delay_0h",
+      "n_common": 21,
+      "winner_at_utc_minus_8": "persistence",
+      "winner_changes": []
+    },
+    {
+      "station": "park_city",
+      "series": "lead_32h_delay_3h",
+      "n_common": 18,
+      "winner_at_utc_minus_8": "persistence",
+      "winner_changes": []
+    },
+    {
+      "station": "palisades",
+      "series": "lead_8h_delay_0h",
+      "n_common": 27,
+      "winner_at_utc_minus_8": "gfs_seamless",
+      "winner_changes": [
+        [
+          6,
+          "persistence"
+        ],
+        [
+          7,
+          "persistence"
+        ],
+        [
+          10,
+          "persistence"
+        ]
+      ]
+    },
+    {
+      "station": "palisades",
+      "series": "lead_8h_delay_3h",
+      "n_common": 27,
+      "winner_at_utc_minus_8": "gfs_seamless",
+      "winner_changes": []
+    },
+    {
+      "station": "palisades",
+      "series": "lead_32h_delay_0h",
+      "n_common": 25,
+      "winner_at_utc_minus_8": "gfs_seamless",
+      "winner_changes": []
+    },
+    {
+      "station": "palisades",
+      "series": "lead_32h_delay_3h",
+      "n_common": 25,
+      "winner_at_utc_minus_8": "gfs_seamless",
+      "winner_changes": []
+    }
+  ]
+}
