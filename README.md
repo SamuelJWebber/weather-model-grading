@@ -97,7 +97,8 @@ Reading: same pattern as Vail's quiet window - no model separates from
 persistence, small uniform negative biases. On elevation: no LARGE
 nominal gap is evident (stake 1202m, model grid cell at the stake
 coordinate 1199m), unlike the western mountain diagnostics where the
-grid sits ~1000m below the stake. Close nominal elevation does not by
+grid sits 470-676m below the stake (audit 2026-11-25 corrected an
+earlier "~1000m" here; the documented gaps are 470-676m). Close nominal elevation does not by
 itself rule out elevation-related or other representativeness
 confounding: a single stake on a wind-exposed ridgeline samples drift
 and scour that a grid-cell mean does not, so quiet-weather depth drift,
