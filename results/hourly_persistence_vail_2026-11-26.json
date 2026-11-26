@@ -1,0 +1,72 @@
+{
+ "check": "same-lead hourly persistence vs model forecasts, Vail 842 only; symmetric upper-bound benchmark, NOT an operational selector",
+ "window": [
+  "2026-10-24",
+  "2026-11-24"
+ ],
+ "timezone_contract": {
+  "hourly_00:00_equals_daily": "33/33",
+  "verified": true
+ },
+ "raw_hourly_csv": "results/raw/actuals/snotel_842-CO-SNTL_hourly_2026-10-22_2026-11-24.csv",
+ "raw_hourly_csv_sha256": "07b1f2ea5eaf840101a09045edaf9a6bfcb5035906c1329cd39cf0eb10e21362",
+ "sensor_noise_caveat": "hourly 842 values flicker by ~1 inch",
+ "scores": {
+  "lead_8h": {
+   "common_dates": 30,
+   "gfs_seamless lead_8h": {
+    "n": 30,
+    "mae": 0.0153,
+    "rmse": 0.0292,
+    "bias": -0.0153
+   },
+   "icon_seamless lead_8h": {
+    "n": 30,
+    "mae": 0.0126,
+    "rmse": 0.0248,
+    "bias": -0.0103
+   },
+   "hourly_persistence_8h": {
+    "n": 30,
+    "mae": 0.0059,
+    "rmse": 0.0139,
+    "bias": -0.0008
+   },
+   "daily_persistence_1d_same_dates": {
+    "n": 31,
+    "mae": 0.0098,
+    "rmse": 0.0194,
+    "bias": -0.0033
+   },
+   "contrast_note": "daily persistence is anchored on the prior daily actual (zero-lag); hourly persistence is anchored lead-hours before the valid instant - the honest same-lead benchmark"
+  },
+  "lead_32h": {
+   "common_dates": 30,
+   "gfs_seamless lead_32h": {
+    "n": 30,
+    "mae": 0.0159,
+    "rmse": 0.0283,
+    "bias": -0.0103
+   },
+   "icon_seamless lead_32h": {
+    "n": 30,
+    "mae": 0.0139,
+    "rmse": 0.0255,
+    "bias": -0.008
+   },
+   "hourly_persistence_32h": {
+    "n": 30,
+    "mae": 0.0059,
+    "rmse": 0.0139,
+    "bias": -0.0042
+   },
+   "daily_persistence_1d_same_dates": {
+    "n": 31,
+    "mae": 0.0098,
+    "rmse": 0.0194,
+    "bias": -0.0033
+   },
+   "contrast_note": "daily persistence is anchored on the prior daily actual (zero-lag); hourly persistence is anchored lead-hours before the valid instant - the honest same-lead benchmark"
+  }
+ }
+}

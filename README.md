@@ -486,3 +486,17 @@ Vail under both alternate targets and Truckee under the median target.
 These targets differ from raw depth and do not identify sensor truth.
 The result limits any claim of a stable advantage; it is not evidence
 that one transformed target should replace the original target.
+
+Same-lead hourly persistence benchmark (2026-11-26 PM, Vail 842 only,
+results/hourly_persistence_vail_2026-11-26.json): hourly SNWD pulled
+from NRCS (raw CSV + sha256 preserved; timestamp convention verified
+33/33 against the saved daily series, so "D 00:00" = D 08:00 UTC).
+Scored gfs/icon at leads 8h/32h against persistence anchored lead-hours
+before the SAME valid instant (symmetric upper-bound benchmark, not an
+operational selector; hourly 842 values flicker ~1 inch). On 30 common
+dates: hourly persistence MAE 0.0059 at BOTH leads vs daily persistence
+0.0098, gfs 0.0153/0.0159, icon 0.0126/0.0139. The models'
+persistence shortfall is therefore NOT an artifact of the daily anchor -
+it widens under the honest same-lead benchmark in this quiet window.
+Label map: this row's "Vail" = resort grid 39.64,-106.37 vs on-mountain
+SNOTEL 842:CO:SNTL (gap ~0).
