@@ -197,3 +197,106 @@ def run_coop_leads_live(resort: str, past_days: int, output_dir,
         "pull_utc": datetime.now(timezone.utc).isoformat(),
         "rows": rows}, indent=2))
     return rows
+
+
+def paired_leads_check(resort: str = "stowe",
+                       leads_h: tuple[int, ...] = (21, 45),
+                       compare_to: str | None =
+                       "results/grading_{r}_snow-depth-coop-leads_"
+                       "2026-11-24.json",
+                       output_dir: str = "results") -> dict:
+    """Paired same-day comparison: every series scored on the dates where
+    ALL series (models at both leads AND the persistence baseline) AND the
+    actual have values. The preserved leads artifact reports each series on
+    its own available dates (n=26 models vs n=23 persistence), which is not
+    a paired comparison; this check is.
+
+    The window and inputs are re-derived for the preserved artifact's exact
+    actual_window (not re-anchored to "yesterday"), and each series'
+    unrestricted scores are recomputed and compared to the artifact: they
+    must match exactly, proving the paired subset is drawn from the same
+    underlying data. The original artifact is not modified.
+    """
+    import json
+    from datetime import date, timedelta
+    from pathlib import Path
+    from .grade import score_series, persistence_baseline
+    from .snotel import fetch_singlerun_hourly
+
+    st = COOP_STATIONS[resort]
+    ref_path = Path(compare_to.format(r=resort)) if compare_to else None
+    ref = json.loads(ref_path.read_text()) if ref_path else None
+    if ref:
+        start, end = ref["actual_window"]
+    else:
+        end = (date.today() - timedelta(days=1)).isoformat()
+        start = (date.fromisoformat(end) - timedelta(days=29)).isoformat()
+    dates = [(date.fromisoformat(start) + timedelta(days=k)).isoformat()
+             for k in range((date.fromisoformat(end)
+                             - date.fromisoformat(start)).days + 1)]
+    actual = fetch_snowd_daily(st["station"], st["network"], start, end)
+
+    series: dict[str, dict[str, float]] = {}
+    runs: dict[tuple[str, str], dict[str, float]] = {}
+    for model in ("gfs_seamless", "icon_seamless", "ecmwf_ifs025"):
+        for lead in leads_h:
+            pred: dict[str, float] = {}
+            for d in dates:
+                init = (date.fromisoformat(d)
+                        - timedelta(hours=lead - SAMPLE_UTC_HOUR)
+                        ).isoformat()
+                if (model, init) not in runs:
+                    runs[(model, init)] = fetch_singlerun_hourly(
+                        st["lat"], st["lon"], model, init)
+                valid = f"{d}T{SAMPLE_UTC_HOUR:02d}:00"
+                if valid in runs[(model, init)]:
+                    pred[d] = runs[(model, init)][valid]
+            series[f"{model} lead_{lead}h"] = pred
+    series["persistence_1d baseline"] = persistence_baseline(actual, 1)
+
+    # 1) identity check: unrestricted scores must reproduce the artifact
+    identity = {}
+    if ref:
+        ref_rows = {(r["model"], r["lead"]): r for r in ref["rows"]}
+        for name, pred in series.items():
+            model, lead = name.rsplit(" ", 1)
+            got = score_series(pred, actual)
+            want = ref_rows.get((model, lead))
+            identity[name] = {
+                "recomputed": got,
+                "artifact": {k: want[k] for k in ("n", "mae", "rmse", "bias")}
+                if want else None,
+                "matches": bool(want) and all(
+                    got[k] == want[k] for k in ("n", "mae", "rmse", "bias"))}
+
+    # 2) paired scores on the common date intersection
+    common = set(actual)
+    for pred in series.values():
+        common &= set(pred)
+    common_dates = sorted(common)
+    paired = {}
+    for name, pred in series.items():
+        errs = [pred[d] - actual[d] for d in common_dates]
+        n = len(errs)
+        paired[name] = {
+            "n": n,
+            "mae": round(sum(abs(e) for e in errs) / n, 4),
+            "rmse": round((sum(e * e for e in errs) / n) ** 0.5, 4),
+            "bias": round(sum(errs) / n, 4)}
+
+    out = {
+        "check": "paired same-day comparison on the intersection of dates "
+                 "where every model/lead, persistence AND the actual all "
+                 "have values; fixes the unpaired n=26-vs-n=23 contrast in "
+                 "the preserved artifact (which is not modified)",
+        "resort": resort, "station": st["station"],
+        "actual_window": [start, end],
+        "common_dates": common_dates,
+        "identity_check_vs_preserved_artifact": identity,
+        "paired_scores": paired,
+        "pull_utc": __import__("datetime").datetime.now(
+            __import__("datetime").timezone.utc).isoformat()}
+    out_path = (Path(output_dir)
+                / f"grading_{resort}_snow-depth-coop-leads-paired_{end}.json")
+    out_path.write_text(json.dumps(out, indent=2))
+    return out

@@ -94,15 +94,37 @@ n=26 (persistence baseline n=23, it needs a prior present day).
 | ecmwf_ifs025 | 45h | 0.033 | -0.033 |
 
 Reading: same pattern as Vail's quiet window - no model separates from
-persistence, small uniform negative biases. The large elevation-gap
-confound behind the western mountain diagnostics (model grid ~1000m
-below the stake) is absent here: a ~3m gap cannot produce a 2-3cm depth
-bias. That does NOT clear the comparison of every representativeness
-confound: a single stake on a wind-exposed ridgeline samples drift and
-scour that a grid-cell mean does not, so quiet-weather depth drift,
-stake exposure or grid smoothing are all still candidates, and one
-station with 2 storm days cannot separate them.
+persistence, small uniform negative biases. On elevation: no LARGE
+nominal gap is evident (stake 1202m, model grid cell at the stake
+coordinate 1199m), unlike the western mountain diagnostics where the
+grid sits ~1000m below the stake. Close nominal elevation does not by
+itself rule out elevation-related or other representativeness
+confounding: a single stake on a wind-exposed ridgeline samples drift
+and scour that a grid-cell mean does not, so quiet-weather depth drift,
+stake exposure, grid smoothing or local elevation effects are all still
+candidates for the -2..-3cm bias, and one station with 2 storm days
+cannot separate them.
 Storm subset n=2: too few to read; scored automatically every run.
+
+Paired same-day check (2026-11-25, wxgrade/coop.py:paired_leads_check,
+results/grading_stowe_snow-depth-coop-leads-paired_2026-11-24.json):
+the table above scores each series on its own available dates (n=26
+models vs n=23 persistence), which is not a paired comparison. The
+check scores every series on the 23 dates where ALL series AND the
+actual have values (2026-10-27..2026-11-18). It first re-derives the
+window's inputs and reproduces every series' unrestricted scores
+exactly (n/MAE/RMSE/bias all match the preserved artifact), then
+reports paired scores at 4 decimals. Paired on the same 23 days:
+persistence MAE 0.0099m; gfs_seamless 0.0264 (21h) / 0.0216 (45h);
+icon_seamless 0.0285 / 0.0281; ecmwf_ifs025 0.0320 / 0.0320. The
+unpaired conclusion stands on identical dates: no model beats
+persistence in this quiet window (best model MAE 2.2x persistence),
+model ranking unchanged (gfs < icon < ecmwf), biases still -2..-3cm.
+Note: the check's first live run had a cache-key bug (runs cached by
+init only, shared across models) that made all model series identical;
+caught because per-model identity checks failed and fixed by keying the
+cache on (model, init). The preserved artifact was never affected (its
+loop caches per model).
 
 Construction note (2026-11-24): both sides are maxima of hourly values, hourly model forecasts on one side and hourly METAR observations on the other, over New York local calendar days (both requests specify America/New_York); coverage was verified complete, 24-25 obs/day, zero missing hours. An hourly sampled high can still miss the true peak between observations, so small MAE differences between models are noise. KNYC sits ~7 km from the queried grid point. A sample
 ranking, not a general model winner.
