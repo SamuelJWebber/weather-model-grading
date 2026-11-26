@@ -1,0 +1,310 @@
+{
+ "check": "W3 follow-up: paired scores excluding suspect ECMWF depth series at breckenridge(Copper) and stowe",
+ "inputs": "cached raw Single Runs payloads + saved actuals, network forbidden",
+ "resorts": {
+  "breckenridge": {
+   "identity": {
+    "gfs_seamless lead_8h": {
+     "matches": true
+    },
+    "gfs_seamless lead_32h": {
+     "matches": true
+    },
+    "icon_seamless lead_8h": {
+     "matches": true
+    },
+    "icon_seamless lead_32h": {
+     "matches": true
+    },
+    "ecmwf_ifs025 lead_8h": {
+     "matches": true
+    },
+    "ecmwf_ifs025 lead_32h": {
+     "matches": true
+    },
+    "persistence_1d baseline": {
+     "matches": true
+    },
+    "ensemble_mean_3 lead_8h": {
+     "matches": true
+    },
+    "ensemble_mean_3 lead_32h": {
+     "matches": true
+    }
+   },
+   "scores_excl_ecmwf_plus_baselines": {
+    "gfs_seamless lead_8h": {
+     "n": 32,
+     "mae": 0.0167,
+     "rmse": 0.0279,
+     "bias": 0.0095
+    },
+    "gfs_seamless lead_32h": {
+     "n": 32,
+     "mae": 0.0148,
+     "rmse": 0.0357,
+     "bias": 0.0027
+    },
+    "icon_seamless lead_8h": {
+     "n": 32,
+     "mae": 0.0101,
+     "rmse": 0.0164,
+     "bias": 0.003
+    },
+    "icon_seamless lead_32h": {
+     "n": 32,
+     "mae": 0.011,
+     "rmse": 0.0173,
+     "bias": 0.0052
+    },
+    "ecmwf_ifs025 lead_8h": {
+     "n": 32,
+     "mae": 0.0095,
+     "rmse": 0.022,
+     "bias": -0.0095
+    },
+    "ecmwf_ifs025 lead_32h": {
+     "n": 32,
+     "mae": 0.0095,
+     "rmse": 0.022,
+     "bias": -0.0095
+    },
+    "persistence_1d baseline": {
+     "n": 32,
+     "mae": 0.0079,
+     "rmse": 0.019,
+     "bias": -0.0016
+    },
+    "ensemble_mean_2 lead_32h": {
+     "n": 32,
+     "mae": 0.012,
+     "rmse": 0.0225,
+     "bias": 0.0039
+    },
+    "ensemble_mean_3 lead_32h": {
+     "n": 32,
+     "mae": 0.0101,
+     "rmse": 0.0172,
+     "bias": -0.0006
+    },
+    "ensemble_mean_2 lead_8h": {
+     "n": 32,
+     "mae": 0.0125,
+     "rmse": 0.0193,
+     "bias": 0.0063
+    },
+    "ensemble_mean_3 lead_8h": {
+     "n": 32,
+     "mae": 0.0111,
+     "rmse": 0.0171,
+     "bias": 0.001
+    }
+   },
+   "conclusion": {
+    "identity_check_vs_preserved_artifact": true,
+    "persistence": {
+     "n": 32,
+     "mae": 0.0079,
+     "rmse": 0.019,
+     "bias": -0.0016
+    },
+    "ensemble_mean_2_excl_ecmwf": {
+     "lead_8h": {
+      "n": 32,
+      "mae": 0.0125,
+      "rmse": 0.0193,
+      "bias": 0.0063
+     },
+     "lead_32h": {
+      "n": 32,
+      "mae": 0.012,
+      "rmse": 0.0225,
+      "bias": 0.0039
+     }
+    },
+    "stored_ensemble_mean_3_incl_ecmwf": {
+     "ensemble_mean_3 lead_32h": {
+      "n": 32,
+      "mae": 0.0101,
+      "rmse": 0.0172,
+      "bias": -0.0006
+     },
+     "ensemble_mean_3 lead_8h": {
+      "n": 32,
+      "mae": 0.0111,
+      "rmse": 0.0171,
+      "bias": 0.001
+     }
+    },
+    "best_single_excl_ecmwf": {
+     "lead_8h": "icon_seamless",
+     "lead_32h": "icon_seamless"
+    },
+    "best_single_excl_ecmwf_beats_persistence": {
+     "lead_8h": false,
+     "lead_32h": false
+    },
+    "ensemble2_beats_persistence": {
+     "lead_8h": false,
+     "lead_32h": false
+    },
+    "ensemble3_beats_persistence": {
+     "ensemble_mean_3 lead_32h": false,
+     "ensemble_mean_3 lead_8h": false
+    }
+   }
+  },
+  "stowe": {
+   "identity": {
+    "gfs_seamless lead_21h": {
+     "matches": true
+    },
+    "gfs_seamless lead_45h": {
+     "matches": true
+    },
+    "icon_seamless lead_21h": {
+     "matches": true
+    },
+    "icon_seamless lead_45h": {
+     "matches": true
+    },
+    "ecmwf_ifs025 lead_21h": {
+     "matches": true
+    },
+    "ecmwf_ifs025 lead_45h": {
+     "matches": true
+    },
+    "persistence_1d baseline": {
+     "matches": true
+    },
+    "ensemble_mean_3 lead_21h": {
+     "matches": true
+    },
+    "ensemble_mean_3 lead_45h": {
+     "matches": true
+    }
+   },
+   "scores_excl_ecmwf_plus_baselines": {
+    "gfs_seamless lead_21h": {
+     "n": 23,
+     "mae": 0.0264,
+     "rmse": 0.0598,
+     "bias": -0.0255
+    },
+    "gfs_seamless lead_45h": {
+     "n": 23,
+     "mae": 0.0216,
+     "rmse": 0.0481,
+     "bias": -0.019
+    },
+    "icon_seamless lead_21h": {
+     "n": 23,
+     "mae": 0.0285,
+     "rmse": 0.0625,
+     "bias": -0.0285
+    },
+    "icon_seamless lead_45h": {
+     "n": 23,
+     "mae": 0.0281,
+     "rmse": 0.062,
+     "bias": -0.0281
+    },
+    "ecmwf_ifs025 lead_21h": {
+     "n": 23,
+     "mae": 0.032,
+     "rmse": 0.0701,
+     "bias": -0.032
+    },
+    "ecmwf_ifs025 lead_45h": {
+     "n": 23,
+     "mae": 0.032,
+     "rmse": 0.0701,
+     "bias": -0.032
+    },
+    "persistence_1d baseline": {
+     "n": 23,
+     "mae": 0.0099,
+     "rmse": 0.0275,
+     "bias": -0.0055
+    },
+    "ensemble_mean_2 lead_21h": {
+     "n": 23,
+     "mae": 0.0275,
+     "rmse": 0.0608,
+     "bias": -0.027
+    },
+    "ensemble_mean_3 lead_21h": {
+     "n": 23,
+     "mae": 0.029,
+     "rmse": 0.0637,
+     "bias": -0.0287
+    },
+    "ensemble_mean_2 lead_45h": {
+     "n": 23,
+     "mae": 0.0249,
+     "rmse": 0.0541,
+     "bias": -0.0235
+    },
+    "ensemble_mean_3 lead_45h": {
+     "n": 23,
+     "mae": 0.0272,
+     "rmse": 0.059,
+     "bias": -0.0264
+    }
+   },
+   "conclusion": {
+    "identity_check_vs_preserved_artifact": true,
+    "persistence": {
+     "n": 23,
+     "mae": 0.0099,
+     "rmse": 0.0275,
+     "bias": -0.0055
+    },
+    "ensemble_mean_2_excl_ecmwf": {
+     "lead_21h": {
+      "n": 23,
+      "mae": 0.0275,
+      "rmse": 0.0608,
+      "bias": -0.027
+     },
+     "lead_45h": {
+      "n": 23,
+      "mae": 0.0249,
+      "rmse": 0.0541,
+      "bias": -0.0235
+     }
+    },
+    "stored_ensemble_mean_3_incl_ecmwf": {
+     "ensemble_mean_3 lead_21h": {
+      "n": 23,
+      "mae": 0.029,
+      "rmse": 0.0637,
+      "bias": -0.0287
+     },
+     "ensemble_mean_3 lead_45h": {
+      "n": 23,
+      "mae": 0.0272,
+      "rmse": 0.059,
+      "bias": -0.0264
+     }
+    },
+    "best_single_excl_ecmwf": {
+     "lead_21h": "gfs_seamless",
+     "lead_45h": "gfs_seamless"
+    },
+    "best_single_excl_ecmwf_beats_persistence": {
+     "lead_21h": false,
+     "lead_45h": false
+    },
+    "ensemble2_beats_persistence": {
+     "lead_21h": false,
+     "lead_45h": false
+    },
+    "ensemble3_beats_persistence": {
+     "ensemble_mean_3 lead_21h": false,
+     "ensemble_mean_3 lead_45h": false
+    }
+   }
+  }
+ }
+}

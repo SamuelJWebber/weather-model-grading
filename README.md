@@ -308,7 +308,7 @@ the on-mountain matched case):
 | station | gfs 8h/32h | icon 8h/32h | ecmwf 8h/32h | persistence | storm n |
 |---|---|---|---|---|---|
 | Vail Mountain | 0.014/0.014 | 0.011/0.013 | 0.018/0.016 | 0.010 | 1 |
-| Copper Mountain (breck) | 0.016/0.014 | 0.010/0.011 | 0.009/0.009 | 0.008 | 2 |
+| Copper Mountain (breck) | 0.016/0.014 | 0.010/0.011 | 0.009/0.009 (SUSPECT const-zero series) | 0.008 | 2 |
 | Mill Creek Canyon (park city) | 0.023/0.022 | 0.039/0.039 | 0.026/0.026 | 0.015 | 3 |
 | Truckee #2 (palisades) | 0.013/0.022 | 0.052/0.054 | 0.038/0.037 | 0.030 | 4 |
 
@@ -327,7 +327,9 @@ unrestricted scores reproduce the preserved artifacts exactly, then
 scores all series on the 32 common dates (2026-10-24..2026-11-24) at 4
 decimals. At the SNOTEL stations pairing moves MAEs by <=0.0013 and
 changes no ranking: Vail persistence 0.0095 vs best SINGLE model icon
-0.0118; Copper 0.0079 vs ecmwf 0.0095; Mill Creek 0.0151 vs gfs
+0.0118; Copper 0.0079 vs ecmwf 0.0095 (ecmwf = SUSPECT const-zero
+series, see the ECMWF paragraph below; excluding it, best single is
+icon 0.0101 and still loses); Mill Creek 0.0151 vs gfs
 0.0227. The one case of a single model beating persistence SURVIVES
 pairing: gfs at Truckee #2, 0.0133 (8h) and 0.0231 (32h) vs persistence
 0.0302 - same quiet-window and single-station caveats apply, and icon
@@ -337,7 +339,11 @@ repair: ensemble_mean_3 rows added to every paired artifact. The
 ensemble beats persistence overall at two of five stations - Vail
 0.0067 vs 0.0095 at 8h, Truckee 0.0083 vs 0.0302 at 8h - and loses at
 the other three: Copper 0.0111 vs 0.0079, Mill Creek 0.0293 vs 0.0151,
-Stowe 0.0290 vs 0.0099. So persistence beats each single model except GFS at Truckee,
+Stowe 0.0290 vs 0.0099 (Stowe and Copper ensembles include the SUSPECT
+ECMWF const-zero depth series; excluding it, the 2-model ensembles are
+0.0275/0.0249 at Stowe and 0.0125/0.0120 at Copper and still lose to
+persistence - see the ECMWF paragraph and exclusion supplement below).
+So persistence beats each single model except GFS at Truckee,
 with a further 2/5-station ensemble exception - a
 retrospective diagnostic from this quiet window, not a selector; any
 ensemble use would need a prospective test. The Stowe pairing move is
@@ -408,7 +414,7 @@ Main short-lead overall paired scores, meters (not a forward test):
 | station | n | persistence | ensemble mean | best single model |
 |---|---:|---:|---:|---|
 | vail | 32 | 0.0095 | 0.0067 | icon_seamless: 0.0118 |
-| breckenridge | 32 | 0.0079 | 0.0111 | ecmwf_ifs025: 0.0095 |
+| breckenridge | 32 | 0.0079 | 0.0111 | ecmwf_ifs025: 0.0095 (SUSPECT const-zero series; excl. ECMWF: icon_seamless 0.0101, still loses to persistence) |
 | park_city | 32 | 0.0151 | 0.0293 | gfs_seamless: 0.0238 |
 | palisades | 32 | 0.0302 | 0.0083 | gfs_seamless: 0.0133 |
 | stowe | 24 | 0.0095 | 0.0278 | gfs_seamless: 0.0253 |
@@ -422,9 +428,24 @@ showing a dependable ensemble advantage on future data.
 
 ECMWF is exactly zero in all cached hourly runs at Copper and Stowe,
 including before confirmed snow days. Its constant-zero tie is exposed
-in the saved baselines. Whether these zeros originate in model behavior
-or the vendor remains UNVERIFIED. The cached-output check is not an
-independent validation of either explanation.
+in the saved baselines. Resolution (2026-11-26 PM,
+results/ecmwf_zero_resolution_2026-11-26.json): live Single Runs
+discriminators show the same run's snowfall is nonzero on inits where
+snow_depth stayed exactly 0.0 (Stowe 11-13: 17/47h nonzero snowfall;
+Copper 11-20: 9/47h), and the variable works at a snow-covered control
+cell (Fairbanks, 0.14m). The depth series at these two cells is
+therefore SUSPECT - it cannot be read as a model forecast of zero
+depth. Root cause is UNRESOLVED (a vendor-side serving gap is one
+hypothesis; ECMWF-side processing or grid/elevation masking are not
+excluded), and the reliability of ECMWF snowfall at these cells is
+itself unverified. Consequence: every ECMWF snow_depth score at Copper
+and Stowe in this document measures the suspect series, not a forecast.
+results/ecmwf_exclusion_supplement_2026-11-26.json (identity-verified
+offline replay) recomputes the affected paired conclusions without
+ECMWF: no headline flips (persistence still beats every model and both
+ensemble variants at both cells), but the breckenridge "best single
+model" cell below is icon_seamless 0.0101 once the suspect series is
+excluded, not ecmwf_ifs025 0.0095.
 
 The original forward definitions remain 0.01/0.02/0.03 meters. For
 integer-inch observations these select >=1in, >=1in, and >=2in. The first
