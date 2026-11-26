@@ -89,11 +89,25 @@ def error_correlations(actual: dict[str, float],
     return out
 
 
-def run_decomposition_live(output_dir: str = "results") -> dict:
-    """MANUAL ONLY: decomposition + error correlations for all 5 graded
+DEFAULT_WINDOWS = {"vail": ("2026-10-24", "2026-11-24"),
+                   "breckenridge": ("2026-10-24", "2026-11-24"),
+                   "park_city": ("2026-10-24", "2026-11-24"),
+                   "palisades": ("2026-10-24", "2026-11-24"),
+                   "stowe": ("2026-10-26", "2026-11-24")}
+
+
+def run_decomposition_live(output_dir: str = "results",
+                           windows: dict | None = None,
+                           out_name: str = "decomposition_2026-11-26.json"
+                           ) -> dict:
+    """MANUAL ONLY: decomposition + error correlations for the graded
     stations, from cached Single Runs payloads (fetching only what's
     missing) plus one actuals pull per station. Short-lead series only
-    (8h SNOTEL / 21h COOP) - the freshest forecast each day."""
+    (8h SNOTEL / 21h COOP) - the freshest forecast each day.
+
+    FORWARD-TEST USE: pass `windows` (e.g. a storm window) and a new
+    `out_name`; the thresholds (1/2/3cm) and change-day definition are
+    frozen (README 2026-11-26) and are NOT retuned to future results."""
     import json
     from datetime import date, datetime, timedelta, timezone
     from pathlib import Path
@@ -111,11 +125,7 @@ def run_decomposition_live(output_dir: str = "results") -> dict:
         "palisades": (ELEVATION_MATCHED_STATIONS["palisades"], None),
         "stowe": (COOP_STATIONS["stowe"], None),
     }
-    windows = {"vail": ("2026-10-24", "2026-11-24"),
-               "breckenridge": ("2026-10-24", "2026-11-24"),
-               "park_city": ("2026-10-24", "2026-11-24"),
-               "palisades": ("2026-10-24", "2026-11-24"),
-               "stowe": ("2026-10-26", "2026-11-24")}
+    windows = windows or DEFAULT_WINDOWS
     out: dict = {"basis": "short-lead (8h SNOTEL / 21h COOP) grid-cell "
                           "snow_depth at the station's valid instant vs "
                           "station actual; models from cached Single Runs "
@@ -165,6 +175,6 @@ def run_decomposition_live(output_dir: str = "results") -> dict:
             "actual_days": len(actual),
             "decomposition": decomposition(actual, dec_series),
             "error_correlations": error_correlations(actual, series)}
-    path = Path(output_dir) / "decomposition_2026-11-26.json"
+    path = Path(output_dir) / out_name
     path.write_text(json.dumps(out, indent=2))
     return out
