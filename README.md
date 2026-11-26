@@ -355,14 +355,15 @@ ensemble use would need a prospective test. The Stowe pairing move is
 larger than the SNOTEL ones: gfs 45h 0.0240 -> 0.0216. Checks now
 replay fully offline from saved actuals + cached raw runs.)
 
-Daily max temp, vs archive actuals (MAE F):
+Daily max temp, vs archive actuals (MAE F; refreshed 2026-11-26, 30 days
+ending 2026-11-25; results/grading_vail-co-epic_temperature_2026-11-25.json):
 
 | model | lead 1 | lead 3 | lead 5 |
 |---|---|---|---|
-| ecmwf_ifs025 | 1.21 | 1.85 | 2.32 |
-| ukmo_seamless | 1.35 | 1.91 | 2.97 |
-| gfs_seamless | 1.59 | 2.05 | 3.09 |
-| icon_seamless | 1.62 | 2.07 | 2.96 |
+| ecmwf_ifs025 | 1.16 | 1.73 | 2.24 |
+| ukmo_seamless | 1.43 | 2.00 | 2.79 |
+| gfs_seamless | 1.68 | 2.02 | 2.96 |
+| icon_seamless | 1.62 | 1.95 | 2.80 |
 
 All four beat persistence (~5.5 F MAE) by a wide margin. ECMWF leads here,
 unlike NYC, but it verifies against an ECMWF-containing archive (self-verification

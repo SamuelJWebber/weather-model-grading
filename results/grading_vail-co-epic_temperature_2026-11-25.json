@@ -1,0 +1,127 @@
+{
+  "actual_source": "open-meteo archive (ERA5/best_match analysis)",
+  "actual_window": [
+    "2026-10-21",
+    "2026-11-25"
+  ],
+  "forecast_source": "open-meteo previous-runs API (archived model runs)",
+  "location": {
+    "label": "Vail, CO (Epic)",
+    "lat": 39.64,
+    "lon": -106.37,
+    "timezone": "America/Denver"
+  },
+  "past_days": 30,
+  "reduce": "max",
+  "rows": [
+    {
+      "bias": -0.237,
+      "lead_days": 1,
+      "mae": 1.157,
+      "model": "ecmwf_ifs025",
+      "n": 30,
+      "persistence_mae": 5.631,
+      "rmse": 1.516
+    },
+    {
+      "bias": -0.837,
+      "lead_days": 3,
+      "mae": 1.73,
+      "model": "ecmwf_ifs025",
+      "n": 30,
+      "persistence_mae": 5.648,
+      "rmse": 2.289
+    },
+    {
+      "bias": -0.64,
+      "lead_days": 5,
+      "mae": 2.24,
+      "model": "ecmwf_ifs025",
+      "n": 30,
+      "persistence_mae": 7.077,
+      "rmse": 2.682
+    },
+    {
+      "bias": 0.803,
+      "lead_days": 1,
+      "mae": 1.677,
+      "model": "gfs_seamless",
+      "n": 30,
+      "persistence_mae": 5.631,
+      "rmse": 1.989
+    },
+    {
+      "bias": 0.337,
+      "lead_days": 3,
+      "mae": 2.023,
+      "model": "gfs_seamless",
+      "n": 30,
+      "persistence_mae": 5.648,
+      "rmse": 3.022
+    },
+    {
+      "bias": -0.383,
+      "lead_days": 5,
+      "mae": 2.963,
+      "model": "gfs_seamless",
+      "n": 30,
+      "persistence_mae": 7.077,
+      "rmse": 3.797
+    },
+    {
+      "bias": -0.237,
+      "lead_days": 1,
+      "mae": 1.617,
+      "model": "icon_seamless",
+      "n": 30,
+      "persistence_mae": 5.631,
+      "rmse": 2.171
+    },
+    {
+      "bias": -0.313,
+      "lead_days": 3,
+      "mae": 1.953,
+      "model": "icon_seamless",
+      "n": 30,
+      "persistence_mae": 5.648,
+      "rmse": 2.721
+    },
+    {
+      "bias": -1.49,
+      "lead_days": 5,
+      "mae": 2.803,
+      "model": "icon_seamless",
+      "n": 30,
+      "persistence_mae": 7.077,
+      "rmse": 3.785
+    },
+    {
+      "bias": -0.64,
+      "lead_days": 1,
+      "mae": 1.433,
+      "model": "ukmo_seamless",
+      "n": 30,
+      "persistence_mae": 5.631,
+      "rmse": 1.632
+    },
+    {
+      "bias": -1.657,
+      "lead_days": 3,
+      "mae": 1.997,
+      "model": "ukmo_seamless",
+      "n": 30,
+      "persistence_mae": 5.648,
+      "rmse": 2.686
+    },
+    {
+      "bias": -1.38,
+      "lead_days": 5,
+      "mae": 2.793,
+      "model": "ukmo_seamless",
+      "n": 30,
+      "persistence_mae": 7.077,
+      "rmse": 3.912
+    }
+  ],
+  "variable": "temperature_2m"
+}
