@@ -29,3 +29,10 @@ def test_snotel_daily_equals_hourly_midnight():
     hourly_bad = "# header\n2026-11-25 00:00,3\n"
     assert not parse_nrcs_hourly_midnight(daily, hourly_bad,
                                           "2026-11-25")["matches"]
+
+
+def test_parse_nrcs_asof_offset():
+    from wxgrade.contracts import parse_nrcs_asof_offset
+    text = "# header\n# As of: Nov 25, 2026, 11:36:56 PM GMT-08:00\n2026-11-25 23:00,3\n"
+    assert parse_nrcs_asof_offset(text) == "GMT-08:00"
+    assert parse_nrcs_asof_offset("no stamp\n2026-11-25,3") is None

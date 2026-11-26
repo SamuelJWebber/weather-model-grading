@@ -1,0 +1,13 @@
+{
+  "triplet": "1321:UT:SNTL",
+  "raw_evidence": [
+    "results/contracts/snotel_1321-UT-SNTL_2026-11-25_daily.csv",
+    "results/contracts/snotel_1321-UT-SNTL_2026-11-25_hourly.csv"
+  ],
+  "day": "2026-11-25",
+  "daily_value": "10",
+  "hourly_00_value": "10",
+  "matches": true,
+  "daily_asof_offset": "GMT-08:00",
+  "hourly_asof_offset": "GMT-08:00"
+}

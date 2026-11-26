@@ -62,6 +62,17 @@ def verify_coop_contract(station: str, network: str, day: str,
     return verdict
 
 
+def parse_nrcs_asof_offset(text: str) -> str | None:
+    """W6: the NRCS CSV footer carries an 'As of: ... GMT-08:00' stamp -
+    direct evidence of the station's reporting offset from the raw file
+    itself, stronger than the opensnotel utcOffsetMinutes record or the
+    latest-timestamp lag heuristic (which cannot discriminate UTC-8 from
+    UTC-7 with a lagging feed)."""
+    import re
+    m = re.search(r"# As of:.*?(GMT[+-]\d{2}:\d{2})", text)
+    return m.group(1) if m else None
+
+
 def parse_nrcs_hourly_midnight(daily_csv: str, hourly_csv: str, day: str
                                ) -> dict:
     """Compare daily SNWD[day] to the hourly value at day 00:00."""
@@ -79,7 +90,9 @@ def parse_nrcs_hourly_midnight(daily_csv: str, hourly_csv: str, day: str
     d_val = daily.get(day)
     h_val = hourly.get(f"{day} 00:00")
     return {"day": day, "daily_value": d_val, "hourly_00_value": h_val,
-            "matches": d_val is not None and d_val == h_val}
+            "matches": d_val is not None and d_val == h_val,
+            "daily_asof_offset": parse_nrcs_asof_offset(daily_csv),
+            "hourly_asof_offset": parse_nrcs_asof_offset(hourly_csv)}
 
 
 def verify_snotel_contract(triplet: str, day: str,

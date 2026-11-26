@@ -177,13 +177,17 @@ sides, start-of-day values, meters.
 Measurement contract (verified 2026-11-25, not assumed):
 - Daily SNWD is an INSTANT, not a day summary: the CSV header reads
   "Snow Depth (in) Start of Day Values" and daily[D] == hourly[D 00:00]
-  (checked at 842 for 2026-11-24).
+  (verified with saved raw CSVs at ALL FOUR stations: 842 for
+  2026-11-24/25, 415 + 1321 + 834 for 2026-11-25,
+  results/contracts/snotel_*).
 - Station reporting time is fixed-offset local standard time, no DST,
   and the offset is per-station, not per-state: all four stations above
-  report at UTC-8 (opensnotel.com station records, utcOffsetMinutes=-480
-  for all four, corroborated by a latest-hourly-timestamp check at
-  ~08:00 UTC 2026-11-25 showing every station's latest stamp at 23:00
-  the prior day). So daily SNWD[D] = depth at 08:00 UTC of date D, and
+  report at UTC-8. Strongest evidence is the raw CSVs' own "As of:"
+  footer, parsed by wxgrade/contracts.py:parse_nrcs_asof_offset -
+  GMT-08:00 in every saved daily and hourly file at all four stations
+  (a lag-based timestamp heuristic could not discriminate UTC-8 from
+  UTC-7; the footer can). Corroborated by opensnotel.com station
+  records (utcOffsetMinutes=-480) and a latest-hourly-timestamp check. So daily SNWD[D] = depth at 08:00 UTC of date D, and
   the forecast series is sampled at that exact instant (fixed Etc/GMT+8,
   never the resort's IANA zone). Guarded by a test.
 - Units: inches -> meters (x0.0254) on the actual side; Open-Meteo
