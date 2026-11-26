@@ -66,6 +66,7 @@ def main():
                        "time), NOT an upper bound on operational "
                        "persistence skill - see vail artifact",
               "window": list(WINDOW),
+               "timezone_provisional_2026-11-26": ("SNOTEL hourly CSV clock->UTC offsets here rest on NRCS AWDB docs (PST for SNTL, except Alaska/elsewhere stations) plus a daily-date-boundary anchor at whole-hour granularity; the elsewhere exception is unresolved and a whole-hours offset within a day would not show in the daily anchor. Anchor instants and delayed-anchor sensitivities inherit the caveat until AWDB stationDataTimeZone is checked per station."),
               "correction_2026-11-26_pm": (
                   "the first version of this check computed anchors with "
                   "date-minus-timedelta(hours), which drops sub-day "

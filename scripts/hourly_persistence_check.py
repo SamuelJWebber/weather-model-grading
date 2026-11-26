@@ -122,7 +122,8 @@ def main():
                     "(anchors unavailable at issue time), NOT an "
                     "operational selector and NOT an upper bound on "
                     "operational persistence skill",
-           "correction_2026-11-26_pm": (
+            "timezone_provisional_2026-11-26": ("SNOTEL hourly CSV clock->UTC offsets here rest on NRCS AWDB docs (PST for SNTL, except Alaska/elsewhere stations) plus a daily-date-boundary anchor at whole-hour granularity; the elsewhere exception is unresolved and a whole-hours offset within a day would not show in the daily anchor. Anchor instants and delayed-anchor sensitivities inherit the caveat until AWDB stationDataTimeZone is checked per station."),
+              "correction_2026-11-26_pm": (
                "supersedes the numbers first committed in 4ebb1b1: the "
                "initial version of this script computed anchors with "
                "date-minus-timedelta(hours) arithmetic, which drops "

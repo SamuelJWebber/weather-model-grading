@@ -1,81 +1,82 @@
 {
- "check": "same-lead hourly persistence vs model forecasts, Vail 842 only; RETROSPECTIVE symmetric benchmark (anchors unavailable at issue time), NOT an operational selector and NOT an upper bound on operational persistence skill",
- "correction_2026-11-26_pm": "supersedes the numbers first committed in 4ebb1b1: the initial version of this script computed anchors with date-minus-timedelta(hours) arithmetic, which drops sub-day offsets (8h anchor landed 16h AFTER the valid instant - look-ahead - and 32h at valid-24h). Anchors are now computed with explicit UTC datetimes: valid D 08:00 UTC minus lead, converted to the verified UTC-8 CSV clock. Model scores also shifted slightly because the common-date intersection changed with anchor availability.",
- "anchor_availability": {
-  "available_at_init": "NO - the same-lead construction puts the anchor exactly AT the init instant (anchor = valid - lead = init), and an observation is not transmitted before it exists. Directly sampled 2026-11-26 ~19:57 UTC via scripts/observe_now.py (results/raw/obslog/): SNOTEL hourly values were available ~1h after the observation instant at all four stations; the COOP MMNV1 newest value was ~71h old (11-24 and 11-25 values absent entirely). An earlier '>38h hourly lag' claim was confounded by the pull's requested window ending 2026-11-24 and is retracted. Sampled observations, not universal latency guarantees.",
-  "why_symmetric": "the anchor sits lead-hours before the valid instant, the same horizon the model forecast covers. This benchmark uses observations unavailable at issue time, so it is RETROSPECTIVE only.",
-  "what_it_does_not_show": [
-   "it is NOT an upper bound on operational persistence skill: a more recent anchor does not guarantee smaller realized error, and a delayed operational anchor can do better on some samples",
-   "models losing to this benchmark does NOT establish that they lose to an operational delayed-anchor persistence; that comparison favors this benchmark and is tested separately in hourly_persistence_snotel_2026-11-26.json (delayed-anchor sensitivity)"
-  ]
- },
- "window": [
-  "2026-10-24",
-  "2026-11-24"
- ],
- "timezone_contract": {
-  "hourly_00:00_equals_daily": "33/33",
-  "verified": true
- },
- "raw_hourly_csv": "results/raw/actuals/snotel_842-CO-SNTL_hourly_2026-10-22_2026-11-24.csv",
- "raw_hourly_csv_sha256": "07b1f2ea5eaf840101a09045edaf9a6bfcb5035906c1329cd39cf0eb10e21362",
- "sensor_noise_caveat": "hourly 842 values flicker by ~1 inch",
- "scores": {
-  "lead_8h": {
-   "common_dates": 30,
-   "gfs_seamless lead_8h": {
-    "n": 30,
-    "mae": 0.0153,
-    "rmse": 0.0292,
-    "bias": -0.0153
-   },
-   "icon_seamless lead_8h": {
-    "n": 30,
-    "mae": 0.0126,
-    "rmse": 0.0248,
-    "bias": -0.0103
-   },
-   "hourly_persistence_8h": {
-    "n": 30,
-    "mae": 0.0059,
-    "rmse": 0.0139,
-    "bias": -0.0042
-   },
-   "daily_persistence_1d_same_dates": {
-    "n": 31,
-    "mae": 0.0098,
-    "rmse": 0.0194,
-    "bias": -0.0033
-   },
-   "contrast_note": "daily persistence is anchored on the prior daily actual (zero-lag); hourly persistence is anchored lead-hours before the valid instant - the honest same-lead benchmark"
+  "check": "same-lead hourly persistence vs model forecasts, Vail 842 only; RETROSPECTIVE symmetric benchmark (anchors unavailable at issue time), NOT an operational selector and NOT an upper bound on operational persistence skill",
+  "correction_2026-11-26_pm": "supersedes the numbers first committed in 4ebb1b1: the initial version of this script computed anchors with date-minus-timedelta(hours) arithmetic, which drops sub-day offsets (8h anchor landed 16h AFTER the valid instant - look-ahead - and 32h at valid-24h). Anchors are now computed with explicit UTC datetimes: valid D 08:00 UTC minus lead, converted to the verified UTC-8 CSV clock. Model scores also shifted slightly because the common-date intersection changed with anchor availability.",
+  "anchor_availability": {
+    "available_at_init": "NO - the same-lead construction puts the anchor exactly AT the init instant (anchor = valid - lead = init), and an observation is not transmitted before it exists. Directly sampled 2026-11-26 ~19:57 UTC via scripts/observe_now.py (results/raw/obslog/): SNOTEL hourly values were available ~1h after the observation instant at all four stations; the COOP MMNV1 newest value was ~71h old (11-24 and 11-25 values absent entirely). An earlier '>38h hourly lag' claim was confounded by the pull's requested window ending 2026-11-24 and is retracted. Sampled observations, not universal latency guarantees.",
+    "why_symmetric": "the anchor sits lead-hours before the valid instant, the same horizon the model forecast covers. This benchmark uses observations unavailable at issue time, so it is RETROSPECTIVE only.",
+    "what_it_does_not_show": [
+      "it is NOT an upper bound on operational persistence skill: a more recent anchor does not guarantee smaller realized error, and a delayed operational anchor can do better on some samples",
+      "models losing to this benchmark does NOT establish that they lose to an operational delayed-anchor persistence; that comparison favors this benchmark and is tested separately in hourly_persistence_snotel_2026-11-26.json (delayed-anchor sensitivity)"
+    ]
   },
-  "lead_32h": {
-   "common_dates": 30,
-   "gfs_seamless lead_32h": {
-    "n": 30,
-    "mae": 0.0149,
-    "rmse": 0.0278,
-    "bias": -0.0113
-   },
-   "icon_seamless lead_32h": {
-    "n": 30,
-    "mae": 0.0126,
-    "rmse": 0.0244,
-    "bias": -0.0093
-   },
-   "hourly_persistence_32h": {
-    "n": 30,
-    "mae": 0.0119,
-    "rmse": 0.0218,
-    "bias": -0.0068
-   },
-   "daily_persistence_1d_same_dates": {
-    "n": 31,
-    "mae": 0.0098,
-    "rmse": 0.0194,
-    "bias": -0.0033
-   },
-   "contrast_note": "daily persistence is anchored on the prior daily actual (zero-lag); hourly persistence is anchored lead-hours before the valid instant - the honest same-lead benchmark"
-  }
- }
+  "window": [
+    "2026-10-24",
+    "2026-11-24"
+  ],
+  "timezone_contract": {
+    "hourly_00:00_equals_daily": "33/33",
+    "verified": true
+  },
+  "raw_hourly_csv": "results/raw/actuals/snotel_842-CO-SNTL_hourly_2026-10-22_2026-11-24.csv",
+  "raw_hourly_csv_sha256": "07b1f2ea5eaf840101a09045edaf9a6bfcb5035906c1329cd39cf0eb10e21362",
+  "sensor_noise_caveat": "hourly 842 values flicker by ~1 inch",
+  "scores": {
+    "lead_8h": {
+      "common_dates": 30,
+      "gfs_seamless lead_8h": {
+        "n": 30,
+        "mae": 0.0153,
+        "rmse": 0.0292,
+        "bias": -0.0153
+      },
+      "icon_seamless lead_8h": {
+        "n": 30,
+        "mae": 0.0126,
+        "rmse": 0.0248,
+        "bias": -0.0103
+      },
+      "hourly_persistence_8h": {
+        "n": 30,
+        "mae": 0.0059,
+        "rmse": 0.0139,
+        "bias": -0.0042
+      },
+      "daily_persistence_1d_same_dates": {
+        "n": 31,
+        "mae": 0.0098,
+        "rmse": 0.0194,
+        "bias": -0.0033
+      },
+      "contrast_note": "daily persistence is anchored on the prior daily actual (zero-lag); hourly persistence is anchored lead-hours before the valid instant - the honest same-lead benchmark"
+    },
+    "lead_32h": {
+      "common_dates": 30,
+      "gfs_seamless lead_32h": {
+        "n": 30,
+        "mae": 0.0149,
+        "rmse": 0.0278,
+        "bias": -0.0113
+      },
+      "icon_seamless lead_32h": {
+        "n": 30,
+        "mae": 0.0126,
+        "rmse": 0.0244,
+        "bias": -0.0093
+      },
+      "hourly_persistence_32h": {
+        "n": 30,
+        "mae": 0.0119,
+        "rmse": 0.0218,
+        "bias": -0.0068
+      },
+      "daily_persistence_1d_same_dates": {
+        "n": 31,
+        "mae": 0.0098,
+        "rmse": 0.0194,
+        "bias": -0.0033
+      },
+      "contrast_note": "daily persistence is anchored on the prior daily actual (zero-lag); hourly persistence is anchored lead-hours before the valid instant - the honest same-lead benchmark"
+    }
+  },
+  "timezone_provisional_2026-11-26": "PROVISIONAL TIMEZONE (2026-11-26): the SNOTEL hourly CSV clock->UTC +8h conversion rests on NRCS AWDB documentation (PST for SNTL network, except 'a few stations in Alaska and elsewhere') plus an in-repo daily-date-boundary anchor (33/33). The 'elsewhere' exception is unresolved for these stations and a whole-hours offset within a day would not show in the daily anchor. Every anchor instant, availability-lag and delayed-anchor sensitivity in this artifact inherits that caveat until AWDB stationDataTimeZone (or equivalent per-station metadata) is checked. Daily-value results are unaffected (explicit dates, no conversion)."
 }
