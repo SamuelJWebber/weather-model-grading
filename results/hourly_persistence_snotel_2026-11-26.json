@@ -5,7 +5,7 @@
   "2026-11-24"
  ],
  "correction_2026-11-26_pm": "the first version of this check computed anchors with date-minus-timedelta(hours), which drops sub-day offsets (8h anchors landed ON the valid instant - MAE exactly 0.0 was the tell; 32h anchors at valid-24h). Anchors now use explicit UTC datetimes with each station's verified CSV clock offset; all numbers in this file are the corrected ones.",
- "retrospective_not_operational": "zero-lag anchors coincide with forecast init and were not available at issue time; this is a retrospective symmetric benchmark, NOT an upper bound on operational persistence skill (a more recent anchor does not guarantee smaller realized error). Delayed-anchor sensitivities assume operational timeliness at the stated delays; sampled archive lags exceeded 38h.",
+ "retrospective_not_operational": "zero-lag anchors coincide with forecast init and were not available at issue time; this is a retrospective symmetric benchmark, NOT an upper bound on operational persistence skill (a more recent anchor does not guarantee smaller realized error). Delayed-anchor sensitivities assume operational timeliness at the stated delays; sampled SNOTEL hourly availability was ~1h on 2026-11-26 ~19:57 UTC (one sample, obslog), so the 3h delay is plausible but not established.",
  "stations": {
   "breckenridge": {
    "triplet": "415:CO:SNTL",
@@ -121,7 +121,7 @@
        }
       }
      },
-     "delayed_anchor_note": "anchor at init minus delay; delay 3h ~ real-time telemetry assumption, 24-48h ~ archive-class lag. Operational timeliness at these delays is ASSUMED, not established; sampled archive lags exceeded 38h."
+     "delayed_anchor_note": "anchor at init minus delay. Directly sampled 2026-11-26 ~19:57 UTC (results/raw/obslog/): SNOTEL hourly values available ~1h after the observation instant, so a 3h-delayed anchor is PLAUSIBLE operationally for SNOTEL (not established - one sample); 24-48h delays are conservative by comparison. An earlier '>38h' lag claim was confounded by the requested window and is retracted."
     },
     "lead_32h": {
      "common_dates": 31,
@@ -227,7 +227,7 @@
        }
       }
      },
-     "delayed_anchor_note": "anchor at init minus delay; delay 3h ~ real-time telemetry assumption, 24-48h ~ archive-class lag. Operational timeliness at these delays is ASSUMED, not established; sampled archive lags exceeded 38h."
+     "delayed_anchor_note": "anchor at init minus delay. Directly sampled 2026-11-26 ~19:57 UTC (results/raw/obslog/): SNOTEL hourly values available ~1h after the observation instant, so a 3h-delayed anchor is PLAUSIBLE operationally for SNOTEL (not established - one sample); 24-48h delays are conservative by comparison. An earlier '>38h' lag claim was confounded by the requested window and is retracted."
     }
    }
   },
@@ -345,7 +345,7 @@
        }
       }
      },
-     "delayed_anchor_note": "anchor at init minus delay; delay 3h ~ real-time telemetry assumption, 24-48h ~ archive-class lag. Operational timeliness at these delays is ASSUMED, not established; sampled archive lags exceeded 38h."
+     "delayed_anchor_note": "anchor at init minus delay. Directly sampled 2026-11-26 ~19:57 UTC (results/raw/obslog/): SNOTEL hourly values available ~1h after the observation instant, so a 3h-delayed anchor is PLAUSIBLE operationally for SNOTEL (not established - one sample); 24-48h delays are conservative by comparison. An earlier '>38h' lag claim was confounded by the requested window and is retracted."
     },
     "lead_32h": {
      "common_dates": 25,
@@ -451,7 +451,7 @@
        }
       }
      },
-     "delayed_anchor_note": "anchor at init minus delay; delay 3h ~ real-time telemetry assumption, 24-48h ~ archive-class lag. Operational timeliness at these delays is ASSUMED, not established; sampled archive lags exceeded 38h."
+     "delayed_anchor_note": "anchor at init minus delay. Directly sampled 2026-11-26 ~19:57 UTC (results/raw/obslog/): SNOTEL hourly values available ~1h after the observation instant, so a 3h-delayed anchor is PLAUSIBLE operationally for SNOTEL (not established - one sample); 24-48h delays are conservative by comparison. An earlier '>38h' lag claim was confounded by the requested window and is retracted."
     }
    }
   },
@@ -569,7 +569,7 @@
        }
       }
      },
-     "delayed_anchor_note": "anchor at init minus delay; delay 3h ~ real-time telemetry assumption, 24-48h ~ archive-class lag. Operational timeliness at these delays is ASSUMED, not established; sampled archive lags exceeded 38h."
+     "delayed_anchor_note": "anchor at init minus delay. Directly sampled 2026-11-26 ~19:57 UTC (results/raw/obslog/): SNOTEL hourly values available ~1h after the observation instant, so a 3h-delayed anchor is PLAUSIBLE operationally for SNOTEL (not established - one sample); 24-48h delays are conservative by comparison. An earlier '>38h' lag claim was confounded by the requested window and is retracted."
     },
     "lead_32h": {
      "common_dates": 30,
@@ -675,7 +675,7 @@
        }
       }
      },
-     "delayed_anchor_note": "anchor at init minus delay; delay 3h ~ real-time telemetry assumption, 24-48h ~ archive-class lag. Operational timeliness at these delays is ASSUMED, not established; sampled archive lags exceeded 38h."
+     "delayed_anchor_note": "anchor at init minus delay. Directly sampled 2026-11-26 ~19:57 UTC (results/raw/obslog/): SNOTEL hourly values available ~1h after the observation instant, so a 3h-delayed anchor is PLAUSIBLE operationally for SNOTEL (not established - one sample); 24-48h delays are conservative by comparison. An earlier '>38h' lag claim was confounded by the requested window and is retracted."
     }
    }
   }

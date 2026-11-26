@@ -468,14 +468,19 @@ values flicker by one inch; event cells at that scale may be sensor noise.
 Separately labeled supplementary cells report MAE in inches and realized
 >=2in / >=3in counts, plus a forecast-predicted-change split using GFS
 versus yesterday's actual. These supplements were defined after seeing
-this sample. Prior-day actual reporting latency: in the pulls sampled
-on 2026-11-26 (these stations/dates, not universal guarantees), the
-COOP MMNV1 daily value for 11-24 was still missing ~35h after its
-valid instant; SNOTEL daily values through 11-24 appeared only in a
-pull ~32h later (latency <32h, not tighter); the hourly archive
-lagged >38h. On that sampled evidence, prior-day actuals from these
-sources were NOT available at operational decision time on a
-sub-daily horizon, so the forecast-based split remains only a
+this sample. Prior-day actual reporting latency, directly sampled
+2026-11-26 ~19:57 UTC via scripts/observe_now.py (results/raw/obslog/,
+retrieval timestamps + raw responses preserved): SNOTEL hourly values
+were available ~1h after the observation instant at all four stations;
+COOP MMNV1's newest value was ~71h old (11-24 and 11-25 absent
+entirely; IEM pre-posts recent dates with None values until data
+arrives). Earlier window-bounded latency claims here (>38h hourly,
+<32h daily SNOTEL) were confounded by requested windows and are
+retracted; the COOP 11-24 absence was and is real. Consequence split
+by source: SNOTEL hourly actuals look operationally available (~1h
+sampled lag, one sample), so a same-lead operational comparison at
+SNOTEL stations is FEASIBLE going forward via the obslog; COOP actuals
+are not (multi-day gaps), so any Stowe forecast-based split remains a
 candidate selector, not a validated operational rule. Inch threshold comparisons use a tiny float
 roundoff tolerance; original frozen centimeter comparisons are unchanged.
 The artifact, not a prose significance claim, contains the full cells.
@@ -510,9 +515,12 @@ persistence anchored lead-hours before the SAME valid instant.
 "Same-lead" makes the anchor coincide with the init instant at every
 lead (anchor = valid - lead = init), so the anchor observation could
 NOT have been available at issue time - an observation is not
-transmitted before it exists, and in the pulls sampled on 2026-11-26
-(these stations, these dates) the archive lagged >38h for hourly
-values. The benchmark is therefore retrospective and symmetric (same
+transmitted before it exists. (Direct availability sampling on
+2026-11-26 ~19:57 UTC, results/raw/obslog/: SNOTEL hourly values were
+available ~1h after the observation instant at all four stations; an
+earlier ">38h lag" statement here was confounded by the pull's
+requested window and is retracted.) The benchmark is therefore
+retrospective and symmetric (same
 horizon as the model); it uses observations unavailable at issue and
 is not an operational selector. It is NOT an upper bound on
 operational persistence skill: a more recent anchor does not guarantee
@@ -543,9 +551,9 @@ persistence at 32h (0.0247 vs 0.0406) and 0.0002 below it at 8h
 exception. Quiet window, one model at one station: not a pattern.
 
 Delayed-anchor sensitivity (same artifact; anchor at init-3h/-24h/-48h,
-each on its own maximal date intersection; operational timeliness at
-these delays is ASSUMED, not established, since sampled archive lags
-exceeded 38h): persistence stays ahead of both models at Copper at
+each on its own maximal date intersection; operational timeliness is
+ASSUMED, not established - though the obslog's ~1h sampled SNOTEL
+availability makes the 3h delay plausible, one sample only): persistence stays ahead of both models at Copper at
 nearly every delay (exception: icon edges the 3h-delayed anchor at
 32h, 0.0118 vs 0.0141). At Mill Creek, GFS drops below the 24-48h
 delayed anchors (0.0283 vs 0.0349 at 8h/48h). At Truckee, GFS is

@@ -81,7 +81,9 @@ def main():
                   "persistence skill (a more recent anchor does not "
                   "guarantee smaller realized error). Delayed-anchor "
                   "sensitivities assume operational timeliness at the "
-                  "stated delays; sampled archive lags exceeded 38h."),
+                  "stated delays; sampled SNOTEL hourly availability was "
+                  "~1h on 2026-11-26 ~19:57 UTC (one sample, obslog), so "
+                  "the 3h delay is plausible but not established."),
               "stations": {}}
     for resort, triplet in STATIONS.items():
         safe = triplet.replace(':', '-')
@@ -208,10 +210,14 @@ def main():
                         for m in MODELS}}
             block["delayed_anchor_sensitivity"] = sens
             block["delayed_anchor_note"] = (
-                "anchor at init minus delay; delay 3h ~ real-time "
-                "telemetry assumption, 24-48h ~ archive-class lag. "
-                "Operational timeliness at these delays is ASSUMED, not "
-                "established; sampled archive lags exceeded 38h.")
+                "anchor at init minus delay. Directly sampled 2026-11-26 "
+                "~19:57 UTC (results/raw/obslog/): SNOTEL hourly values "
+                "available ~1h after the observation instant, so a "
+                "3h-delayed anchor is PLAUSIBLE operationally for SNOTEL "
+                "(not established - one sample); 24-48h delays are "
+                "conservative by comparison. An earlier '>38h' lag claim "
+                "was confounded by the requested window and is "
+                "retracted.")
             rec["scores"][f"lead_{lead}h"] = block
         report["stations"][resort] = rec
 
