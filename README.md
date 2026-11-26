@@ -459,7 +459,11 @@ depth. Root cause is UNRESOLVED (a vendor-side serving gap is one
 hypothesis; ECMWF-side processing or grid/elevation masking are not
 excluded), and the reliability of ECMWF snowfall at these cells is
 itself unverified. Consequence: every ECMWF snow_depth score at Copper
-and Stowe in this document measures the suspect series, not a forecast.
+and Stowe in this document measures the suspect series; the exclusion is
+a methodological sensitivity choice (an uninterpretable series should
+not drive rankings), not a determination that ECMWF depth is generally
+unusable. Observed behavior and open alternative explanations:
+docs/ecmwf-snow-depth-characterization.md.
 results/ecmwf_exclusion_supplement_2026-11-26.json (identity-verified
 offline replay) recomputes the affected paired conclusions without
 ECMWF: no headline flips (persistence still beats every model and both

@@ -1,12 +1,10 @@
-# ECMWF snow_depth suspect series - behavioral characterization (2026-11-26)
+# ECMWF snow_depth suspect series - observed behavior (2026-11-26)
 
-Status: the suspect-series question is now characterized at the API-behavior
-level; the vendor-level mechanism (which GRIB field / conversion inside
-open-meteo or ECMWF IFS open data produces this) remains unexplained
-upstream. This note narrows, and corrects the scope of, the earlier
-"suspect series" finding.
+Status: descriptive observations of the cached Single Runs payloads and
+three live verification pulls. Interpretations are listed as open
+alternatives, not conclusions.
 
-## What the cache scan shows (scripts/ecmwf_depth_accumulation_check.py)
+## Observed (scripts/ecmwf_depth_accumulation_check.py)
 
 All-zero snow_depth runs in the cached Single Runs payloads
 (results/raw/singleruns/), per station and model:
@@ -17,56 +15,59 @@ All-zero snow_depth runs in the cached Single Runs payloads
 | Breck (39.4800,-106.0700) | 13/34 | 15/34 | 34/34 |
 | Copper (39.6400,-106.3700) | 20/34 | 16/34 | 30/34 |
 
-The zero pattern is not scattered: ECMWF runs are zero for EVERY hour of
-the run, never a leading-block or partial pattern (0 partial runs
-anywhere). GFS and ICON at the same coordinates produce accumulating,
-plausible values in the majority of runs.
+- ECMWF zeros are whole-run: every hour of the run is exactly 0.0, never
+  a partial or leading-block pattern, in every cached ECMWF run at Stowe
+  and Breck and 30/34 at Copper (window 2026-10-22..11-24).
+- GFS and ICON at the same coordinates return nonzero values in a
+  majority of runs. NOTE: models differ in terrain representation, grid
+  cell and land mask at identical query coordinates, so this contrast
+  does NOT isolate a model-specific cause; a location/grid effect
+  interacting with each model's terrain remains possible.
+- Live verify pulls (preserved: results/raw/singleruns/verify_*): at
+  Stowe inits 2026-11-13 / 11-15 and Breck init 2026-11-21, ECMWF
+  snow_depth is exactly 0.0 for all 48 hours while the same run's
+  snowfall totals 0.8-6.9 cm.
+- ECMWF depth is nonzero only in Copper inits from 2026-11-21 onward,
+  the day snow reached the ground at that station; values decline
+  0.20 -> 0.17 m over 11-21..11-24.
 
-## Live verification pulls (preserved: results/raw/singleruns/verify_*)
+## Open alternative explanations (not discriminated by this sample)
 
-Pulled 2026-11-26 from the Single Runs API (run=<init>T00:00,
-forecast_hours=48, hourly=snow_depth,snowfall):
+- The API field reflects analyzed snow cover with limited or no forecast
+  accumulation for these cells.
+- Forecast snowfall melts or compacts to zero depth in the model's snow
+  scheme at these grid cells (warm/seasonal ground, elevation mismatch
+  between model grid cell and station).
+- Variable definition mismatch: the queried snow_depth field may not be
+  the accumulating snow-cover field for this model/API combination
+  (e.g., derived from snow water equivalent with missing density).
+- Grid-cell/terrain/land-mask effects that differ per model at the same
+  query coordinates (the GFS/ICON contrast does not rule this out).
+- Vendor- or converter-level gap (missing GRIB field, zero-fill).
+  The open-meteo issue tracker has no exact-match issue (searched
+  2026-11-26; #1827 is a different API and symptom).
 
-- Stowe init 2026-11-13: depth>0 in 0/48 h; snowfall>0 in 17/48 h, 6.9 cm total.
-- Stowe init 2026-11-15: depth>0 in 0/48 h; snowfall>0 in 12/48 h, 0.8 cm total.
-- Breck init 2026-11-21: depth>0 in 0/48 h; snowfall>0 in 15/48 h, 4.2 cm total.
+## Bounded consequences
 
-So ECMWF snow_depth via this API stays exactly 0.0 while the same run
-predicts accumulating snowfall.
+1. Arithmetic note on the earlier breck "best single model" cell: a
+   flat-zero prediction series produces a small RMSE whenever actuals
+   are near zero, as they were in the pre-storm window. This explains
+   the small number arithmetically; it says nothing about the upstream
+   cause of the zeros.
+2. ECMWF snow_depth stays excluded from depth grading as a
+   METHODOLOGICAL SENSITIVITY CHOICE (a series we cannot yet interpret
+   should not drive rankings), already reflected in the exclusion
+   supplement. Whether all ECMWF depth on this API is unsuitable is NOT
+   established here; the sample is three mountain coordinates over five
+   weeks, and a Fairbanks control previously returned plausible values.
+3. Temperature-based ECMWF results are a separate matter: this note is
+   about the snow_depth variable only and neither validates nor
+   invalidates the temperature comparisons.
 
-## When ECMWF depth is nonzero
+## What would discriminate
 
-Only Copper inits from 2026-11-21 onward (the day snow reached the
-ground in the analysis) return nonzero depth, decaying slowly
-(0.20 -> 0.17 m over 11-21..11-24). ECMWF depth therefore behaves as a
-reflection of analyzed snow cover, not as a forecast that accumulates
-predicted snowfall - at these three locations, on this API, over this
-cached window (2026-10-22..11-24).
-
-## Consequences
-
-1. This explains the earlier breck "best single model" artifact: a flat
-   0.0 series scores an excellent RMSE whenever actuals are near zero
-   (the pre-storm window). The exclusion supplement already re-scored
-   breck to icon; this note records WHY the ECMWF number looked good.
-2. Any snow-depth grading that includes ECMWF snow_depth from the Single
-   Runs API is comparing a non-accumulating field against accumulating
-   ones; the comparison is not like-for-like. ECMWF depth should stay
-   excluded (or be relabeled "analyzed-cover echo") until the mechanism
-   is resolved upstream.
-3. Temperature-based ECMWF results are unaffected by this note.
-
-## What remains open
-
-- Vendor-level mechanism: whether open-meteo zero-fills a missing IFS
-  open-data field, derives depth from snow water equivalent with missing
-  density, or IFS open data itself omits forecast snow-depth
-  accumulation. The open-meteo issue tracker has no exact-match issue
-  (searched 2026-11-26; the closest, #1827, is a different symptom on a
-  different API: era5_seamless gap-filling plus a 33.33 m glacier cap on
-  the Archive API).
-- Whether the behavior is location-independent (sample here: 3 mountain
-  coordinates; Fairbanks control previously shown working, so not
-  universal).
-- ECMWF's own documentation of `sd` in IFS open-data forecast steps was
-  not located in this pass.
+Station-metadata elevation vs model-cell elevation comparisons,
+snow-cover-specific variables (e.g., SWE, snow density) from the same
+runs, ECMWF's own `sd` field documentation for IFS open-data forecast
+steps (not located 2026-11-26), or an upstream answer from open-meteo.
+No further fetches are planned without new evidence.
