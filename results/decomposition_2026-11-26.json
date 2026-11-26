@@ -1,6 +1,6 @@
 {
   "basis": "short-lead (8h SNOTEL / 21h COOP) grid-cell snow_depth at the station's valid instant vs station actual; models from cached Single Runs payloads (results/raw/singleruns/), actuals pulled once per station; change day = |depth delta vs prior present day| >= threshold; descriptive, small n",
-  "pull_utc": "2026-11-26T07:37:48.306858+00:00",
+  "pull_utc": "2026-11-26T07:39:30.262612+00:00",
   "resorts": {
     "vail": {
       "station": "Vail Mountain",
@@ -29,6 +29,10 @@
               "n": 10,
               "mae": 0.0305
             },
+            "ensemble_mean_3": {
+              "n": 10,
+              "mae": 0.0144
+            },
             "paired_days": 10
           },
           "quiet": {
@@ -47,6 +51,10 @@
             "persistence_1d": {
               "n": 21,
               "mae": 0.0
+            },
+            "ensemble_mean_3": {
+              "n": 21,
+              "mae": 0.0033
             },
             "paired_days": 21
           }
@@ -69,6 +77,10 @@
               "n": 10,
               "mae": 0.0305
             },
+            "ensemble_mean_3": {
+              "n": 10,
+              "mae": 0.0144
+            },
             "paired_days": 10
           },
           "quiet": {
@@ -87,6 +99,10 @@
             "persistence_1d": {
               "n": 21,
               "mae": 0.0
+            },
+            "ensemble_mean_3": {
+              "n": 21,
+              "mae": 0.0033
             },
             "paired_days": 21
           }
@@ -109,6 +125,10 @@
               "n": 1,
               "mae": 0.0762
             },
+            "ensemble_mean_3": {
+              "n": 1,
+              "mae": 0.0005
+            },
             "paired_days": 1
           },
           "quiet": {
@@ -127,6 +147,10 @@
             "persistence_1d": {
               "n": 30,
               "mae": 0.0076
+            },
+            "ensemble_mean_3": {
+              "n": 30,
+              "mae": 0.0071
             },
             "paired_days": 30
           }
@@ -186,6 +210,10 @@
               "n": 7,
               "mae": 0.0363
             },
+            "ensemble_mean_3": {
+              "n": 7,
+              "mae": 0.0208
+            },
             "paired_days": 7
           },
           "quiet": {
@@ -204,6 +232,10 @@
             "persistence_1d": {
               "n": 24,
               "mae": 0.0
+            },
+            "ensemble_mean_3": {
+              "n": 24,
+              "mae": 0.0087
             },
             "paired_days": 24
           }
@@ -226,6 +258,10 @@
               "n": 7,
               "mae": 0.0363
             },
+            "ensemble_mean_3": {
+              "n": 7,
+              "mae": 0.0208
+            },
             "paired_days": 7
           },
           "quiet": {
@@ -244,6 +280,10 @@
             "persistence_1d": {
               "n": 24,
               "mae": 0.0
+            },
+            "ensemble_mean_3": {
+              "n": 24,
+              "mae": 0.0087
             },
             "paired_days": 24
           }
@@ -266,6 +306,10 @@
               "n": 2,
               "mae": 0.0635
             },
+            "ensemble_mean_3": {
+              "n": 2,
+              "mae": 0.0385
+            },
             "paired_days": 2
           },
           "quiet": {
@@ -284,6 +328,10 @@
             "persistence_1d": {
               "n": 29,
               "mae": 0.0044
+            },
+            "ensemble_mean_3": {
+              "n": 29,
+              "mae": 0.0096
             },
             "paired_days": 29
           }
@@ -343,6 +391,10 @@
               "n": 7,
               "mae": 0.0689
             },
+            "ensemble_mean_3": {
+              "n": 7,
+              "mae": 0.134
+            },
             "paired_days": 7
           },
           "quiet": {
@@ -359,6 +411,10 @@
               "mae": 0.0
             },
             "persistence_1d": {
+              "n": 24,
+              "mae": 0.0
+            },
+            "ensemble_mean_3": {
               "n": 24,
               "mae": 0.0
             },
@@ -383,6 +439,10 @@
               "n": 7,
               "mae": 0.0689
             },
+            "ensemble_mean_3": {
+              "n": 7,
+              "mae": 0.134
+            },
             "paired_days": 7
           },
           "quiet": {
@@ -399,6 +459,10 @@
               "mae": 0.0
             },
             "persistence_1d": {
+              "n": 24,
+              "mae": 0.0
+            },
+            "ensemble_mean_3": {
               "n": 24,
               "mae": 0.0
             },
@@ -423,6 +487,10 @@
               "n": 3,
               "mae": 0.127
             },
+            "ensemble_mean_3": {
+              "n": 3,
+              "mae": 0.1028
+            },
             "paired_days": 3
           },
           "quiet": {
@@ -441,6 +509,10 @@
             "persistence_1d": {
               "n": 28,
               "mae": 0.0036
+            },
+            "ensemble_mean_3": {
+              "n": 28,
+              "mae": 0.0225
             },
             "paired_days": 28
           }
@@ -500,6 +572,10 @@
               "n": 12,
               "mae": 0.0804
             },
+            "ensemble_mean_3": {
+              "n": 12,
+              "mae": 0.0157
+            },
             "paired_days": 12
           },
           "quiet": {
@@ -518,6 +594,10 @@
             "persistence_1d": {
               "n": 19,
               "mae": 0.0
+            },
+            "ensemble_mean_3": {
+              "n": 19,
+              "mae": 0.0041
             },
             "paired_days": 19
           }
@@ -540,6 +620,10 @@
               "n": 12,
               "mae": 0.0804
             },
+            "ensemble_mean_3": {
+              "n": 12,
+              "mae": 0.0157
+            },
             "paired_days": 12
           },
           "quiet": {
@@ -558,6 +642,10 @@
             "persistence_1d": {
               "n": 19,
               "mae": 0.0
+            },
+            "ensemble_mean_3": {
+              "n": 19,
+              "mae": 0.0041
             },
             "paired_days": 19
           }
@@ -580,6 +668,10 @@
               "n": 6,
               "mae": 0.1355
             },
+            "ensemble_mean_3": {
+              "n": 6,
+              "mae": 0.0236
+            },
             "paired_days": 6
           },
           "quiet": {
@@ -598,6 +690,10 @@
             "persistence_1d": {
               "n": 25,
               "mae": 0.0061
+            },
+            "ensemble_mean_3": {
+              "n": 25,
+              "mae": 0.005
             },
             "paired_days": 25
           }
@@ -657,6 +753,10 @@
               "n": 4,
               "mae": 0.0571
             },
+            "ensemble_mean_3": {
+              "n": 4,
+              "mae": 0.123
+            },
             "paired_days": 4
           },
           "quiet": {
@@ -675,6 +775,10 @@
             "persistence_1d": {
               "n": 19,
               "mae": 0.0
+            },
+            "ensemble_mean_3": {
+              "n": 19,
+              "mae": 0.0092
             },
             "paired_days": 19
           }
@@ -697,6 +801,10 @@
               "n": 4,
               "mae": 0.0571
             },
+            "ensemble_mean_3": {
+              "n": 4,
+              "mae": 0.123
+            },
             "paired_days": 4
           },
           "quiet": {
@@ -715,6 +823,10 @@
             "persistence_1d": {
               "n": 19,
               "mae": 0.0
+            },
+            "ensemble_mean_3": {
+              "n": 19,
+              "mae": 0.0092
             },
             "paired_days": 19
           }
@@ -737,6 +849,10 @@
               "n": 2,
               "mae": 0.0889
             },
+            "ensemble_mean_3": {
+              "n": 2,
+              "mae": 0.108
+            },
             "paired_days": 2
           },
           "quiet": {
@@ -755,6 +871,10 @@
             "persistence_1d": {
               "n": 21,
               "mae": 0.0024
+            },
+            "ensemble_mean_3": {
+              "n": 21,
+              "mae": 0.0215
             },
             "paired_days": 21
           }

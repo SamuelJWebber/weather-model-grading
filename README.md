@@ -390,18 +390,30 @@ short-lead series: 8h SNOTEL / 21h COOP). Descriptive, small n.
    Copper 0.0285 vs 0.0635; Vail n=1 so barely a data point). Consistent
    direction but 18 station-days total: a pattern to test as real
    storms arrive, NOT a finding.
-4. **Model errors are often the same errors.** Per-day signed-error
+4. **Model errors are often the same errors - and where they are not,
+   the actual ensemble score improves.** Per-day signed-error
    correlations between model pairs reach 0.90-0.996 at Park City and
-   Stowe (ensemble would add little there), but are NEGATIVE for some
-   pairs at Vail (ecmwf/icon -0.773) and Palisades (ecmwf/icon -0.835):
-   at those stations model errors partially offset, so a simple
-   average could beat every member. Mixed, descriptive.
+   Stowe, but are NEGATIVE for some pairs at Vail (ecmwf/icon -0.773)
+   and Palisades (ecmwf/icon -0.835). The actual same-date 3-model
+   mean (no new forecast pulls) confirms the mechanism both ways on
+   change days: at Vail it scores 0.0144 (beats every member AND
+   persistence 0.0305) and at Truckee 0.0157 (beats persistence 0.0804
+   and best member gfs 0.0297), while at Park City (0.134) and Stowe
+   (0.123) it loses to persistence (0.0689 / 0.0571), exactly where
+   correlations are high. Correlation alone did not establish this;
+   the computed scores did - but both are RETROSPECTIVE diagnostics on
+   n=4-12 change days, not a selector. Any ensemble use would be a
+   prospective decision tested forward, not adopted from this table.
 
 Caveats: one quiet November window; change-day counts are 4-12 per
 station at >=1in and 1-6 at >=2in; depth deltas are net of
 settling/compaction (the storm subset undercounts events); SNWD's
-integer-inch quantization makes 1cm/2cm thresholds identical; nothing
-here is a storm-skill claim. The forward test is the next real storm
+integer-inch quantization makes 1cm/2cm thresholds identical; the
+change/quiet strata are defined on REALIZED outcomes, so every split
+here is a retrospective diagnostic, not an actionable selector; the
+thresholds and definitions are now frozen for the forward test and
+will not be retuned to future results; nothing here is a storm-skill
+claim. The forward test is the next real storm
 window: predictions implied by this decomposition are (a) persistence
 wins quiet days trivially, (b) gfs should beat persistence on >=2in
 change days if the pattern is real.

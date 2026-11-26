@@ -153,11 +153,17 @@ def run_decomposition_live(output_dir: str = "results") -> dict:
                     pred[d] = run[valid]
             series[model] = pred
         series["persistence_1d"] = persistence_baseline(actual, 1)
+        model_names = ("gfs_seamless", "icon_seamless", "ecmwf_ifs025")
+        ensemble = {d: sum(series[m][d] for m in model_names) / 3
+                    for d in dates if all(m in series and d in series[m]
+                                          for m in model_names)}
+        dec_series = dict(series)
+        dec_series["ensemble_mean_3"] = ensemble
         out["resorts"][resort] = {
             "station": st.get("name", st.get("station")),
             "window": [start, end], "lead_h": lead_h,
             "actual_days": len(actual),
-            "decomposition": decomposition(actual, series),
+            "decomposition": decomposition(actual, dec_series),
             "error_correlations": error_correlations(actual, series)}
     path = Path(output_dir) / "decomposition_2026-11-26.json"
     path.write_text(json.dumps(out, indent=2))
