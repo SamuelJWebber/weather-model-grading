@@ -13,13 +13,21 @@ skill, and any model-ranking question are out of scope).
 
 - `scripts/observe_now.py` (attached): standalone collector, python3 stdlib
   only, no repo checkout or keys needed. Per run it fetches 5 sources,
-  records the real retrieval timestamp (`fetch_utc`), preserves each raw
-  response (`results/raw/obslog/<station>/<fetch_stamp>.csv` + sha256),
-  parses the newest data instant, and appends one JSONL row per source to
-  `results/raw/obslog/index.jsonl` (fetch failures are logged as rows with
-  `error` set - they are availability evidence).
+  records request start AND response completion separately
+  (`request_start_utc` / `response_complete_utc`; availability lag is
+  measured from completion, when the bytes actually arrived), preserves
+  each raw response (`results/raw/obslog/<station>/<fetch_stamp>.csv` +
+  sha256) BEFORE parsing, parses the newest data instant, and appends +
+  flushes one JSONL row per source to `results/raw/obslog/index.jsonl`
+  the moment that source finishes. A fetch failure is logged as a row
+  with `error` set; a parse failure is logged with `parse_error` set and
+  the raw bytes already on disk - neither can lose or block evidence for
+  the other sources.
 - First snapshots already preserved in-repo: 2026-11-26 19:56/19:57/19:58
-  UTC, including one transient fetch failure and one parser-fix pair.
+  UTC (pre-fix schema, `fetch_utc` = request start), including one
+  transient fetch failure and one parser-fix pair. A fourth run at ~20:03
+  UTC with the corrected collector logged 403s on all four SNOTEL fetches
+  while the COOP fetch succeeded - see Rate limiting below.
 
 ## Sources (actual URLs in use)
 
@@ -29,14 +37,29 @@ skill, and any model-ranking question are out of scope).
   `https://wcc.sc.egov.usda.gov/reportGenerator/view_csv/customSingleStationReport/hourly/<triplet>%7Cid=%22%22%7Cname/<start>,<end>/SNWD::value`
   (script requests a rolling 3-day window; free, no key)
 - COOP daily snow depth (MMNV1 Mt. Mansfield VT):
-  `https://mesonet.agron.iastate.edu/cgi-bin/request/daily.py?network=VT_COOP&stations=MMNV1&sts=<start>T00:00Z&ets=<end>T00:00Z&var=snowd_in`
-  (rolling 7-day window; free, no key)
+  `https://mesonet.agron.iastate.edu/cgi-bin/request/daily.py?network=VT_COOP&stations=MMNV1&sts=<start>&ets=<tomorrow>&var=snowd_in`
+  (rolling 7-day window; free, no key). `ets` is an inclusive end DATE
+  per the service docs
+  (https://mesonet.agron.iastate.edu/cgi-bin/request/daily.py?help=);
+  the collector requests tomorrow's date so nothing already filed can be
+  censored by the window - a future end date is harmless (only existing
+  rows are returned). An earlier version ended the window at today
+  00:00Z, which could have censored same-day filings; a regression test
+  (`tests/test_observe_now.py`) now pins the window coverage.
 
-Timestamp conventions (verified in-repo): SNOTEL hourly CSV clock +8h =
-UTC (33/33 match vs the daily series at all four stations); COOP
-`snowd_in[D]` = depth at D 21:00 UTC (measurement contract). IEM daily.py
-pre-posts recent dates with value `None` until data arrives; the parser
-skips value-less rows.
+Timestamp conventions: the SNOTEL hourly CSV carries no timezone. NRCS
+AWDB documentation states SNOTEL (SNTL network) hourly measurements are
+recorded in Pacific Standard Time (UTC-8, year-round), except "a few
+stations in Alaska and elsewhere" in station local time
+(https://opencdss.state.co.us/tstool/latest/doc-user/datastore-ref/NRCS-AWDB/NRCS-AWDB/,
+mirroring NRCS AWDB docs). None of these four stations is in Alaska, and
+the +8h conversion is additionally anchored per station in-repo: hourly
+row "D 00:00" equals daily SNWD[D] (33/33 match within 0.5in,
+`scripts/hourly_persistence_snotel_check.py`). Doc plus empirical anchor
+together; neither alone. COOP `snowd_in[D]` = depth at D 21:00 UTC
+(measurement contract). IEM daily.py pre-posts recent dates with value
+`None` until data arrives; the parser skips value-less rows and rejects
+non-finite numerics.
 
 ## Proposed 14-day pilot
 
@@ -45,16 +68,27 @@ skips value-less rows.
   ~50-250 KB raw stored. 14 days ~ 10-30 MB.
 - Corrected cadence rationale: hourly values CAN appear at each hourly
   fetch, and a 3h cadence does NOT capture when each row first became
-  available - it brackets first-availability to 3h precision. That
-  bracketing is sufficient to judge whether a 3h-delayed operational
-  anchor is supportable (the delayed-anchor sensitivity in
-  `results/hourly_persistence_snotel_2026-11-26.json` used init-3h as its
-  most optimistic case). If 1h-precision availability is ever needed, the
-  cadence must be hourly; that is a separate, larger collection decision.
+  available - it brackets first-availability to 3h precision. Because a
+  3h-wide bracket can straddle the 3h-delay cutoff itself, a pilot
+  outcome at any station can be SUPPORTED (observed lag strictly under
+  the cutoff across the sample), CONTRADICTED (strictly over), or
+  INDETERMINATE (brackets straddle the cutoff) - supportability is a
+  possible outcome, not a guaranteed one. (The delayed-anchor sensitivity
+  in `results/hourly_persistence_snotel_2026-11-26.json` used init-3h as
+  its most optimistic case.) If 1h-precision availability is ever needed,
+  the cadence must be hourly; that is a separate, larger collection
+  decision.
+- Rate limiting (observed): at ~20:03 UTC on 2026-11-26, after several
+  rapid successive pulls during development, all four SNOTEL fetches
+  returned HTTP 403 while the COOP fetch succeeded (rows preserved in
+  `index.jsonl`). The 3h cadence is far below any plausible threshold,
+  but an hourly cadence should be adopted only with backoff/retry
+  handling and an explicit rate check.
 - End-of-pilot analysis: per-station availability-lag distribution
-  (fetch_utc - newest data instant), revision incidence (see below),
-  COOP gap pattern; then a decision on whether an operational same-lead
-  comparison is supportable at SNOTEL stations.
+  (response_complete_utc - newest data instant), revision incidence (see
+  below), COOP gap pattern; then a decision on whether an operational
+  same-lead comparison is supportable at SNOTEL stations, with
+  indeterminate as an explicit possible verdict.
 
 ## Retention and revision properties (clarified)
 
