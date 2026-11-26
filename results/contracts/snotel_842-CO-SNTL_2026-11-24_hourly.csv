@@ -1,0 +1,132 @@
+#------------------------------------------------- WARNING --------------------------------------------
+# 
+# The data you have obtained from this automated Natural Resources Conservation Service 
+# database are subject to revision regardless of indicated Quality Assurance level. 
+# Data are released on condition that neither the NRCS nor the United States Government 
+# may be held liable for any damages resulting from its use. 
+# 
+# SNOTEL air temperature data contains a known bias. This bias is rooted in the sensor 
+# conversion equation and varies through the output range. Solutions are in development. 
+# For more information go to Air Temperature Bias Correction. 
+# 
+# Help and Tutorials: https://www.nrcs.usda.gov/sites/default/files/2023-03/Report%20Generator%20Help%20Guide.pdf
+# Air Temperature Bias Correction: https://www.nrcs.usda.gov/wps/portal/wcc/home/snowClimateMonitoring/temperature/temperatureBiasCorrection/
+# 
+# Support Contact: FPACITServiceDesk@usda.gov
+# 
+#------------------------------------------------------------------------------------------------------
+# 
+# Reporting Frequency: Hourly
+# Date Range: 2026-11-23 00:00 to 2026-11-25 23:00
+#
+# Data for the following site(s) are contained in this file:
+#
+#	SNOTEL 842: Vail Mountain, CO
+# 
+# Data items provided in this file:
+#
+# Element Name  Value Type  Function Type  Function Duration  Base Data  Measurement Units  Sensor Depth  Element Code  Description       
+# Snow Depth    Value       None           Instantaneous      N/A        Inches             N/A           SNWD          Total snow depth  
+# 
+# Quality Control flags included:
+#
+# Flag    Name                Description
+#  V      Valid               Validated Data
+#  N      No Profile          No profile for automated validation
+#  E      Edit                Edit, minor adjustment for sensor noise
+#  K      Estimate            Estimate
+#  C      Correction          A different equation has been applied to the original sensor voltage
+#  B      Back Estimate       Regression-based estimate for homogenizing collocated Snow Course and Snow Pillow data sets
+#  X      External Estimate   External estimate
+#  S      Suspect             Suspect data
+#  M      Missing             Value is missing
+# 
+# Quality Assurance flags included:
+#
+# Flag    Name                Description
+#  U      Unknown             Unknown
+#  R      Raw                 No Human Review
+#  P      Provisional         Preliminary Human Review
+#  A      Approved            Processing and Final Review Completed
+# 
+#------------------------------------------------------------------------------------------------------
+# 
+# Vail Mountain (842) 
+# Colorado  SNOTEL Site - 10290 ft
+# Reporting Frequency: Hourly; Date Range: 2026-11-23 00:00 to 2026-11-25 23:00
+#
+# As of: Nov 25, 2026, 11:36:56 PM GMT-08:00
+#
+Date,Snow Depth (in)
+2026-11-23 00:00,3
+2026-11-23 01:00,3
+2026-11-23 02:00,3
+2026-11-23 03:00,3
+2026-11-23 04:00,3
+2026-11-23 05:00,3
+2026-11-23 06:00,4
+2026-11-23 07:00,3
+2026-11-23 08:00,3
+2026-11-23 09:00,3
+2026-11-23 10:00,3
+2026-11-23 11:00,3
+2026-11-23 12:00,3
+2026-11-23 13:00,3
+2026-11-23 14:00,3
+2026-11-23 15:00,3
+2026-11-23 16:00,3
+2026-11-23 17:00,3
+2026-11-23 18:00,3
+2026-11-23 19:00,3
+2026-11-23 20:00,3
+2026-11-23 21:00,4
+2026-11-23 22:00,3
+2026-11-23 23:00,4
+2026-11-24 00:00,4
+2026-11-24 01:00,4
+2026-11-24 02:00,4
+2026-11-24 03:00,4
+2026-11-24 04:00,4
+2026-11-24 05:00,4
+2026-11-24 06:00,4
+2026-11-24 07:00,4
+2026-11-24 08:00,3
+2026-11-24 09:00,3
+2026-11-24 10:00,3
+2026-11-24 11:00,4
+2026-11-24 12:00,4
+2026-11-24 13:00,3
+2026-11-24 14:00,4
+2026-11-24 15:00,4
+2026-11-24 16:00,4
+2026-11-24 17:00,3
+2026-11-24 18:00,4
+2026-11-24 19:00,4
+2026-11-24 20:00,4
+2026-11-24 21:00,4
+2026-11-24 22:00,4
+2026-11-24 23:00,4
+2026-11-25 00:00,4
+2026-11-25 01:00,3
+2026-11-25 02:00,3
+2026-11-25 03:00,3
+2026-11-25 04:00,3
+2026-11-25 05:00,3
+2026-11-25 06:00,4
+2026-11-25 07:00,3
+2026-11-25 08:00,3
+2026-11-25 09:00,3
+2026-11-25 10:00,3
+2026-11-25 11:00,3
+2026-11-25 12:00,3
+2026-11-25 13:00,3
+2026-11-25 14:00,4
+2026-11-25 15:00,3
+2026-11-25 16:00,3
+2026-11-25 17:00,3
+2026-11-25 18:00,3
+2026-11-25 19:00,3
+2026-11-25 20:00,3
+2026-11-25 21:00,3
+2026-11-25 22:00,3
+2026-11-25 23:00,3

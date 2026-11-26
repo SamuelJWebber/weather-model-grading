@@ -1,6 +1,7 @@
 """Offline tests for ASOS station parsing and comparison."""
 
-from wxgrade.stations import compare_forecasts_to_station, parse_asos_csv
+from wxgrade.stations import (compare_forecasts_to_station, parse_asos_csv,
+    parse_asos_csv_detailed)
 
 CSV = """station,valid,tmpf
 NYC,2026-11-20 00:51,51.00
@@ -50,3 +51,14 @@ def test_storm_dates_threshold_and_gap():
     # 11-03 rose 0.06 (storm), 11-05 rose 0.13 vs prior PRESENT day (11-03)
     assert storm_dates(actual, 0.05) == frozenset({"2026-11-03", "2026-11-05"})
     assert storm_dates(actual, 0.20) == frozenset()
+
+
+def test_parse_asos_csv_detailed_counts_obs_per_day():
+    text = ("station,valid,tmpf\n"
+            "NYC,2026-11-20 00:00,41.0\n"
+            "NYC,2026-11-20 01:00,40.0\n"
+            "NYC,2026-11-20 02:00,M\n"
+            "NYC,2026-11-21 00:00,38.0\n")
+    daily, counts = parse_asos_csv_detailed(text)
+    assert daily == {"2026-11-20": 41.0, "2026-11-21": 38.0}
+    assert counts == {"2026-11-20": 2, "2026-11-21": 1}  # M rows don't count

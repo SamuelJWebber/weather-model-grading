@@ -25,17 +25,28 @@ USER_AGENT = "weather-model-grading/0.2.0 (personal research)"
 SOURCE_NOTE = "Iowa State IEM ASOS service, station NYC (KNYC Central Park), hourly METAR"
 
 
-def parse_asos_csv(text: str) -> dict[str, float]:
-    """Daily max tmpf per local date from IEM ASOS CSV (station,valid,tmpf)."""
+def parse_asos_csv_detailed(text: str) -> tuple[dict[str, float], dict[str, int]]:
+    """Daily max tmpf per local date AND per-day observation counts.
+
+    The counts make the README coverage claim ("24-25 obs/day, zero
+    missing hours") re-derivable from the saved artifact (builder audit
+    2026-11-25, finding 4)."""
     daily: dict[str, float] = {}
+    counts: dict[str, int] = {}
     for row in csv.DictReader(io.StringIO(text)):
         tmp = (row.get("tmpf") or "").strip()
         valid = (row.get("valid") or "").strip()
         if not tmp or tmp == "M" or not valid:
             continue
         day = valid[:10]
+        counts[day] = counts.get(day, 0) + 1
         daily[day] = max(daily.get(day, float("-inf")), float(tmp))
-    return daily
+    return daily, counts
+
+
+def parse_asos_csv(text: str) -> dict[str, float]:
+    """Daily max tmpf per local date from IEM ASOS CSV (station,valid,tmpf)."""
+    return parse_asos_csv_detailed(text)[0]
 
 
 def fetch_station_daily_max(station: str, start: date, end: date) -> dict[str, float]:
@@ -51,6 +62,21 @@ def fetch_station_daily_max(station: str, start: date, end: date) -> dict[str, f
     req = Request(f"{IEM_ASOS_URL}?{qs}", headers={"User-Agent": USER_AGENT})
     with urlopen(req, timeout=90) as resp:
         return parse_asos_csv(resp.read().decode("utf-8", errors="replace"))
+
+
+def fetch_station_daily_max_detailed(station: str, start: date, end: date):
+    """MANUAL ONLY: hourly ASOS obs -> (daily maxima, per-day obs counts)."""
+    qs = urlencode({
+        "station": station, "data": "tmpf",
+        "year1": start.year, "month1": start.month, "day1": start.day,
+        "year2": end.year, "month2": end.month, "day2": end.day,
+        "tz": "America/New_York", "format": "onlycomma", "latlon": "no",
+        "elev": "no", "missing": "M", "trace": "T", "direct": "no",
+        "report_type": "3",
+    })
+    req = Request(f"{IEM_ASOS_URL}?{qs}", headers={"User-Agent": USER_AGENT})
+    with urlopen(req, timeout=90) as resp:
+        return parse_asos_csv_detailed(resp.read().decode("utf-8", errors="replace"))
 
 
 def compare_forecasts_to_station(
@@ -82,7 +108,8 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     end = date.today() - timedelta(days=1)
     start = end - timedelta(days=args.past_days + max(LEADS))
-    station_actual = fetch_station_daily_max(args.station, start, end)
+    station_actual, obs_per_day = fetch_station_daily_max_detailed(
+        args.station, start, end)
     forecasts: dict[tuple[str, int], dict[str, float]] = {}
     for model in MODELS:
         for lead in LEADS:
@@ -95,6 +122,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         __import__("json").dumps({
             "station": args.station, "station_source": SOURCE_NOTE,
             "past_days": args.past_days, "station_days": len(station_actual),
+            "station_obs_per_day": obs_per_day,
             "rows": rows,
         }, indent=2, sort_keys=True) + "\n",
         encoding="utf-8",

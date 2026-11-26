@@ -1,0 +1,19 @@
+{
+  "station": "MMNV1",
+  "network": "VT_COOP",
+  "day": "2026-11-15",
+  "raw_evidence": "results/contracts/coop_MMNV1_2026-11-15_obhistory.json",
+  "snow_reports": [
+    {
+      "value_in": 7.0,
+      "utc_valid": "2026-11-15T21:00Z"
+    }
+  ],
+  "n_reports": 1,
+  "report_hours_utc": [
+    "21"
+  ],
+  "reports_once_daily": true,
+  "at_expected_hour": true,
+  "contract_holds": true
+}

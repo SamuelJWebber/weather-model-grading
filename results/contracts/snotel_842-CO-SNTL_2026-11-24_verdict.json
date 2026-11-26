@@ -1,0 +1,11 @@
+{
+  "triplet": "842:CO:SNTL",
+  "raw_evidence": [
+    "results/contracts/snotel_842-CO-SNTL_2026-11-24_daily.csv",
+    "results/contracts/snotel_842-CO-SNTL_2026-11-24_hourly.csv"
+  ],
+  "day": "2026-11-24",
+  "daily_value": "4",
+  "hourly_00_value": "4",
+  "matches": true
+}
