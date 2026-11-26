@@ -362,3 +362,143 @@ def run_snotel_live(resort: str, past_days: int, output_dir,
         "rows": rows,
     }, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     return rows
+
+
+def _singlerun_cached(lat: float, lon: float, model: str, init: str,
+                      cache_dir) -> dict[str, float]:
+    """fetch_singlerun_hourly with a disk cache: raw parsed hourly values
+    saved per (grid, model, init) so a long paired run resumes after a
+    timeout and the inputs it scored are preserved as evidence."""
+    import json
+    from pathlib import Path
+    cache = Path(cache_dir)
+    cache.mkdir(parents=True, exist_ok=True)
+    path = cache / f"{lat:.4f}_{lon:.4f}_{model}_{init}.json"
+    if path.exists():
+        return {k: float(v) for k, v in json.loads(path.read_text()).items()}
+    vals = fetch_singlerun_hourly(lat, lon, model, init)
+    path.write_text(json.dumps(vals))
+    return vals
+
+
+def _prefetch_singleruns(lat: float, lon: float, needed: set[tuple[str, str]],
+                         cache_dir, workers: int = 8
+                         ) -> dict[tuple[str, str], dict[str, float]]:
+    """Fetch all (model, init) pairs concurrently (archive reads are
+    independent; 8 workers keeps us polite to the free API)."""
+    from concurrent.futures import ThreadPoolExecutor
+    out: dict[tuple[str, str], dict[str, float]] = {}
+    with ThreadPoolExecutor(max_workers=workers) as ex:
+        futs = {ex.submit(_singlerun_cached, lat, lon, m, i, cache_dir): (m, i)
+                for (m, i) in sorted(needed)}
+        for fut, key in futs.items():
+            out[key] = fut.result()
+    return out
+
+
+def paired_snotel_leads_check(resort: str,
+                              station: dict | None = None,
+                              leads_h: tuple[int, ...] = (8, 32),
+                              compare_to: str | None = None,
+                              output_dir: str = "results") -> dict:
+    """Paired same-day comparison for the SNOTEL leads route: every series
+    scored on the dates where ALL series (models at both leads AND the
+    persistence baseline) AND the actual have values. The preserved leads
+    artifacts score models at n=33 vs persistence at n=32 (unpaired);
+    this check is the same-day pairing the builder audit flagged open.
+
+    Inputs are re-derived for the preserved artifact's exact actual_window
+    (not re-anchored to "yesterday"), and each series' unrestricted scores
+    must reproduce the artifact exactly (identity check), proving the
+    paired subset is drawn from the same underlying data. The original
+    artifact is not modified.
+    """
+    import json
+    from datetime import date, datetime, timedelta, timezone
+    from pathlib import Path
+    from .grade import LOCATIONS, score_series, persistence_baseline
+
+    st = station or RESORT_STATIONS[resort]
+    loc = LOCATIONS[resort]
+    tag = ("" if station is None
+           else f"-{st['name'].lower().replace(' ', '_').replace('#', '')}")
+    ref_path = Path(compare_to) if compare_to else Path(
+        f"results/grading_{resort}_snow-depth-snotel-leads{tag}_"
+        "2026-11-24.json")
+    ref = json.loads(ref_path.read_text())
+    start, end = ref["actual_window"]
+    dates = [(date.fromisoformat(start) + timedelta(days=k)).isoformat()
+             for k in range((date.fromisoformat(end)
+                             - date.fromisoformat(start)).days + 1)]
+    actual = fetch_snwd_daily(st["triplet"], start, end)
+
+    needed: set[tuple[str, str]] = set()
+    for model in ("gfs_seamless", "icon_seamless", "ecmwf_ifs025"):
+        for lead in leads_h:
+            for d in dates:
+                init = (date.fromisoformat(d)
+                        - timedelta(hours=lead
+                                    - STATION_MIDNIGHT_UTC_HOUR)
+                        ).isoformat()
+                needed.add((model, init))
+    runs = _prefetch_singleruns(loc["lat"], loc["lon"], needed,
+                                Path(output_dir) / "raw" / "singleruns")
+
+    series: dict[str, dict[str, float]] = {}
+    for model in ("gfs_seamless", "icon_seamless", "ecmwf_ifs025"):
+        for lead in leads_h:
+            pred: dict[str, float] = {}
+            for d in dates:
+                init = (date.fromisoformat(d)
+                        - timedelta(hours=lead
+                                    - STATION_MIDNIGHT_UTC_HOUR)
+                        ).isoformat()
+                valid = f"{d}T{STATION_MIDNIGHT_UTC_HOUR:02d}:00"
+                if valid in runs[(model, init)]:
+                    pred[d] = runs[(model, init)][valid]
+            series[f"{model} lead_{lead}h"] = pred
+    series["persistence_1d baseline"] = persistence_baseline(actual, 1)
+
+    ref_rows = {(r["model"], r["lead"]): r for r in ref["rows"]}
+    identity = {}
+    for name, pred in series.items():
+        model, lead = name.rsplit(" ", 1)
+        got = score_series(pred, actual)
+        want = ref_rows.get((model, lead))
+        identity[name] = {
+            "recomputed": got,
+            "artifact": {k: want[k] for k in ("n", "mae", "rmse", "bias")}
+            if want else None,
+            "matches": bool(want) and all(
+                got[k] == want[k] for k in ("n", "mae", "rmse", "bias"))}
+
+    common = set(actual)
+    for pred in series.values():
+        common &= set(pred)
+    common_dates = sorted(common)
+    paired = {}
+    for name, pred in series.items():
+        errs = [pred[d] - actual[d] for d in common_dates]
+        n = len(errs)
+        paired[name] = {
+            "n": n,
+            "mae": round(sum(abs(e) for e in errs) / n, 4),
+            "rmse": round((sum(e * e for e in errs) / n) ** 0.5, 4),
+            "bias": round(sum(errs) / n, 4)}
+
+    out = {
+        "check": "paired same-day comparison on the intersection of dates "
+                 "where every model/lead, persistence AND the actual all "
+                 "have values; fixes the unpaired n=33-vs-n=32 contrast in "
+                 "the preserved artifact (which is not modified)",
+        "resort": resort, "station": st,
+        "actual_window": [start, end],
+        "common_dates": common_dates,
+        "identity_check_vs_preserved_artifact": identity,
+        "paired_scores": paired,
+        "pull_utc": datetime.now(timezone.utc).isoformat()}
+    out_path = (Path(output_dir)
+                / f"grading_{resort}_snow-depth-snotel-leads-paired{tag}_"
+                  f"{end}.json")
+    out_path.write_text(json.dumps(out, indent=2))
+    return out

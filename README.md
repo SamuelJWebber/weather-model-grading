@@ -308,6 +308,22 @@ degradation - still a quiet-weather window (1-4 storm days per site),
 so these are tracking measurements, not skill claims. Storm subsets are
 scored per run and become informative as accumulation arrives.
 
+Paired same-day check (2026-11-26, wxgrade/snotel.py:
+paired_snotel_leads_check, results/*-paired_*.json): the table above
+scores models on n=33 days vs persistence on n=32 (unpaired). The
+check re-derives each window's inputs (raw Single Runs payloads cached
+under results/raw/singleruns/ as evidence), verifies every series'
+unrestricted scores reproduce the preserved artifacts exactly, then
+scores all series on the 32 common dates (2026-10-24..2026-11-24) at 4
+decimals. Pairing moves MAEs by <=0.002 and changes no ranking: Vail
+persistence 0.0095 vs best model icon 0.0118; Copper 0.0079 vs ecmwf
+0.0095; Mill Creek 0.0151 vs gfs 0.0227. The one case of a model
+beating persistence SURVIVES pairing: gfs at Truckee #2, 0.0133 (8h)
+and 0.0231 (32h) vs persistence 0.0302 - same quiet-window and
+single-station caveats apply, and icon (0.0532) and ecmwf (0.0397) are
+both far worse than persistence there, so it is one model at one
+station, not a pattern.
+
 Daily max temp, vs archive actuals (MAE F):
 
 | model | lead 1 | lead 3 | lead 5 |

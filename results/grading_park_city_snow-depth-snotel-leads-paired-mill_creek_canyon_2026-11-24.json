@@ -1,0 +1,200 @@
+{
+  "check": "paired same-day comparison on the intersection of dates where every model/lead, persistence AND the actual all have values; fixes the unpaired n=33-vs-n=32 contrast in the preserved artifact (which is not modified)",
+  "resort": "park_city",
+  "station": {
+    "triplet": "1321:UT:SNTL",
+    "name": "Mill Creek Canyon",
+    "tz": "Etc/GMT+8",
+    "note": "15.0km, 2121m vs grid 2146m (gap -25m; was +676m at Thaynes Canyon)"
+  },
+  "actual_window": [
+    "2026-10-23",
+    "2026-11-24"
+  ],
+  "common_dates": [
+    "2026-10-24",
+    "2026-10-25",
+    "2026-10-26",
+    "2026-10-27",
+    "2026-10-28",
+    "2026-10-29",
+    "2026-10-30",
+    "2026-10-31",
+    "2026-11-01",
+    "2026-11-02",
+    "2026-11-03",
+    "2026-11-04",
+    "2026-11-05",
+    "2026-11-06",
+    "2026-11-07",
+    "2026-11-08",
+    "2026-11-09",
+    "2026-11-10",
+    "2026-11-11",
+    "2026-11-12",
+    "2026-11-13",
+    "2026-11-14",
+    "2026-11-15",
+    "2026-11-16",
+    "2026-11-17",
+    "2026-11-18",
+    "2026-11-19",
+    "2026-11-20",
+    "2026-11-21",
+    "2026-11-22",
+    "2026-11-23",
+    "2026-11-24"
+  ],
+  "identity_check_vs_preserved_artifact": {
+    "gfs_seamless lead_8h": {
+      "recomputed": {
+        "n": 33,
+        "mae": 0.023,
+        "rmse": 0.056,
+        "bias": -0.023
+      },
+      "artifact": {
+        "n": 33,
+        "mae": 0.023,
+        "rmse": 0.056,
+        "bias": -0.023
+      },
+      "matches": true
+    },
+    "gfs_seamless lead_32h": {
+      "recomputed": {
+        "n": 33,
+        "mae": 0.022,
+        "rmse": 0.052,
+        "bias": -0.021
+      },
+      "artifact": {
+        "n": 33,
+        "mae": 0.022,
+        "rmse": 0.052,
+        "bias": -0.021
+      },
+      "matches": true
+    },
+    "icon_seamless lead_8h": {
+      "recomputed": {
+        "n": 33,
+        "mae": 0.039,
+        "rmse": 0.094,
+        "bias": -0.039
+      },
+      "artifact": {
+        "n": 33,
+        "mae": 0.039,
+        "rmse": 0.094,
+        "bias": -0.039
+      },
+      "matches": true
+    },
+    "icon_seamless lead_32h": {
+      "recomputed": {
+        "n": 33,
+        "mae": 0.039,
+        "rmse": 0.094,
+        "bias": -0.039
+      },
+      "artifact": {
+        "n": 33,
+        "mae": 0.039,
+        "rmse": 0.094,
+        "bias": -0.039
+      },
+      "matches": true
+    },
+    "ecmwf_ifs025 lead_8h": {
+      "recomputed": {
+        "n": 33,
+        "mae": 0.026,
+        "rmse": 0.059,
+        "bias": -0.024
+      },
+      "artifact": {
+        "n": 33,
+        "mae": 0.026,
+        "rmse": 0.059,
+        "bias": -0.024
+      },
+      "matches": true
+    },
+    "ecmwf_ifs025 lead_32h": {
+      "recomputed": {
+        "n": 33,
+        "mae": 0.026,
+        "rmse": 0.06,
+        "bias": -0.024
+      },
+      "artifact": {
+        "n": 33,
+        "mae": 0.026,
+        "rmse": 0.06,
+        "bias": -0.024
+      },
+      "matches": true
+    },
+    "persistence_1d baseline": {
+      "recomputed": {
+        "n": 32,
+        "mae": 0.015,
+        "rmse": 0.044,
+        "bias": -0.009
+      },
+      "artifact": {
+        "n": 32,
+        "mae": 0.015,
+        "rmse": 0.044,
+        "bias": -0.009
+      },
+      "matches": true
+    }
+  },
+  "paired_scores": {
+    "gfs_seamless lead_8h": {
+      "n": 32,
+      "mae": 0.0238,
+      "rmse": 0.0572,
+      "bias": -0.0238
+    },
+    "gfs_seamless lead_32h": {
+      "n": 32,
+      "mae": 0.0227,
+      "rmse": 0.053,
+      "bias": -0.0216
+    },
+    "icon_seamless lead_8h": {
+      "n": 32,
+      "mae": 0.0397,
+      "rmse": 0.095,
+      "bias": -0.0397
+    },
+    "icon_seamless lead_32h": {
+      "n": 32,
+      "mae": 0.0403,
+      "rmse": 0.0956,
+      "bias": -0.0403
+    },
+    "ecmwf_ifs025 lead_8h": {
+      "n": 32,
+      "mae": 0.0268,
+      "rmse": 0.0604,
+      "bias": -0.0244
+    },
+    "ecmwf_ifs025 lead_32h": {
+      "n": 32,
+      "mae": 0.0268,
+      "rmse": 0.061,
+      "bias": -0.025
+    },
+    "persistence_1d baseline": {
+      "n": 32,
+      "mae": 0.0151,
+      "rmse": 0.0442,
+      "bias": -0.0087
+    }
+  },
+  "pull_utc": "2026-11-26T07:35:52.488869+00:00"
+}

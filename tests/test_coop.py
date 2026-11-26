@@ -61,3 +61,30 @@ def test_paired_intersection_logic(tmp_path, monkeypatch):
     # identity check records the empty artifact rows without matching
     assert all(not v["matches"] for v in
                out["identity_check_vs_preserved_artifact"].values())
+
+
+def test_paired_snotel_intersection(tmp_path, monkeypatch):
+    """SNOTEL paired check scores every series on the common dates only."""
+    import json
+    import wxgrade.snotel as snotel_mod
+
+    actual = {"2026-11-20": 0.10, "2026-11-21": 0.12, "2026-11-22": 0.15,
+              "2026-11-23": 0.15}
+    monkeypatch.setattr(snotel_mod, "fetch_snwd_daily",
+                        lambda *a, **k: dict(actual))
+    # valid instant is 08:00 UTC; model has values only on 11-21/11-22
+    fake_run = {"2026-11-21T08:00": 0.13, "2026-11-22T08:00": 0.16}
+    monkeypatch.setattr(snotel_mod, "fetch_singlerun_hourly",
+                        lambda *a, **k: dict(fake_run))
+    ref = {"actual_window": ["2026-11-20", "2026-11-23"], "rows": []}
+    ref_path = tmp_path / "ref.json"
+    ref_path.write_text(json.dumps(ref))
+    out = snotel_mod.paired_snotel_leads_check(
+        "vail", leads_h=(8,), compare_to=str(ref_path),
+        output_dir=str(tmp_path))
+    # 11-20 lacks a model value and a prior actual for persistence
+    assert out["common_dates"] == ["2026-11-21", "2026-11-22"]
+    for name, s in out["paired_scores"].items():
+        assert s["n"] == 2, name
+    p = out["paired_scores"]["persistence_1d baseline"]
+    assert abs(p["mae"] - 0.025) < 1e-9
