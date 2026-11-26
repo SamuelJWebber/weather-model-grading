@@ -427,7 +427,11 @@ Bias offsetting by an outlier model can explain cancellation without
 showing a dependable ensemble advantage on future data.
 
 ECMWF is exactly zero in all cached hourly runs at Copper and Stowe,
-including before confirmed snow days. Its constant-zero tie is exposed
+including before confirmed snow days. (Label map: "Copper" = the
+breckenridge resort grid cell 39.48,-106.07 verified against SNOTEL
+415:CO:SNTL Copper Mountain station, 8.8km away, +134m gap - not the
+Copper Mountain resort grid; "Stowe" = COOP station MMNV1 Mt. Mansfield
+at its own coordinates 44.5248,-72.8154, valid 21:00 UTC.) Its constant-zero tie is exposed
 in the saved baselines. Resolution (2026-11-26 PM,
 results/ecmwf_zero_resolution_2026-11-26.json): live Single Runs
 discriminators show the same run's snowfall is nonzero on inits where

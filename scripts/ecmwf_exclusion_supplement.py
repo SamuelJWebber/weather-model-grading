@@ -105,6 +105,17 @@ def main():
                        "depth series at breckenridge(Copper) and stowe",
               "inputs": "cached raw Single Runs payloads + saved actuals, "
                         "network forbidden",
+              "location_label_map": {
+                  "breckenridge": "resort grid cell LOCATIONS['breckenridge'] "
+                      "(39.48, -106.07, labeled 'Breckenridge, CO (Epic)'), "
+                      "verified against elevation-matched SNOTEL station "
+                      "415:CO:SNTL 'Copper Mountain' (8.8km away, 3200m vs "
+                      "grid 3066m, gap +134m). 'Copper' labels in artifacts "
+                      "and README refer to THIS station/grid pair, not the "
+                      "Copper Mountain resort grid.",
+                  "stowe": "resort grid = COOP station MMNV1 'MT. MANSFIELD' "
+                      "own coordinates (44.5248, -72.8154); COOP route, "
+                      "valid instant 21:00 UTC (SAMPLE_UTC_HOUR)."},
               "resorts": {}}
 
     # --- breckenridge (SNOTEL route, elevation-matched Copper station) ---
