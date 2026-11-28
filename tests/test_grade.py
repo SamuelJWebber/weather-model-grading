@@ -53,3 +53,106 @@ def test_fetch_model_lead_daily_sum_reduce(monkeypatch):
     out = grade.fetch_model_lead_daily(39.64, -106.37, "icon_seamless", 1, 3,
                                        variable="snowfall", reduce="sum")
     assert out == {"2026-11-20": 1.5, "2026-11-21": 2.0}
+
+
+def test_grade_reports_only_dates_shared_with_persistence():
+    actual = {"2026-11-01": 1.0, "2026-11-02": 100.0,
+              "2026-11-04": 70.0, "2026-11-05": 72.0}
+    forecasts = {("model", 1): {"2026-11-04": 42.0, "2026-11-05": 71.0},
+                 ("missing", 1): {}, ("no_prior", 1): {"2026-11-04": 70.0}}
+    missing, model, no_prior = grade(forecasts, actual)
+    assert model["forecast_n"] == 2 and model["n"] == 1
+    assert model["paired_dates"] == ["2026-11-05"]
+    assert model["mae"] == 1.0 and model["persistence_mae"] == 2.0
+    assert missing["forecast_n"] == 0 and no_prior["forecast_n"] == 1
+    for row in (missing, no_prior):
+        assert row["n"] == 0 and row["paired_dates"] == []
+        assert row["mae"] is None and row["persistence_mae"] is None
+
+
+def test_replay_nyc_november_temperature_from_archived_responses(monkeypatch):
+    import json
+    from pathlib import Path
+    from urllib.parse import parse_qs, urlsplit
+
+    from wxgrade import grade as grading
+
+    results = Path(__file__).resolve().parents[1] / "results"
+    replay = json.loads((results / "raw/nyc-temperature/replay_2026-10-27_2026-11-25.json").read_text())
+    old = json.loads((results / "grading_new-york-city_temperature_2026-11-25.json").read_text())
+    combined = replay["previous_runs"]["hourly"]
+
+    def cached(url):
+        params = parse_qs(urlsplit(url).query)
+        if "daily" in params:
+            return replay["archive"]
+        var, model = params["hourly"][0], params["models"][0]
+        return {"hourly": {"time": combined["time"], var: combined[f"{var}_{model}"]}}
+
+    monkeypatch.setattr(grading, "fetch_json", cached)
+    forecasts = {(model, lead): grading.fetch_model_lead_max(40.71, -74.01, model, lead, 30)
+                 for model in grading.MODELS for lead in grading.LEADS}
+    actual = grading.fetch_actual_max(40.71, -74.01, *old["actual_window"])
+    rows = grading.grade(forecasts, actual)
+    assert len(rows) == len(old["rows"]) == 12
+    for row, original in zip(rows, old["rows"]):
+        assert (row["model"], row["lead_days"], row["mae"]) == (
+            original["model"], original["lead_days"], original["mae"])
+        assert row["n"] == row["forecast_n"] == 30
+        assert row["paired_dates"] == sorted(forecasts[row["model"], row["lead_days"]])
+        assert row["persistence_mae"] == {1: 4.567, 3: 7.427, 5: 8.900}[row["lead_days"]]
+        unpaired = grading.score_series(grading.persistence_baseline(actual, row["lead_days"]), actual)
+        assert unpaired["n"] == {1: 35, 3: 33, 5: 31}[row["lead_days"]]
+        assert unpaired["mae"] == original["persistence_mae"]
+
+
+def test_normal_cli_persists_all_inputs_and_supports_offline_replay(tmp_path, monkeypatch, capsys):
+    import gzip
+    import hashlib
+    import json
+    from pathlib import Path
+    from urllib.parse import parse_qs, urlsplit
+
+    import pytest
+    from wxgrade import grade as grading
+
+    old_inputs = Path(__file__).resolve().parents[1] / "results/raw/nyc-temperature/replay_2026-10-27_2026-11-25.json"
+    frozen = json.loads(old_inputs.read_text())
+
+    def mock_provider(url):
+        params = parse_qs(urlsplit(url).query)
+        if "daily" in params:
+            return frozen["archive"]
+        var = params["hourly"][0]
+        hourly = frozen["previous_runs"]["hourly"]
+        return {"hourly": {"time": hourly["time"], var: hourly[f"{var}_{params['models'][0]}"]}}
+
+    monkeypatch.setattr(grading, "fetch_json", mock_provider)
+    live = ["--live", "--location", "nyc", "--output-dir", str(tmp_path)]
+    assert grading.main(live) == 0
+    original_table = capsys.readouterr().out
+    summary_file, = tmp_path.glob("grading_*.json")
+    summary = json.loads(summary_file.read_text())
+    ref = summary["input_receipt"]
+    first = tmp_path / ref["path"]
+    raw = first.read_bytes()
+    assert hashlib.sha256(raw).hexdigest() == ref["sha256"]
+    archive = json.loads(gzip.decompress(raw))
+    assert len(archive["forecasts"]) == 12 and archive["observations"]["response"] == frozen["archive"]
+    assert len({item["url"] for item in archive["forecasts"]}) == 12
+    assert all(item["received_utc"] for item in archive["forecasts"])
+    assert len(archive["forecasts"][0]["response"]["hourly"]["time"]) == 720
+    assert grading.main(live) == 0
+    capsys.readouterr()
+    assert first.is_file()
+    assert len(list(first.parent.glob("*.json.gz"))) == 2
+
+    def forbidden(*_):
+        raise AssertionError("offline replay attempted a network request")
+    monkeypatch.setattr(grading, "fetch_json", forbidden)
+    assert grading.main(["--replay", str(first)]) == 0
+    assert capsys.readouterr().out == original_table
+    with first.open("ab") as out:
+        out.write(b"corrupt")
+    with pytest.raises(ValueError, match="SHA-256"):
+        grading.replay_receipt(first)

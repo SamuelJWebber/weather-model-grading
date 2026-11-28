@@ -25,17 +25,44 @@ and scoring joins on identical dates (n=30 per cell).
   are Open-Meteo (CC BY 4.0 data).
 - Metrics per model x lead (1/3/5 days): MAE, RMSE, bias, plus a persistence
   baseline (today's weather = N-days-ago actual) as the no-skill floor.
+  Each row uses dates with a forecast, a target observation and the lagged observation.
+  `forecast_n` counts model/target matches, `n` counts paired dates, and `paired_dates` lists them.
+  Different models may have different coverage. Inspect dates before ranking them.
+
+### Save and replay a daily grading run
+
+Every successful `python -m wxgrade.grade --live` writes the usual score summary plus a compressed input receipt under
+`<output-dir>/raw/daily-inputs/<sha256>.json.gz`. The summary's `input_receipt` field records its relative path and SHA-256.
+The receipt includes the full decoded hourly forecast JSON for every model and lead, daily observed values, the requests'
+URLs and retrieval times, aggregation settings, and original score rows. Same-day reruns retain earlier input receipts.
+Archive both the summary and its receipt when sharing a run. The normal command writes to the selected filesystem;
+pushing those files to GitHub remains a separate action.
+
+To regrade without network access, run `python -m wxgrade.grade --replay <path-to-receipt.json.gz>`. The replay
+checks the compressed file hash and recomputes all recorded losses and paired dates from the source arrays.
+Old summaries without a receipt require their original inputs or a separately documented retrieval.
+
+An [archived seven-day NYC run](results/nyc-temperature-receipt-2026-11-28/grading_new-york-city_temperature_2026-11-27.json)
+covers Nov 21–27, 2026. Its [6.3 kB receipt](results/nyc-temperature-receipt-2026-11-28/raw/daily-inputs/fac15bad79a797547b2089eb1f32ef1da2cbc172bb122cd43d0998982c8c198e.json.gz)
+contains all 12 hourly forecast responses and the daily observations used to score them.
 
 ## First result (NYC, daily max temp; refreshed 2026-11-26, 30 days ending 2026-11-25)
 
-| model | lead | MAE (F) | persistence MAE |
-|---|---|---|---|
-| icon_seamless | 1d | 1.70 | 4.60 |
-| icon_seamless | 3d | 2.09 | 7.14 |
-| icon_seamless | 5d | 2.54 | 8.91 |
-| gfs_seamless | 1d | 2.11 | 4.60 |
-| ecmwf_ifs025 | 1d | 2.14 | 4.60 |
-| ukmo_seamless | 1d | 3.28 | 4.60 |
+| Model | Lead | Model MAE (°F) | Paired persistence MAE (°F) |
+|---|---:|---:|---:|
+| icon_seamless | 1d | 1.70 | 4.57 |
+| icon_seamless | 3d | 2.09 | 7.43 |
+| icon_seamless | 5d | 2.54 | 8.90 |
+| gfs_seamless | 1d | 2.11 | 4.57 |
+| ecmwf_ifs025 | 1d | 2.14 | 4.57 |
+| ukmo_seamless | 1d | 3.28 | 4.57 |
+
+The Nov 28 retrieval reproduces all 12 published model MAEs on the 30 target dates from Oct 27
+through Nov 25. The original persistence calculation also included days fetched for lag history.
+At leads of 1, 3 and 5 days, the original denominators were 35, 33 and 31 days and the MAEs were
+4.603, 7.139 and 8.906°F. Scoring those baselines on the same 30 dates as each model gives 4.567,
+7.427 and 8.900°F. The source responses and their request URLs are available for offline replay.
+[Open-Meteo replay inputs](results/raw/nyc-temperature/replay_2026-10-27_2026-11-25.json)
 
 ICON led at every lead in this window; all four models beat persistence by a
 wide margin. One location, one variable, one month: a sample ranking for this
