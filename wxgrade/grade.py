@@ -141,13 +141,22 @@ def grade(
     actual: Mapping[str, float],
     leads: Sequence[int] = LEADS,
 ) -> list[dict[str, Any]]:
-    """One score row per (model, lead), plus persistence rows per lead."""
+    """Compare each forecast to persistence on the same target dates.
+
+    forecast_n counts model/actual matches before requiring a lagged actual.
+    n and every loss in a score row use the dates listed in paired_dates.
+    """
     rows: list[dict[str, Any]] = []
     for (model, lead), pred in sorted(forecasts.items()):
-        row = {"model": model, "lead_days": lead, **score_series(pred, actual)}
+        available = pred.keys() & actual.keys()
         base = persistence_baseline(actual, lead)
-        row["persistence_mae"] = score_series(base, actual)["mae"]
-        rows.append(row)
+        dates = sorted(available & base.keys())
+        paired_actual = {day: actual[day] for day in dates}
+        rows.append({
+            "model": model, "lead_days": lead, "forecast_n": len(available),
+            "paired_dates": dates, **score_series(pred, paired_actual),
+            "persistence_mae": score_series(base, paired_actual)["mae"],
+        })
     return rows
 
 
@@ -208,13 +217,13 @@ def main(argv: Sequence[str] | None = None) -> int:
     rows = run_live(lat, lon, args.past_days, args.output_dir,
                     variable=args.variable, reduce=reduce, daily_var=daily_var,
                     timezone=loc["tz"], label=loc["label"])
-    print(f"{'model':<18}{'lead':>5}{'n':>4}{'MAE':>7}{'RMSE':>7}{'bias':>7}{'persistMAE':>11}")
+    print(f"{'model':<18}{'lead':>5}{'available':>10}{'paired':>8}{'MAE':>7}{'RMSE':>7}{'bias':>7}{'persistMAE':>11}")
     for r in rows:
+        counts = f"{r['model']:<18}{r['lead_days']:>5}{r['forecast_n']:>10}{r['n']:>8}"
         if r["n"] == 0:
-            print(f"{r['model']:<18}{r['lead_days']:>5}{'no data':>12}")
+            print(f"{counts}  no paired data")
             continue
-        print(f"{r['model']:<18}{r['lead_days']:>5}{r['n']:>4}{r['mae']:>7}{r['rmse']:>7}"
-              f"{r['bias']:>7}{r['persistence_mae']:>11}")
+        print(f"{counts}{r['mae']:>7}{r['rmse']:>7}{r['bias']:>7}{r['persistence_mae']:>11}")
     return 0
 
 
