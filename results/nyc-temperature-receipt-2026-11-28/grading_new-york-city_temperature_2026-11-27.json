@@ -1,0 +1,252 @@
+{
+  "actual_source": "open-meteo archive (ERA5/best_match analysis)",
+  "actual_window": [
+    "2026-11-15",
+    "2026-11-27"
+  ],
+  "daily_variable": "temperature_2m_max",
+  "forecast_source": "open-meteo previous-runs API (archived model runs)",
+  "input_receipt": {
+    "path": "raw/daily-inputs/fac15bad79a797547b2089eb1f32ef1da2cbc172bb122cd43d0998982c8c198e.json.gz",
+    "sha256": "fac15bad79a797547b2089eb1f32ef1da2cbc172bb122cd43d0998982c8c198e"
+  },
+  "location": {
+    "label": "New York City",
+    "lat": 40.71,
+    "lon": -74.01,
+    "timezone": "America/New_York"
+  },
+  "past_days": 7,
+  "reduce": "max",
+  "rows": [
+    {
+      "bias": -2.143,
+      "forecast_n": 7,
+      "lead_days": 1,
+      "mae": 2.343,
+      "model": "ecmwf_ifs025",
+      "n": 7,
+      "paired_dates": [
+        "2026-11-21",
+        "2026-11-22",
+        "2026-11-23",
+        "2026-11-24",
+        "2026-11-25",
+        "2026-11-26",
+        "2026-11-27"
+      ],
+      "persistence_mae": 7.257,
+      "rmse": 2.487
+    },
+    {
+      "bias": -2.929,
+      "forecast_n": 7,
+      "lead_days": 3,
+      "mae": 2.929,
+      "model": "ecmwf_ifs025",
+      "n": 7,
+      "paired_dates": [
+        "2026-11-21",
+        "2026-11-22",
+        "2026-11-23",
+        "2026-11-24",
+        "2026-11-25",
+        "2026-11-26",
+        "2026-11-27"
+      ],
+      "persistence_mae": 8.9,
+      "rmse": 3.319
+    },
+    {
+      "bias": -2.457,
+      "forecast_n": 7,
+      "lead_days": 5,
+      "mae": 4.371,
+      "model": "ecmwf_ifs025",
+      "n": 7,
+      "paired_dates": [
+        "2026-11-21",
+        "2026-11-22",
+        "2026-11-23",
+        "2026-11-24",
+        "2026-11-25",
+        "2026-11-26",
+        "2026-11-27"
+      ],
+      "persistence_mae": 10.871,
+      "rmse": 5.025
+    },
+    {
+      "bias": 0.786,
+      "forecast_n": 7,
+      "lead_days": 1,
+      "mae": 2.443,
+      "model": "gfs_seamless",
+      "n": 7,
+      "paired_dates": [
+        "2026-11-21",
+        "2026-11-22",
+        "2026-11-23",
+        "2026-11-24",
+        "2026-11-25",
+        "2026-11-26",
+        "2026-11-27"
+      ],
+      "persistence_mae": 7.257,
+      "rmse": 3.095
+    },
+    {
+      "bias": -1.057,
+      "forecast_n": 7,
+      "lead_days": 3,
+      "mae": 4.229,
+      "model": "gfs_seamless",
+      "n": 7,
+      "paired_dates": [
+        "2026-11-21",
+        "2026-11-22",
+        "2026-11-23",
+        "2026-11-24",
+        "2026-11-25",
+        "2026-11-26",
+        "2026-11-27"
+      ],
+      "persistence_mae": 8.9,
+      "rmse": 4.895
+    },
+    {
+      "bias": -0.914,
+      "forecast_n": 7,
+      "lead_days": 5,
+      "mae": 4.314,
+      "model": "gfs_seamless",
+      "n": 7,
+      "paired_dates": [
+        "2026-11-21",
+        "2026-11-22",
+        "2026-11-23",
+        "2026-11-24",
+        "2026-11-25",
+        "2026-11-26",
+        "2026-11-27"
+      ],
+      "persistence_mae": 10.871,
+      "rmse": 5.148
+    },
+    {
+      "bias": 0.471,
+      "forecast_n": 7,
+      "lead_days": 1,
+      "mae": 2.014,
+      "model": "icon_seamless",
+      "n": 7,
+      "paired_dates": [
+        "2026-11-21",
+        "2026-11-22",
+        "2026-11-23",
+        "2026-11-24",
+        "2026-11-25",
+        "2026-11-26",
+        "2026-11-27"
+      ],
+      "persistence_mae": 7.257,
+      "rmse": 2.254
+    },
+    {
+      "bias": 0.329,
+      "forecast_n": 7,
+      "lead_days": 3,
+      "mae": 2.071,
+      "model": "icon_seamless",
+      "n": 7,
+      "paired_dates": [
+        "2026-11-21",
+        "2026-11-22",
+        "2026-11-23",
+        "2026-11-24",
+        "2026-11-25",
+        "2026-11-26",
+        "2026-11-27"
+      ],
+      "persistence_mae": 8.9,
+      "rmse": 2.307
+    },
+    {
+      "bias": -2.243,
+      "forecast_n": 7,
+      "lead_days": 5,
+      "mae": 2.3,
+      "model": "icon_seamless",
+      "n": 7,
+      "paired_dates": [
+        "2026-11-21",
+        "2026-11-22",
+        "2026-11-23",
+        "2026-11-24",
+        "2026-11-25",
+        "2026-11-26",
+        "2026-11-27"
+      ],
+      "persistence_mae": 10.871,
+      "rmse": 3.166
+    },
+    {
+      "bias": -2.143,
+      "forecast_n": 7,
+      "lead_days": 1,
+      "mae": 2.971,
+      "model": "ukmo_seamless",
+      "n": 7,
+      "paired_dates": [
+        "2026-11-21",
+        "2026-11-22",
+        "2026-11-23",
+        "2026-11-24",
+        "2026-11-25",
+        "2026-11-26",
+        "2026-11-27"
+      ],
+      "persistence_mae": 7.257,
+      "rmse": 3.556
+    },
+    {
+      "bias": -2.971,
+      "forecast_n": 7,
+      "lead_days": 3,
+      "mae": 3.171,
+      "model": "ukmo_seamless",
+      "n": 7,
+      "paired_dates": [
+        "2026-11-21",
+        "2026-11-22",
+        "2026-11-23",
+        "2026-11-24",
+        "2026-11-25",
+        "2026-11-26",
+        "2026-11-27"
+      ],
+      "persistence_mae": 8.9,
+      "rmse": 4.413
+    },
+    {
+      "bias": -3.714,
+      "forecast_n": 7,
+      "lead_days": 5,
+      "mae": 3.714,
+      "model": "ukmo_seamless",
+      "n": 7,
+      "paired_dates": [
+        "2026-11-21",
+        "2026-11-22",
+        "2026-11-23",
+        "2026-11-24",
+        "2026-11-25",
+        "2026-11-26",
+        "2026-11-27"
+      ],
+      "persistence_mae": 10.871,
+      "rmse": 4.399
+    }
+  ],
+  "variable": "temperature_2m"
+}

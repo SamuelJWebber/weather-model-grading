@@ -42,6 +42,10 @@ To regrade without network access, run `python -m wxgrade.grade --replay <path-t
 checks the compressed file hash and recomputes all recorded losses and paired dates from the source arrays.
 Old summaries without a receipt require their original inputs or a separately documented retrieval.
 
+An [archived seven-day NYC run](results/nyc-temperature-receipt-2026-11-28/grading_new-york-city_temperature_2026-11-27.json)
+covers Nov 21–27, 2026. Its [6.3 kB receipt](results/nyc-temperature-receipt-2026-11-28/raw/daily-inputs/fac15bad79a797547b2089eb1f32ef1da2cbc172bb122cd43d0998982c8c198e.json.gz)
+contains all 12 hourly forecast responses and the daily observations used to score them.
+
 ## First result (NYC, daily max temp; refreshed 2026-11-26, 30 days ending 2026-11-25)
 
 | Model | Lead | Model MAE (°F) | Paired persistence MAE (°F) |
