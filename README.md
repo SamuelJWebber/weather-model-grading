@@ -29,6 +29,19 @@ and scoring joins on identical dates (n=30 per cell).
   `forecast_n` counts model/target matches, `n` counts paired dates, and `paired_dates` lists them.
   Different models may have different coverage. Inspect dates before ranking them.
 
+### Save and replay a daily grading run
+
+Every successful `python -m wxgrade.grade --live` writes the usual score summary plus a compressed input receipt under
+`<output-dir>/raw/daily-inputs/<sha256>.json.gz`. The summary's `input_receipt` field records its relative path and SHA-256.
+The receipt includes the full decoded hourly forecast JSON for every model and lead, daily observed values, the requests'
+URLs and retrieval times, aggregation settings, and original score rows. Same-day reruns retain earlier input receipts.
+Archive both the summary and its receipt when sharing a run. The normal command writes to the selected filesystem;
+pushing those files to GitHub remains a separate action.
+
+To regrade without network access, run `python -m wxgrade.grade --replay <path-to-receipt.json.gz>`. The replay
+checks the compressed file hash and recomputes all recorded losses and paired dates from the source arrays.
+Old summaries without a receipt require their original inputs or a separately documented retrieval.
+
 ## First result (NYC, daily max temp; refreshed 2026-11-26, 30 days ending 2026-11-25)
 
 | Model | Lead | Model MAE (°F) | Paired persistence MAE (°F) |

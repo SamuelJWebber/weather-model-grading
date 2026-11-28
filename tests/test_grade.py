@@ -104,3 +104,55 @@ def test_replay_nyc_november_temperature_from_archived_responses(monkeypatch):
         unpaired = grading.score_series(grading.persistence_baseline(actual, row["lead_days"]), actual)
         assert unpaired["n"] == {1: 35, 3: 33, 5: 31}[row["lead_days"]]
         assert unpaired["mae"] == original["persistence_mae"]
+
+
+def test_normal_cli_persists_all_inputs_and_supports_offline_replay(tmp_path, monkeypatch, capsys):
+    import gzip
+    import hashlib
+    import json
+    from pathlib import Path
+    from urllib.parse import parse_qs, urlsplit
+
+    import pytest
+    from wxgrade import grade as grading
+
+    old_inputs = Path(__file__).resolve().parents[1] / "results/raw/nyc-temperature/replay_2026-10-27_2026-11-25.json"
+    frozen = json.loads(old_inputs.read_text())
+
+    def mock_provider(url):
+        params = parse_qs(urlsplit(url).query)
+        if "daily" in params:
+            return frozen["archive"]
+        var = params["hourly"][0]
+        hourly = frozen["previous_runs"]["hourly"]
+        return {"hourly": {"time": hourly["time"], var: hourly[f"{var}_{params['models'][0]}"]}}
+
+    monkeypatch.setattr(grading, "fetch_json", mock_provider)
+    live = ["--live", "--location", "nyc", "--output-dir", str(tmp_path)]
+    assert grading.main(live) == 0
+    original_table = capsys.readouterr().out
+    summary_file, = tmp_path.glob("grading_*.json")
+    summary = json.loads(summary_file.read_text())
+    ref = summary["input_receipt"]
+    first = tmp_path / ref["path"]
+    raw = first.read_bytes()
+    assert hashlib.sha256(raw).hexdigest() == ref["sha256"]
+    archive = json.loads(gzip.decompress(raw))
+    assert len(archive["forecasts"]) == 12 and archive["observations"]["response"] == frozen["archive"]
+    assert len({item["url"] for item in archive["forecasts"]}) == 12
+    assert all(item["received_utc"] for item in archive["forecasts"])
+    assert len(archive["forecasts"][0]["response"]["hourly"]["time"]) == 720
+    assert grading.main(live) == 0
+    capsys.readouterr()
+    assert first.is_file()
+    assert len(list(first.parent.glob("*.json.gz"))) == 2
+
+    def forbidden(*_):
+        raise AssertionError("offline replay attempted a network request")
+    monkeypatch.setattr(grading, "fetch_json", forbidden)
+    assert grading.main(["--replay", str(first)]) == 0
+    assert capsys.readouterr().out == original_table
+    with first.open("ab") as out:
+        out.write(b"corrupt")
+    with pytest.raises(ValueError, match="SHA-256"):
+        grading.replay_receipt(first)
